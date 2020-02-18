@@ -1,0 +1,185 @@
+// update the component versions for each release
+:fuse-version: 7.5
+:3scale-version: 2.7
+
+// URLs
+:openshift-console-url: {openshift-host}/console
+:route: https://wt4-{user-username}-3scale.{openshift-app-host}
+
+//attributes
+:title: 4 - Protecting APIs
+:3scale-name: Red Hat 3scale API Management Platform
+:sample-api-key: testkey
+:standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.
+
+//id syntax is used here for the custom IDs because that is how the Solution Explorer sorts these within groups
+[id='4-protecting-apis']
+= {title}
+
+// word count that fits best is 15-22, with 20 really being the sweet spot. Character count for that space would be 100-125
+Learn how to import an API into 3scale API Management and secure it using API Key security.
+
+[type=walkthroughResource,serviceName=openshift]
+.Red Hat OpenShift
+****
+* link:{openshift-console-url}/console[Console, window="_blank"]
+****
+
+[type=walkthroughResource,serviceName=fuse]
+.Red Hat Fuse Online
+****
+* link:{fuse-url}[Console, window="_blank"]
+****
+
+[type=walkthroughResource,serviceName=3scale]
+.Red Hat 3scale API Management Platform
+****
+* link:{api-management-url}[Console, window="_blank"]
+* link:https://developers.redhat.com/products/3scale/overview/[3Scale Overview, window="_blank"]
+* link:https://www.3scale.net[3Scale Website, window="_blank"]
+****
+
+:sectnums:
+
+[time=10]
+== Importing an API to 3scale using Service Discovery
+:context: import-api
+=== API Management Login
+
+. Open the link:{api-management-url}[{3scale-name} Login screen, window="_blank", id="{context}-1"].
+
+. Select the *Authenticate through Red Hat Single Sign-On* option. This triggers an OAuth Flow and redirects you to the {3scale-name} Dashboard.
+
+. Dismiss the *How does 3Scale work?* option which is displayed the first time you log in to {3scale-name}. The main Dashboard is displayed.
+
+[type=verification]
+Can you see the {3scale-name} Dashboard that shows the Audience and APIs panels?
+
+[type=verificationFail]
+{standard-fail-text}
+
+
+=== Import the API to Red Hat 3scale
+
+. From the *APIs* section of the *Dashboard*, select the *New Product* item.
+. Select the *Import from OpenShift* option. If this option is not enabled, click the *Authenticate to enable this option* link and choose *Allow selected permissions*.
+. If you used the *Authenticate to enable this option* link, verify that you have reselected *Import from OpenShift* after being redirected.
+. Verify that the *fuse* option is selected from the *Namespace* list.
+. Verify that the *i-greeting-api-{user-username}* is selected from the *Name* list.
+. Click *Create Product*.
++
+The import process can take a few minutes to complete.
+
+[type=verification]
+Can you see the *i-greeting-integration-{user-username}* listed in the *APIs* section of the 3scale Dashboard ?
+
+[type=verificationFail]
+Wait a little longer, or try the import again. {standard-fail-text}
+
+[time=10]
+== Configuring the API
+
+=== Set the Staging Environment API URL
+. Go to the link:{api-management-url}[{3scale-name} 3scale Dashboard, window="_blank"], logging if necessary.
+. Choose *i-greeting-integration-{user-username}* from the top navigation menu to view the {3scale-name} homepage.
++
+NOTE: If the *i-greeting-integration-{user-username}* is not listed in the top navigation menu that means it is still being imported. Wait a while, refresh the page, and try again.
+
+. Select the *Settings* item in the *Integration* dropdown menu on the left.
+
+.. In the *Staging Public Base URL*, enter:
++
+[subs="attributes+"]
+----
+{route}
+----
++
+NOTE: We change the URL because the default one generated is usually too long and will fail to resolve.
+
+.. Scroll down and click *Update Product* at the bottom of the page.
+
+=== Create a Mapping Rule for the Greeting Endpoint
+
+. Choose *Integration > Mapping Rules* from the left menu.
+. Click *Add Mapping Rule*.
+. Select the *POST* option for *Verb*.
+. Enter the `/greeting` for the *Pattern*.
+. Click the *Create Mapping Rule* button.
+. Choose the *Configuration* item in the *Integration* dropdown menu.
++
+Note: There is a warning icon next to this link that suggests promoting the configuration to the Staging Environment.
+. On the *Configuration* screen click *Promote v.2 to Staging*.
+
+[type=verification]
+Is the staging environment listed in the *Environments* section on the *Integration > Configuration* screen with the route {route} listed?
+
+[type=verificationFail]
+Verify that you followed each step in the procedure above. If you are still having issues, contact your administrator.
+
+[time=10]
+== Creating an Application and Application Plan
+
+Note that the *Example curl for testing* listed for the *Staging Environment* contains a placeholder API Key (*user_key* querystring parameter). To address this, and obtain a valid API Key that enables a client to consume the API, the API must be added as an *Application* within a developer account. This *Application* must be part of an *Application Plan*. The *Application Plan* is used to define pricing, limits, methods, and metrics.
+
+=== Create an Application Plan
+
+. Select *Applications > Application Plans* from the side navigation.
+. Select *Create Application Plan*.
+. Enter the following for *Name* and *System name*:
++
+[subs="attributes+"]
+----
+low-code
+----
+. Leave the other fields with their default values.
+. Select *Create Application Plan*. You will be redirected to the *Application Plans* screen.
+. Click *Publish*, beside your plan list item, to publish the Plan.
+
+=== Create an Application
+In this step a new *Application* will be created for the *Developer* Group,  assigned to the *Application Plan* created in the previous section.
+
+. Select *Audience* from the top navigation menu.
+. Select the *Developer* Account to open the *Account Summary* page.
+. Select the *(num) Application* item from the breadcrumb (below the top navigation menu) to view the developer's Applications.
+. Select the *Create Application* button in the top right.
+. Select the *low-code* Plan in the *Application plan* dropdown under the *i-greeting-integration-{user-username}* heading.
+. Enter the following for *Name* and *Description*:
++
+[subs="attributes+"]
+----
+low-code-app-{user-username}
+----
+. Select *Create Application*.
+. Set a custom *User Key* for the application:
+. On the *low-code-app-{user-username}* Application screen you were redirected to, scroll to the *API Credentials* section.
+. Click the green pencil icon beside the *API User Key*
+. In the *Set Custom User Key* modal dialog, enter:
++
+[subs="attributes+"]
+----
+{sample-api-key}
+----
+. Select *Set Custom Key*.
+
+
+[type=verification]
+Return to the *Integration > Configuration* screen. Does the *Example curl for testing* under the *Staging Environment* show `user_key={sample-api-key}`?
+
+[type=verificationFail]
+{standard-fail-text}
+
+
+=== Invoking the API
+
+. Use an HTTP client such as cURL to invoke the `POST /greeting` route, for example:
++
+[subs="attributes+"]
+----
+curl -d '{"name":"John"}' -H "Content-Type: application/json" -X POST "{route}/greeting?user_key={sample-api-key}"
+----
+
+[type=verification]
+Did the message "Hello from John" appear in your Slack channel?
+
+[type=verificationFail]
+Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.

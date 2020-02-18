@@ -1,0 +1,329 @@
+// update the component versions for each release
+:fuse-version: 7.5
+
+// URLs
+:openshift-console-url: {openshift-host}/console
+:route: https://wt3-{user-username}-3scale.{openshift-app-host}
+
+//attributes
+:title: 3 - Low-code API development and SaaS integration
+:standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.
+
+//id syntax is used here for the custom IDs because that is how the Solution Explorer sorts these within groups
+[id='3-low-code-api-development']
+= {title}
+
+= {walkthrough}
+
+// word count that fits best is 15-22, with 20 really being the sweet spot. Character count for that space would be 100-125
+Learn how to implement a container-native OpenAPI RESTful API without coding.
+
+Container-native applications::
+Applications that are designed to run in a containerised environment.
+
+// This is taken right from https://github.com/OAI/OpenAPI-Specification
+OpenAPI Specification::
+A standard, programming language-agnostic interface description for REST APIs. REST APIs allow both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic. When properly defined via OpenAPI, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.
+
+In this Solution Pattern you follow a design-first approach, based on the OpenAPI specification, to define a RESTful API that accepts a name parameter and echoes it back in the response body.
+You then use the resulting Open API definition to generate the code for your API and deploy it in a containerised environment.
+
+Following a design first approach to API development is self-documenting, and provides a clear API definition for partners and end-users of your API.
+It also allows you to identify important design decisions prior to coding and deployment.
+
+[type=walkthroughResource,serviceName=openshift]
+.Red Hat OpenShift
+****
+* link:{openshift-console-url}[Console, window="_blank"]
+****
+
+[type=walkthroughResource,serviceName=fuse]
+.Red Hat Fuse Online
+****
+* link:{fuse-url}[Console, window="_blank"]
+****
+
+[type=walkthroughResource,serviceName=apicurio]
+.Red Hat API Designer
+****
+* link:{apicurio-url}[Console, window="_blank"]
+****
+
+:sectnums:
+
+[time=20]
+== Creating an OpenAPI Spec using API Designer
+
+When creating an API it's beneficial to start from the bottom-up. Creating an
+OpenAPI Specification prior to coding forces developers to consider API usage
+patterns, provides a blueprint for the API development, and creates an
+understanding between the server and clients regarding the behaviour of the
+API.
+
+An OpenAPI Specification can be defined in YAML/JSON format. In this section
+we'll be using API Designer - a visual design tool - to generate this YAML/JSON
+document.
+
+=== Create the Base API Definition
+
+. Go to link:{apicurio-url}[API Designer, window="_blank"]
+. Login if prompted and click the new *New API* button.
+. Rename your API from "New API" to:
++
+----
+Greeting API
+----
+
+. Edit the *Description* in the *Design* tab on the right under the *INFO* section:
++
+----
+My greeting API
+----
+
+. Click *Add a data type* under the *Data Types* heading on the left of the screen.
+
+. In the *Enter Basic Information* section enter the following in the *Name* field:
++
+----
+Name
+----
+
+. Enter the following JSON in the *Enter JSON Example* field:
++
+[subs="attributes+"]
+----
+{
+    "name": "shadowman"
+}
+----
+
+. Make sure *No Resource* is selected in the *Choose to create a REST Resource with the Data Type* section.
+. Scroll down and click *Save*.
+
+[type=verification]
+Is `</> Name` listed under the *Data Types* on the left of the screen?
+
+[type=verificationFail]
+Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+
+
+=== Creating a POST Resource Path
+
+A *Path* represents an API endpoint/operation and the associated parameters required to invoke it.
+
+. Click *Add a path* under the *Paths* heading of the *Provide API Definition* screen.
+
+. In the window that appears, enter the following in the *Path* field:
++
+----
+/greeting
+----
+
+. Click *Add* to confirm your entry.
+
+. Click your new */greeting* endpoint under the *Paths* heading.
+
+. Click the *Create Operation* button for *POST* in the *Operations* section. The *POST* item will become an orange button.
+
+. Click the now orange *POST* button to access the *Design* screen for the *POST* operation.
+
+. Enter the following in the now visible *Summary* field:
++
+----
+Greet with name
+----
+
+. Enter the following in the *Operation ID* field:
++
+----
+greetname
+----
+
+. In the *Request Body* section, click *Add a request body*.
+
+. Choose *Name* as the type from the dropdown.
+
+. In the *Responses* section click *Add a response*.
+.. In the window that appears choose *200 OK* as the option.
+.. Click *Add*.
+.. Click *No description* beside the *200 OK* response and enter the following in the *Description* field:
++
+----
+Greeting response
+----
+.. Click *No Type* and change the *Type* field to *String as String*.
+. Click *Save* in the top right corner of the page to save your work.
+
+=== Export the OpenAPI Spec as JSON/YAML
+
+. Click the down arrow beside *Save As...* in the top right.
+. Choose *Save as YAML*.
+
++
+NOTE: Keep this file safe. It will be used to create the API implementation in Fuse Online shortly.
+
+
+[time=20]
+== Creating a Slack Connection in Fuse Online
+
+In Fuse Online a *Connection* holds the information required to connect to a service.
+For example, a Slack *Connection* in Fuse Online requires an *API Token* and *Slack URL* to function.
+
+=== Creating a Slack Workspace
+:context: creating-slack-connection
+.Prerequisite
+You already have an account with link:https://slack.com/[Slack, window="_blank", id="{context}-1"].
+
+.Procedure
+. Go to the link:https://slack.com/create[Create a new workspace, window="_blank", id="{context}-2"] page.
+
+. Enter your email address and click *Next*.
+. Complete the Slack log in process.
+. When prompted *What's the name of your company or team?* enter::
++
+----
+low-code-workspace
+----
+. When prompted *What’s a project your team is working on?* enter:
++
+----
+low-code-demo
+----
+. Click *Skip for now* when prompted to add team members.
+. Answer the follow-up questions related to your workspace and choose the *Free* plan.
+. Click *Launch My Workspace* when prompted.
+
+[type=verification]
+Can you access your workspace, and navigate to the *low-code-demo* channel listed on the left of the workspace?
+
+[type=verificationFail]
+Verify that you followed each step in the procedure above.  If you are still having issues, check your email, there may be information sent to you about accessing your workspace.
+
+
+=== Creating the Slack Connection in Fuse Online
+
+. Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{context}-3"] console.
++
+NOTE: This is your personal Fuse Online instance and not the shared instance available from link:/[home page, id="{context}-4"].
+
+. Choose *Connections* from the left navigation menu.
+
+. Click the *Create Connection* button in the top right corner.
+
+. Choose *Slack* from the list of displayed *Connectors*.
+You are prompted for configuration details.
+
+. Obtain a URL for the *Slack Webhook URL* field:
+.. Go to the Slack Apps portal at link:https://api.slack.com/apps[api.slack.com/apps, window="_blank", id="{context}-5"].
+.. Click *Create an App*.
+.. Enter the following in the *App Name* field:
++
+----
+Fuse Online Demo
+----
+.. Choose *low-code-workspace* from the *Development Slack Workspace* dropdown.
+.. Click *Create App*.
+.. On the following screen under the *Add features and functionality* click *Incoming Webhooks*.
+.. Change the *Activate Incoming Webhooks* switch to the *On* position.
+.. Scroll down and click *Add New Webhook to Workspace*.
+.. Select *low-code-demo* in the *Where should Fuse Online Demo post?* field and click *Allow*.
++
+You are redirected back to the *Incoming Webhooks* page.
+.. Copy the *Webhook URL* displayed at the bottom of the page using the *Copy* button.
+. Paste the copied *Webhook URL* value into the *Slack Webhook URL* field in Fuse Online.
+. Obtain a value for the *Token for Accessing Slack API* field:
+.. Go to the Slack API Token portal at link:https://api.slack.com/custom-integrations/legacy-tokens[api.slack.com/custom-integrations/legacy-tokens, window="_blank", id="{context}-6"].
+.. Scroll down to the *Legacy token generator* section.
+.. Click *Create token* button next to *low-code-workspace*.
+.. Copy the generated token.
+. Paste the generated token into the *Token for Accessing Slack API* field in Fuse Online.
+. Enter the following in the *Sending User Name for Messages* field:
++
+----
+Fuse Online
+----
+
+. Click *Validate* in Fuse Online and verify that a *Slack has been successfully validated.* message appears.
+This validation sends a message to the *low-code-demo* channel.
+. Click *Next*.
+. Enter the following in the *Name* field on the *Name connection* screen:
++
+----
+Greeting Slack Target
+----
+. Click *Save*.
+
+[type=verification]
+Is a *Greeting Slack Target* entry listed in the Fuse Online *Connections* screen?
+
+[type=verificationFail]
+{standard-fail-text}
+
+[time=20]
+== Create the API as an Integration in Fuse Online
+:context: implementing-api
+
+=== Import the OpenAPI Specification
+
+. Go to link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{context}-1"].
+. Select *Integrations* from the left navigation menu.
+. Click the *Create Integration* button to start the *New Integration* wizard.
+. Choose the *API Provider* option when prompted with *Choose a connection* screen.
+. Drag and drop the OpenAPI Spec YAML file downloaded from API Designer earlier into the *Upload an OpenAPI file* box and click the *Next* button.
+. Click *Next* to go to the *Operations* screen.
+
+[type=verification]
+Is a *POST /greeting* operation displayed on the *Operations* screen in Fuse Online?
+
+[type=verificationFail]
+Verify that you created the POST operation correctly in the OpenAPI Spec using API Designer. Contact an administrator if the problem persists.
+
+=== Create a Flow for the API Operation
+
+. Click the *Create flow* button for the *POST /greeting* item. The *Add to Integration* page appears displaying the *Provided API* and the *Provided API Return Path*.
+. Click the blue plus icon in the center to add a step.
+. Select the *Greeting Slack Target* on the *Choose a connection* screen. This will add a step between the *Provided API* and the *Provided API Return Path*.
+. When prompted to *Choose an action* select *Channel*. You can use this to send a message to a specific channel in your Slack workspace.
+. Use the *Channel* menu to select the *low-code-demo* channel and click *Next*.
+The *Add to Integration* screen should now display your Slack connection with a triangular *Data Type Mismatch* warning icon.
+. Click the *Warning Icon* on the Slack *Channel* panel and choose *Add a data mapping step*.
+. From the *Data Mapper* screen click the *body* field in the *Source* panel to expand it.
+. Click the *name* field under the *body*, then click the *message* field in the *Target* panel. This maps the value of the incoming HTTP request *body* to the outgoing Slack *message* property.
+. In the right hand *Mapping Details* panel, click the *Add Transformation* under the *Targets* section to add a transformation.
+. Change the transformation type from *Append* to *Prepend*.
+. Enter the following in the *string* field under the menu:
++
+----
+Hello from,
+----
+
+{blank}
+
+NOTE: Make sure a space character is added after the comma character.
+
+. Click *Done* to return to the *Add to Integration* screen. This screen should now list your *Provided API Return Path* with a *Data Type Mismatch* warning.
+
+. Click the *Warning Icon* on the *Provided API Return Path* panel and choose *Add a data mapping step*.
+
+. From the *Data Mapper* screen click the *Message* heading in the *Source* panel to expand it.
+
+. Click the *message* field under the *Message* heading in the *Source* panel.
+. Select the *body* field in the *Target* panel. This maps the *message* value from the created Slack message to the *body* of the outgoing HTTP response.
+
+. Click *Done* to return to the *Add to Integration* Editor.
+
+. Click *Publish*, then enter the name:
++
+----
+Greeting Integration {user-username}
+----
+
+. Click *Save and Publish* to trigger an link:https://docs.openshift.com/container-platform/3.11/creating_images/s2i.html[Source to Image (S2I), window="_blank", id="{context}-2"] build.
+
+. Wait until Fuse Online reports your build and deployment was successful. Move onto the *Protecting APIs* Solution Pattern to securely expose and test this API using Red Hat 3scale API Management.
+
+[type=verification]
+Does the Fuse Online *Home* screen list your *Post Slack Greeting API* with a blue box that contains the text *Running*?
+
+[type=verificationFail]
+Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
