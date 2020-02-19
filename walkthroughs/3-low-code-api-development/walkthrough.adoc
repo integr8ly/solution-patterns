@@ -2,6 +2,7 @@
 :fuse-version: 7.5
 
 // URLs
+:fuse-documentation-url: https://access.redhat.com/documentation/en-us/red_hat_fuse/{fuse-version}/
 :openshift-console-url: {openshift-host}/console
 :route: https://wt3-{user-username}-3scale.{openshift-app-host}
 
@@ -16,12 +17,20 @@
 // word count that fits best is 15-22, with 20 really being the sweet spot. Character count for that space would be 100-125
 Learn how to implement a container-native OpenAPI RESTful API without coding.
 
-Container-native applications::
+*Container-native applications:*
+{empty} +
 Applications that are designed to run in a containerised environment.
 
 // This is taken right from https://github.com/OAI/OpenAPI-Specification
-OpenAPI Specification::
+*OpenAPI Specification:*
+{empty} +
 A standard, programming language-agnostic interface description for REST APIs. REST APIs allow both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic. When properly defined via OpenAPI, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.
+
+*Red Hat Fuse Online*
+{empty} +
+A low-code integration solution that enables users to innovate fast with drag-and-drop, browser-based UI/UX to create, extend, and deploy integration microservices based on the Red Hat Fuse integration technology.
+
+{blank}
 
 In this Solution Pattern you follow a design-first approach, based on the OpenAPI specification, to define a RESTful API that accepts a name parameter and echoes it back in the response body.
 You then use the resulting Open API definition to generate the code for your API and deploy it in a containerised environment.
@@ -33,7 +42,7 @@ It also allows you to identify important design decisions prior to coding and de
 .Red Hat OpenShift
 ****
 * link:{openshift-console-url}[Console, window="_blank"]
-* link:https://help.openshift.com/[OpenShift Online Help Center, window="_blank"]
+* link:https://docs.openshift.com/dedicated/4/welcome/index.html/[OpenShift Documentation, window="_blank"]
 * link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
 
@@ -52,7 +61,7 @@ It also allows you to identify important design decisions prior to coding and de
 
 :sectnums:
 
-[time=20]
+[time=15]
 == Creating an OpenAPI Spec using API Designer
 
 When creating an API it's beneficial to start from the bottom-up. Creating an
@@ -67,7 +76,7 @@ document.
 
 === Create the Base API Definition
 
-Follow these steps to create the base API definition.
+Follow these steps to create the base API definition using Red Hat API Designer.
 
 . Go to link:{apicurio-url}[API Designer, window="_blank"]
 . Login if prompted and click the new *New API* button.
@@ -107,7 +116,7 @@ Verify that you followed each step in the procedure above.  If you are still hav
 
 === Creating a POST Resource Path
 
-A *Path* represents an API endpoint/operation and the associated parameters required to invoke it.
+Follow these steps to create a *Path*. A *Path* represents an API endpoint and the associated parameters required to invoke it.
 
 . Click *Add a path* under the *Paths* heading of the *Provide API Definition* screen.
 
@@ -121,9 +130,9 @@ A *Path* represents an API endpoint/operation and the associated parameters requ
 
 . Click your new */greeting* endpoint under the *Paths* heading.
 
-. Click the *Create Operation* button for *POST* in the *Operations* section. The *POST* item will become an orange button.
+. Click the *Create Operation* button for *POST* in the *Operations* section on the right. The *POST* item will become an orange button.
 
-. Click the now orange *POST* button to access the *Design* screen for the *POST* operation.
+. Click the orange *POST* button to access the *Design* screen for the *POST* operation.
 
 . Enter the following in the now visible *Summary* field:
 +
@@ -139,21 +148,20 @@ greetname
 
 . In the *Request Body* section, click *Add a request body*.
 
-. Choose *Name* as the type from the dropdown.
+. Choose *Name* type you created earlier from the *Request Body Type* dropdown.
 
 . In the *Responses* section click *Add a response*.
-.. In the window that appears choose *200 OK* as the option.
-.. Click *Add*.
-.. Click *No description* beside the *200 OK* response and enter the following in the *Description* field:
+.. In the window that appears choose *200 OK* as the option and click the *Add* button.
+.. Click *No description* beside the newly listed *200 OK* response, and enter the following in the *Description* field:
 +
 ----
 Greeting response
 ----
-.. Click *No Type* and change the *Type* field to *String as String*.
-. Click *Save* in the top right corner of the page to save your work.
+.. Click the *No Type* field and change the *Type* to *String as String*.
 
 === Export the OpenAPI Spec as JSON/YAML
 
+. Click *Save* in the top right corner of the page to save your work.
 . Click the down arrow beside *Save As...* in the top right.
 . Choose *Save as YAML*.
 
@@ -164,20 +172,19 @@ NOTE: Keep this file safe. It will be used to create the API implementation in F
 [time=20]
 == Creating a Slack Connection in Fuse Online
 
-In Fuse Online a *Connection* holds the information required to connect to a service.
-For example, a Slack *Connection* in Fuse Online requires an *API Token* and *Slack URL* to function.
+In Red Hat Fuse Online a *Connection* is used to store the information required to connect to a service such as a message queue, database, or REST API.
+For example, a Slack *Connection* in Fuse Online requires an *API Token* and *Slack URL* to function - these are stored in a *Connection* created by a user.
 
 === Creating a Slack Workspace
 :context: creating-slack-connection
-.Prerequisite
-You already have an account with link:https://slack.com/[Slack, window="_blank", id="{context}-1"].
+Follow these steps to setup a *Slack workspace* and create a *Connection* to it in Fuse Online.
 
-.Procedure
+*Prerequisite:* You already have an account with link:https://slack.com/[Slack, window="_blank", id="{context}-1"].
+
 . Go to the link:https://slack.com/create[Create a new workspace, window="_blank", id="{context}-2"] page.
-
 . Enter your email address and click *Next*.
 . Complete the Slack log in process.
-. When prompted *What's the name of your company or team?* enter::
+. When prompted *What's the name of your company or team?* enter:
 +
 ----
 low-code-workspace
@@ -202,7 +209,7 @@ Verify that you followed each step in the procedure above.  If you are still hav
 
 . Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{context}-3"] console.
 +
-NOTE: This is your personal Fuse Online instance and not the shared instance available from link:/[home page, id="{context}-4"].
+NOTE: This is your personal Fuse Online instance and not the shared instance available from the link:/[Solution Explorer home page, id="{context}-4"].
 
 . Choose *Connections* from the left navigation menu.
 
@@ -261,14 +268,16 @@ Is a *Greeting Slack Target* entry listed in the Fuse Online *Connections* scree
 == Create the API as an Integration in Fuse Online
 :context: implementing-api
 
-=== Import the OpenAPI Specification
+=== Create the Integration from the OpenAPI Specification
+
+Follow these steps to create the an *Integration* in Fuse Online using the Slack *Connection* and OpenAPI Spec. A Fuse Online *Integration* uses *Connection* items and *Data Mapping* to consume/produce data and create integrations between systems.
 
 . Go to link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{context}-1"].
 . Select *Integrations* from the left navigation menu.
 . Click the *Create Integration* button to start the *New Integration* wizard.
 . Choose the *API Provider* option when prompted with *Choose a connection* screen.
-. Drag and drop the OpenAPI Spec YAML file downloaded from API Designer earlier into the *Upload an OpenAPI file* box and click the *Next* button.
-. Click *Next* to go to the *Operations* screen.
+. Drag and drop the previously downloaded OpenAPI Spec YAML file into the *Upload an OpenAPI file*. Click the *Next* button to get to the *Review Actions* screen.
+. Click *Next* on the *Review Actions* screen to proceed to the *Operations* screen.
 
 [type=verification]
 Is a *POST /greeting* operation displayed on the *Operations* screen in Fuse Online?
@@ -312,16 +321,73 @@ NOTE: Make sure a space character is added after the comma character.
 
 . Click *Publish*, then enter the name:
 +
+[subs="attributes+"]
 ----
 Greeting Integration {user-username}
 ----
 
-. Click *Save and Publish* to trigger an link:https://docs.openshift.com/container-platform/3.11/creating_images/s2i.html[Source to Image (S2I), window="_blank", id="{context}-2"] build.
+. Click *Save and Publish* to trigger a build of this *Integration*.
 
-. Wait until Fuse Online reports your build and deployment was successful. Move onto the *Protecting APIs* Solution Pattern to securely expose and test this API using Red Hat 3scale API Management.
+. Wait until Fuse Online reports your build and deployment was successful.
 
 [type=verification]
 Does the Fuse Online *Home* screen list your *Post Slack Greeting API* with a blue box that contains the text *Running*?
 
 [type=verificationFail]
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+Verify that you followed each step in the procedure above. If you are still having issues, contact your administrator.
+
+[time=5]
+== Testing the Integration
+
+By default, Fuse Online does not expose an *Integration* to the public internet using an OpenShift *Route*. A straightforward way to test the integration without exposing it to the internet is by creating a link:https://curl.haxx.se[cURL, window="_blank"] container *Deployment*.
+
+*Note:* This step is optional. Feel free to move onto the *Protecting APIs* Solution Pattern to securely expose and use this API using Red Hat 3scale API Management.
+
+*Prerequisite:* The `oc` CLI is installed on your development machine. The install instructions are available in the link:https://docs.openshift.com/dedicated/4/cli_reference/openshift_cli/getting-started-cli.html#cli-installing-cli_cli-developer-commands[OpenShift Documentation, window="_blank"], with binaries available link:https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest-4.2/[here, window="_blank"].
+
+=== Find the Greeting Service Internal Hostname
+
+. Login to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
+. Select the project named with the following format: `fuse-<UNIQUE_ID>`.
+. Choose *Applications > Services* from the left menu.
+. Select *i-greeting-integration-{user-username}* from the *Services* list.
+. Note the *Hostname* listed on the *Service Details* screen. It will have a format similar to `i-greeting-integration-{user-username}.fuse-<UNIQUE_ID>.svc.cluster.local`
+
+=== Creating a cURL Deployment
+
+. Login to OpenShift by using the following command, and entering your password when prompted:
++
+[subs="attributes+"]
+----
+oc login -u {user-username} {openshift-console-url}
+----
+
+. Switch context to the project for this Solution Pattern.
+
++
+[subs="attributes+"]
+----
+oc project {walkthrough-namespace}
+----
+
+. Deploy a cURL container that invokes the *POST /greeting* endpoint using the following command.
+Make sure you replace the `INTEGRATION_HOSTNAME` with the one you found previously.
+
++
+----
+oc run curl --image=curlimages/curl --restart=Never \
+--command -- curl -X POST \
+--data '{"name":"John"}' \
+-H 'content-type: application/json' \
+http://INTEGRATION_HOSTNAME:8080/greeting -vvv
+----
+
+. Verify the cURL container ran successfully by checking the logs for a *200 OK* response with this command:
+
++
+----
+oc logs curl
+----
+{blank}
++
+NOTE: To rerun the cURL command you first need to delete Pod from previous runs This can be achieved by running the `oc delete pod curl` command.
