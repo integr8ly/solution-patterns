@@ -22,13 +22,16 @@ Learn how to import an API into 3scale API Management and secure it using API Ke
 [type=walkthroughResource,serviceName=openshift]
 .Red Hat OpenShift
 ****
-* link:{openshift-console-url}/console[Console, window="_blank"]
+* link:{openshift-console-url}[Console, window="_blank"]
+* link:https://help.openshift.com/[OpenShift Online Help Center, window="_blank"]
+* link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
 
 [type=walkthroughResource,serviceName=fuse]
 .Red Hat Fuse Online
 ****
-* link:{fuse-url}[Console, window="_blank"]
+* link:{fuse-url}[Console, window="_blank", id="resources-fuse-url"]
+* link:{fuse-documentation-url}[Fuse Documentation, window="_blank"]
 ****
 
 [type=walkthroughResource,serviceName=3scale]

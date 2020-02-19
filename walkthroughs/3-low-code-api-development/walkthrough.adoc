@@ -13,8 +13,6 @@
 [id='3-low-code-api-development']
 = {title}
 
-= {walkthrough}
-
 // word count that fits best is 15-22, with 20 really being the sweet spot. Character count for that space would be 100-125
 Learn how to implement a container-native OpenAPI RESTful API without coding.
 
@@ -35,12 +33,15 @@ It also allows you to identify important design decisions prior to coding and de
 .Red Hat OpenShift
 ****
 * link:{openshift-console-url}[Console, window="_blank"]
+* link:https://help.openshift.com/[OpenShift Online Help Center, window="_blank"]
+* link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
 
 [type=walkthroughResource,serviceName=fuse]
 .Red Hat Fuse Online
 ****
-* link:{fuse-url}[Console, window="_blank"]
+* link:{fuse-url}[Console, window="_blank", id="resources-fuse-url"]
+* link:{fuse-documentation-url}[Fuse Documentation, window="_blank"]
 ****
 
 [type=walkthroughResource,serviceName=apicurio]
@@ -57,7 +58,7 @@ It also allows you to identify important design decisions prior to coding and de
 When creating an API it's beneficial to start from the bottom-up. Creating an
 OpenAPI Specification prior to coding forces developers to consider API usage
 patterns, provides a blueprint for the API development, and creates an
-understanding between the server and clients regarding the behaviour of the
+understanding between the server and clients regarding the behavior of the
 API.
 
 An OpenAPI Specification can be defined in YAML/JSON format. In this section
@@ -66,6 +67,8 @@ document.
 
 === Create the Base API Definition
 
+Follow these steps to create the base API definition.
+
 . Go to link:{apicurio-url}[API Designer, window="_blank"]
 . Login if prompted and click the new *New API* button.
 . Rename your API from "New API" to:
@@ -73,21 +76,17 @@ document.
 ----
 Greeting API
 ----
-
 . Edit the *Description* in the *Design* tab on the right under the *INFO* section:
 +
 ----
 My greeting API
 ----
-
 . Click *Add a data type* under the *Data Types* heading on the left of the screen.
-
 . In the *Enter Basic Information* section enter the following in the *Name* field:
 +
 ----
 Name
 ----
-
 . Enter the following JSON in the *Enter JSON Example* field:
 +
 [subs="attributes+"]
@@ -96,7 +95,6 @@ Name
     "name": "shadowman"
 }
 ----
-
 . Make sure *No Resource* is selected in the *Choose to create a REST Resource with the Data Type* section.
 . Scroll down and click *Save*.
 
