@@ -1,7 +1,9 @@
 {
-    "dependencies": {
-      "repos": [],
-      "serviceInstances": []
-    }
+  "dependencies": {
+    "repos": [],
+    "serviceInstances": [],
+    "managedServices": [],
+    "templates": []
   }
+}
   

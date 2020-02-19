@@ -3,7 +3,7 @@
 :amq-version: 7.5
 
 // URLs
-:openshift-console-url: {openshift-host}/console
+:openshift-console-url: {openshift-host}/dashboards
 :fuse-documentation-url: https://access.redhat.com/documentation/en-us/red_hat_fuse/{fuse-version}/
 :amq-documentation-url: https://access.redhat.com/documentation/en-us/red_hat_amq/{amq-version}/
 
@@ -114,7 +114,7 @@ To create a table for storing the orders, you will use PostgreSQL.
 
 Follow these steps to create a table.
 
-. Log in to link:{openshift-host}/console/project/{walkthrough-namespace}/overview[OpenShift Namespace, window="_blank"] for this walkthrough.
+. Log in to link:{openshift-host}/k8s/cluster/projects/{walkthrough-namespace}[OpenShift Namespace, window="_blank"] for this walkthrough.
 . Select *Workloads > Pods* from the vertical navigation menu on the left.
 . Click the Pod that has the name *rhmi-lab-orders-db* followed by an ID, for example *rhmi-lab-orders-db-1-cfqh2*.
 . Select the *Terminal* tab on the Pod details screen.
