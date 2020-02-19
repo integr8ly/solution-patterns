@@ -359,7 +359,7 @@ By default, Fuse Online does not expose an *Integration* to the public internet 
 +
 [subs="attributes+"]
 ----
-oc login -u {user-username} {openshift-console-url}
+oc login -u {user-username} {openshift-host}
 ----
 
 . Switch context to the project for this Solution Pattern.
