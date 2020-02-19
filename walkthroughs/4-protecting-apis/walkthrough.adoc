@@ -80,7 +80,7 @@ Can you see the *i-greeting-integration-{user-username}* listed in the *APIs* se
 Wait a little longer, or try the import again. {standard-fail-text}
 
 [time=10]
-== Configuring the API
+== Configuring the API in 3scale API Management
 
 === Set the Staging Environment API URL
 . Go to the link:{api-management-url}[{3scale-name} 3scale Dashboard, window="_blank"], logging if necessary.
@@ -172,17 +172,18 @@ Return to the *Integration > Configuration* screen. Does the *Example curl for t
 {standard-fail-text}
 
 
-=== Invoking the API
+[time=5]
+== Invoking the API
 
-. Use an HTTP client such as cURL to invoke the `POST /greeting` route, for example:
+. Use an HTTP client such as cURL or Postman to invoke the `POST /greeting` route. For example, you can use cURL like so:
 +
 [subs="attributes+"]
 ----
-curl -d '{"name":"John"}' -H "Content-Type: application/json" -X POST "{route}/greeting?user_key={sample-api-key}"
+curl -d '{"name":"OpenShift"}' -H "Content-Type: application/json" -X POST "{route}/greeting?user_key={sample-api-key}"
 ----
 
 [type=verification]
-Did the message "Hello from John" appear in your Slack channel?
+Did the message `Hello from, OpenShift` appear in your Slack channel?
 
 [type=verificationFail]
 Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.

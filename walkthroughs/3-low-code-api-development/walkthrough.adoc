@@ -337,11 +337,11 @@ Does the Fuse Online *Home* screen list your *Post Slack Greeting API* with a bl
 Verify that you followed each step in the procedure above. If you are still having issues, contact your administrator.
 
 [time=5]
-== Testing the Integration
+== Invoke the API Integration
 
 By default, Fuse Online does not expose an *Integration* to the public internet using an OpenShift *Route*. A straightforward way to test the integration without exposing it to the internet is by creating a link:https://curl.haxx.se[cURL, window="_blank"] container *Deployment*.
 
-*Note:* This step is optional. Feel free to move onto the *Protecting APIs* Solution Pattern to securely expose and use this API using Red Hat 3scale API Management.
+*Note:* This step is optional. Feel free to move onto the *Protecting APIs* Solution Pattern to securely expose and invoke this API via Red Hat 3scale API Management.
 
 *Prerequisite:* The `oc` CLI is installed on your development machine. The install instructions are available in the link:https://docs.openshift.com/dedicated/4/cli_reference/openshift_cli/getting-started-cli.html#cli-installing-cli_cli-developer-commands[OpenShift Documentation, window="_blank"], with binaries available link:https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest-4.2/[here, window="_blank"].
 
@@ -377,13 +377,12 @@ Make sure you replace the `INTEGRATION_HOSTNAME` with the one you found previous
 ----
 oc run curl --image=curlimages/curl --restart=Never \
 --command -- curl -X POST \
---data '{"name":"John"}' \
+--data '{"name":"OpenShift"}' \
 -H 'content-type: application/json' \
 http://INTEGRATION_HOSTNAME:8080/greeting -vvv
 ----
 
 . Verify the cURL container ran successfully by checking the logs for a *200 OK* response with this command:
-
 +
 ----
 oc logs curl
@@ -391,3 +390,4 @@ oc logs curl
 {blank}
 +
 NOTE: To rerun the cURL command you first need to delete Pod from previous runs This can be achieved by running the `oc delete pod curl` command.
+. Verify that the message `Hello from, OpenShift` appeared in your `low-code-demo` Slack channel.
