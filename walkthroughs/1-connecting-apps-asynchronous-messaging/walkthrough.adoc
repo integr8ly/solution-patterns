@@ -74,7 +74,7 @@ Follow these steps to create an address.
 +
 NOTE: If this is your first time opening the AMQ console, you will need to authenticate.
 . Select the Name/Namespace that corresponds to your username.
-. You will now see the AMQ Online console.
+. You will then see your AMQ Online console.
 . Select *Addresses* from the vertical navigation menu on the left.
 . Click the *+Create* button.
 . You will see the *Create new address* wizard.
@@ -114,7 +114,7 @@ To create a table for storing the orders, you will use PostgreSQL.
 
 Follow these steps to create a table.
 
-. Log into link:{openshift-host}/console/project/{walkthrough-namespace}/overview[OpenShift Namespace, window="_blank"] for this walkthrough.
+. Log in to link:{openshift-host}/console/project/{walkthrough-namespace}/overview[OpenShift Namespace, window="_blank"] for this walkthrough.
 . Select *Workloads > Pods* from the vertical navigation menu on the left.
 . Click the Pod that has the name *rhmi-lab-orders-db* followed by an ID, for example *rhmi-lab-orders-db-1-cfqh2*.
 . Select the *Terminal* tab on the Pod details screen.

@@ -40,7 +40,9 @@ image::images/arch.png[architecture, role="integr8ly-img-responsive"]
 [type=walkthroughResource, serviceName=openshift]
 .Red Hat OpenShift
 ****
-* link:{openshift-console-url}/k8s/cluster/projects/[OpenShift Projects, window="_blank"]
+* link:{openshift-console-url}[Console, window="_blank"]
+* link:https://help.openshift.com/[OpenShift Online Help Center, window="_blank"]
+* link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
 
 [type=walkthroughResource]
@@ -54,8 +56,10 @@ image::images/arch.png[architecture, role="integr8ly-img-responsive"]
 [time=10]
 == Deploying the Data Sync showcase application
 
+//Home > Search > Select Templates from the drop down > Search for datasync and they should show up. Just make sure you're on the openshift namespace
+
 . Go to the link:{openshift-host}/console/project/{walkthrough-namespace}/overview[project console, window="_blank"] in OpenShift.
-. Click on the *Browse Catalog* button.
+. Click the *Browse Catalog* button.
 . Search the service catalog for 'Data Sync Showcase'.
 . Click on the 'Data Sync Showcase' entry to add it to your project.
 . Accept all the defaults of the provisioning wizard and click *Create*.
