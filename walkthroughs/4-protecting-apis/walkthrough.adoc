@@ -64,11 +64,13 @@ Can you see the {3scale-name} Dashboard that shows the Audience and APIs panels?
 
 === Import the API to Red Hat 3scale
 
+Follow these steps to import the API to 3scale. Since Fuse Online automatically added 3scale discovery annotations to the Greeting API it can be imported using the link:https://access.redhat.com/documentation/en-us/red_hat_3scale_api_management/2.7/html/admin_portal_guide/service-discovery[Service Discovery, window="_blank"] features of 3scale. 
+
 . From the *APIs* section of the *Dashboard*, select the *New Product* item.
 . Select the *Import from OpenShift* option. If this option is not enabled, click the *Authenticate to enable this option* link and choose *Allow selected permissions*.
 . If you used the *Authenticate to enable this option* link, verify that you have reselected *Import from OpenShift* after being redirected.
 . Verify that the *fuse* option is selected from the *Namespace* list.
-. Verify that the *i-greeting-api-{user-username}* is selected from the *Name* list.
+. Verify that the *i-greeting-integration-{user-username}* is selected from the *Name* list.
 . Click *Create Product*.
 +
 The import process can take a few minutes to complete.
@@ -83,7 +85,7 @@ Wait a little longer, or try the import again. {standard-fail-text}
 == Configuring the API in 3scale API Management
 
 === Set the Staging Environment API URL
-. Go to the link:{api-management-url}[{3scale-name} 3scale Dashboard, window="_blank"], logging if necessary.
+. Go to the link:{api-management-url}[{3scale-name} 3scale Dashboard, window="_blank"]. Log in if necessary.
 . Choose *i-greeting-integration-{user-username}* from the top navigation menu to view the {3scale-name} homepage.
 +
 NOTE: If the *i-greeting-integration-{user-username}* is not listed in the top navigation menu that means it is still being imported. Wait a while, refresh the page, and try again.
