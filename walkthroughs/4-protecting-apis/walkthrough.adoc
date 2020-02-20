@@ -92,7 +92,7 @@ NOTE: If the *i-greeting-integration-{user-username}* is not listed in the top n
 
 . Select the *Settings* item in the *Integration* dropdown menu on the left.
 
-.. In the *Staging Public Base URL*, enter:
+. Change the route in the *Staging Public Base URL* field to:
 +
 [subs="attributes+"]
 ----
@@ -101,11 +101,12 @@ NOTE: If the *i-greeting-integration-{user-username}* is not listed in the top n
 +
 NOTE: We change the URL because the default one generated is usually too long and will fail to resolve.
 
-.. Scroll down and click *Update Product* at the bottom of the page.
+. Scroll down and click *Update Product* at the bottom of the page.
 
 === Create a Mapping Rule for the Greeting Endpoint
 
 . Choose *Integration > Mapping Rules* from the left menu.
+. Delete the default *GET /* mapping by clicking the red thrash can icon beside it.
 . Click *Add Mapping Rule*.
 . Select the *POST* option for *Verb*.
 . Enter the `/greeting` for the *Pattern*.
@@ -116,29 +117,32 @@ Note: There is a warning icon next to this link that suggests promoting the conf
 . On the *Configuration* screen click *Promote v.2 to Staging*.
 
 [type=verification]
-Is the staging environment listed in the *Environments* section on the *Integration > Configuration* screen with the route {route} listed?
+Is the staging environment listed in the *Environments* section on the *Integration > Configuration* screen with the route {route} listed as the *URL*?
 
 [type=verificationFail]
-Verify that you followed each step in the procedure above. If you are still having issues, contact your administrator.
+{standard-fail-text}
 
 [time=10]
 == Creating an Application and Application Plan
 
-Note that the *Example curl for testing* listed for the *Staging Environment* contains a placeholder API Key (*user_key* querystring parameter). To address this, and obtain a valid API Key that enables a client to consume the API, the API must be added as an *Application* within a developer account. This *Application* must be part of an *Application Plan*. The *Application Plan* is used to define pricing, limits, methods, and metrics.
+Note that the *Example curl for testing* listed for the *Staging Environment* in *Integration > Configuration* contains a placeholder API Key in the *user_key* querystring parameter. To obtain a valid API Key that enables a client to consume the API, the API must be added as an *Application* within a developer account. This *Application* must be part of an *Application Plan*. An *Application Plan* is used to define pricing, limits, methods, and metrics.
+
 
 === Create an Application Plan
 
+. Go to the link:{api-management-url}[{3scale-name} 3scale Dashboard, window="_blank"]. Log in if necessary.
+. Choose *i-greeting-integration-{user-username}* from the top navigation menu to view the {3scale-name} homepage.
 . Select *Applications > Application Plans* from the side navigation.
 . Select *Create Application Plan*.
 . Enter the following for *Name* and *System name*:
 +
 [subs="attributes+"]
 ----
-low-code
+low-code-{user-username}
 ----
 . Leave the other fields with their default values.
 . Select *Create Application Plan*. You will be redirected to the *Application Plans* screen.
-. Click *Publish*, beside your plan list item, to publish the Plan.
+. Click *Publish*, beside the *low-code* list item, to publish the Plan.
 
 === Create an Application
 In this step a new *Application* will be created for the *Developer* Group,  assigned to the *Application Plan* created in the previous section.
@@ -147,7 +151,7 @@ In this step a new *Application* will be created for the *Developer* Group,  ass
 . Select the *Developer* Account to open the *Account Summary* page.
 . Select the *(num) Application* item from the breadcrumb (below the top navigation menu) to view the developer's Applications.
 . Select the *Create Application* button in the top right.
-. Select the *low-code* Plan in the *Application plan* dropdown under the *i-greeting-integration-{user-username}* heading.
+. Select the *low-code-{user-username}* Plan in the *Application plan* dropdown under the *i-greeting-integration-{user-username}* heading.
 . Enter the following for *Name* and *Description*:
 +
 [subs="attributes+"]
@@ -188,4 +192,4 @@ curl -d '{"name":"OpenShift"}' -H "Content-Type: application/json" -X POST "{rou
 Did the message `Hello from, OpenShift` appear in your Slack channel?
 
 [type=verificationFail]
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
