@@ -160,15 +160,15 @@ low-code-app-{user-username}
 ----
 . Select *Create Application*.
 . Set a custom *User Key* for the application:
-. On the *low-code-app-{user-username}* Application screen you were redirected to, scroll to the *API Credentials* section.
-. Click the green pencil icon beside the *API User Key*
-. In the *Set Custom User Key* modal dialog, enter:
+.. On the *low-code-app-{user-username}* Application screen you were redirected to, scroll to the *API Credentials* section.
+.. Click the green pencil icon beside the *API User Key*
+.. In the *Set Custom User Key* modal dialog, enter:
 +
 [subs="attributes+"]
 ----
 {sample-api-key}
 ----
-. Select *Set Custom Key*.
+.. Select *Set Custom Key*.
 
 
 [type=verification]
