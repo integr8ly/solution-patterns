@@ -58,12 +58,12 @@ image::images/arch.png[architecture, role="integr8ly-img-responsive"]
 
 //Home > Search > Select Templates from the drop down > Search for datasync and they should show up. Just make sure you're on the openshift namespace
 
-. Go to the link:{openshift-host}/console/project/{walkthrough-namespace}/overview[project console, window="_blank"] in OpenShift.
-. Click the *Browse Catalog* button.
-. Search the service catalog for 'Data Sync Showcase'.
+. Go to the link:{openshift-host}/topology/ns/{walkthrough-namespace}[project console, window="_blank"] in OpenShift.
+. Click the *From Catalog* button.
+. Search the developer catalog for 'Data Sync Showcase'.
 . Click on the 'Data Sync Showcase' entry to add it to your project.
 . Accept all the defaults of the provisioning wizard and click *Create*.
-. Check the *Overview* screen of your project and wait until three pods are running:
+. Check the *Topology* screen of your project and wait until three pods are running:
 +
 * `ionic-showcase-server` - a Node.js server and client application
 * `mosquitto-mqtt-broker` - a message broker
