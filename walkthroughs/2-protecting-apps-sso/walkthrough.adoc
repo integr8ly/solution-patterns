@@ -108,7 +108,7 @@ In the *Settings* tab on the *Client* page, make sure the *Enabled* toggle is se
 
 To secure your application with single sign-on and allow additional users to log in to your instance, you need to create users in a realm.
 
-Follow these steps to create a user.
+Follow these steps to To create a new user and set that user's password.
 
 . Go to the link:{sso-realm-url}[{realm-display-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
 .. If prompted, enter the username `{shared-realm-username}` and password `{realm-password}`.

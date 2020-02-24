@@ -7,7 +7,7 @@
 :route: https://wt4-{user-username}-3scale.{openshift-app-host}
 
 //attributes
-:title: 4 - Protecting APIs
+:title: 4 - Protecting APIs using 3scale API Management Platform
 :3scale-name: Red Hat 3scale API Management Platform
 :sample-api-key: testkey
 :standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.
@@ -17,7 +17,7 @@
 = {title}
 
 // word count that fits best is 15-22, with 20 really being the sweet spot. Character count for that space would be 100-125
-Learn how to import an API into 3scale API Management and secure it using API Key security.
+Learn how to import an API into Red Hat 3scale API Management Platform and secure it using API Key security.
 
 [type=walkthroughResource,serviceName=openshift]
 .Red Hat OpenShift
@@ -64,19 +64,20 @@ Can you see the {3scale-name} Dashboard that shows the Audience and APIs panels?
 
 === Import the API to Red Hat 3scale
 
-Follow these steps to import the API to 3scale. Since Fuse Online automatically added 3scale discovery annotations to the Greeting API it can be imported using the link:https://access.redhat.com/documentation/en-us/red_hat_3scale_api_management/2.7/html/admin_portal_guide/service-discovery[Service Discovery, window="_blank"] features of 3scale. 
+Follow these steps to import the API to 3scale. Since Fuse Online automatically added 3scale discovery annotations to the Greeting API it can be imported using the link:https://access.redhat.com/documentation/en-us/red_hat_3scale_api_management/2.7/html/admin_portal_guide/service-discovery[Service Discovery, window="_blank"] features of 3scale.
 
 . From the *APIs* section of the *Dashboard*, select the *New Product* item.
 . Select the *Import from OpenShift* option. If this option is not enabled, click the *Authenticate to enable this option* link and choose *Allow selected permissions*.
 . If you used the *Authenticate to enable this option* link, verify that you have reselected *Import from OpenShift* after being redirected.
-. Verify that the *fuse* option is selected from the *Namespace* list.
-. Verify that the *i-greeting-integration-{user-username}* is selected from the *Name* list.
+. In the SERVICE section:
+.. Verify the *Namespace* field has *redhat-rhmi-fuse* selected.
+.. Verify the *Name* field has *i-greeting-integration-{user-username}* selected.
 . Click *Create Product*.
 +
-The import process can take a few minutes to complete.
+NOTE: The import process may take a few minutes to complete.
 
 [type=verification]
-Can you see the *i-greeting-integration-{user-username}* listed in the *APIs* section of the 3scale Dashboard ?
+Look at the *APIs* section of the 3scale Dashboard and make sure the *PRODUCTS* tab is active. Can you see the *i-greeting-integration-{user-username} API* listed there?
 
 [type=verificationFail]
 Wait a little longer, or try the import again. {standard-fail-text}
@@ -90,9 +91,11 @@ Wait a little longer, or try the import again. {standard-fail-text}
 +
 NOTE: If the *i-greeting-integration-{user-username}* is not listed in the top navigation menu that means it is still being imported. Wait a while, refresh the page, and try again.
 
-. Select the *Settings* item in the *Integration* dropdown menu on the left.
+. Select *Integration > Settings* from the vertical navigation menu on the left.
++
+Note: You may see a warning icon next to Integration > Configuration. We'll address this warning shortly.
 
-. Change the route in the *Staging Public Base URL* field to:
+. In the DEPLOYMENT > API GATEWAY section of the *Settings* page, change the *Staging Public Base URL* field to:
 +
 [subs="attributes+"]
 ----
@@ -105,19 +108,18 @@ NOTE: We change the URL because the default one generated is usually too long an
 
 === Create a Mapping Rule for the Greeting Endpoint
 
-. Choose *Integration > Mapping Rules* from the left menu.
-. Delete the default *GET /* mapping by clicking the red thrash can icon beside it.
+. Select *Integration > Mapping Rules* from the vertical navigation menu on the left.
+. Delete the default *GET /* mapping by clicking the red trash can icon beside it.
 . Click *Add Mapping Rule*.
-. Select the *POST* option for *Verb*.
-. Enter the `/greeting` for the *Pattern*.
-. Click the *Create Mapping Rule* button.
-. Choose the *Configuration* item in the *Integration* dropdown menu.
-+
-Note: There is a warning icon next to this link that suggests promoting the configuration to the Staging Environment.
-. On the *Configuration* screen click *Promote v.2 to Staging*.
+. On the *New Mapping Rule* screen:
+.. In the *Verb* field, select *POST*.
+.. For the *Pattern*, enter `/greeting`.
+.. Skip the other fields and click *Create Mapping Rule*.
+. Select *Integration > Configuration* from the vertical navigation menu on the left.
+. In the *APIcast Configuration* section on the *Configuration* screen, click *Promote v.2 to Staging*.
 
 [type=verification]
-Is the staging environment listed in the *Environments* section on the *Integration > Configuration* screen with the route {route} listed as the *URL*?
+Look at the *Integration > Configuration* screen and find the *Environments* section. Is the staging environment information *URL* value of {route}?
 
 [type=verificationFail]
 {standard-fail-text}
@@ -132,43 +134,48 @@ Note that the *Example curl for testing* listed for the *Staging Environment* in
 
 . Go to the link:{api-management-url}[{3scale-name} 3scale Dashboard, window="_blank"]. Log in if necessary.
 . Choose *i-greeting-integration-{user-username}* from the top navigation menu to view the {3scale-name} homepage.
-. Select *Applications > Application Plans* from the side navigation.
+. Select *Applications > Application Plans* the vertical navigation menu on the left.
 . Select *Create Application Plan*.
-. Enter the following for *Name* and *System name*:
+. On the *Create Application Plan* screen:
+.. In both the *Name* and *System name* fields, enter:
 +
 [subs="attributes+"]
 ----
 low-code-{user-username}
 ----
-. Leave the other fields with their default values.
-. Select *Create Application Plan*. You will be redirected to the *Application Plans* screen.
-. Click *Publish*, beside the *low-code-{user-username}* list item, to publish the Plan.
+.. Leave the other fields with their default values.
+.. Select *Create Application Plan*.
+. You will be redirected to the *Application Plans* screen.
+. Look for the item named *low-code-{user-username}* in the list and click *Publish*. The State will change to "published".
 
 === Create an Application
 In this step a new *Application* will be created for the *Developer* Group,  assigned to the *Application Plan* created in the previous section.
 
-. Select *Audience* from the top navigation menu.
+. In 3scale, select *Audience* from the top navigation menu.
 . Select the *Developer* Account to open the *Account Summary* page.
 . Select the *(num) Application* item from the breadcrumb (below the top navigation menu) to view the developer's Applications.
-. Select the *Create Application* button in the top right.
-. Select the *low-code-{user-username}* Plan in the *Application plan* dropdown under the *i-greeting-integration-{user-username}* heading.
-. Enter the following for *Name* and *Description*:
+. Click the *Create Application* button in the top right.
+. On the *New Application* screen:
+.. Verify the *Application plan* field is set to *low-code-{user-username}* under the *i-greeting-integration-{user-username}* grouping.
+.. Verify the *Service plan* field is set to *Default*.
+..  For both the *Name* and *Description* fields, enter:
 +
 [subs="attributes+"]
 ----
 low-code-app-{user-username}
 ----
-. Select *Create Application*.
+.. Click *Create Application*.
+
 . Set a custom *User Key* for the application:
-.. On the *low-code-app-{user-username}* Application screen you were redirected to, scroll to the *API Credentials* section.
-.. Click the green pencil icon beside the *API User Key*
+.. On the *low-code-app-{user-username}* Application screen you were redirected to, look for the *API Credentials* section.
+.. Click the green pencil icon beside the *User Key*
 .. In the *Set Custom User Key* modal dialog, enter:
 +
 [subs="attributes+"]
 ----
 {sample-api-key}
 ----
-.. Select *Set Custom Key*.
+.. Click *Set Custom Key*.
 
 
 [type=verification]

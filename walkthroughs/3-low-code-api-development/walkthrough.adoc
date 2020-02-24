@@ -129,41 +129,42 @@ Follow these steps to create a *Path*. A *Path* represents an API endpoint and t
 . Click *Add* to confirm your entry.
 
 . Click your new */greeting* endpoint under the *Paths* heading.
-
-. Click the *Create Operation* button for *POST* in the *Operations* section on the right. The *POST* item will become an orange button.
-
-. Click the orange *POST* button to access the *Design* screen for the *POST* operation.
-
-. Enter the following in the now visible *Summary* field:
+. In the *Operations* section on the right, select the *Post* tab.
+. Click the *Add Operation* button. The *POST* tab will change to an orange background color.
+. In the expanded *INFO* section, enter the following in the now visible *Summary* field:
 +
 ----
 Greet with name
 ----
 
-. Enter the following in the *Operation ID* field:
+. In the *Operation ID* field, enter:
 +
 ----
 greetname
 ----
 
-. In the *Request Body* section, click *Add a request body*.
+. In the *REQUEST BODY* section, select the *Add a request body* link.
 
-. Choose *Name* type you created earlier from the *Request Body Type* dropdown.
+. For the *Request Body Type*, select *Name*. This is the type you created earlier.
++
+NOTE: The drop-down may look inactive. Just click it and you should have the option to select "Name".
 
-. In the *Responses* section click *Add a response*.
+. In the *RESPONSES* section, select the *Add a response* link.
 .. In the window that appears choose *200 OK* as the option and click the *Add* button.
 .. Click *No description* beside the newly listed *200 OK* response, and enter the following in the *Description* field:
 +
 ----
 Greeting response
 ----
-.. Click the *No Type* field and change the *Type* to *String as String*.
+.. For the *Response Type*, click *Choose Type* and then select *String*.
+.. You will then see an additional drop-down displayed, with the *Type* now showing "*String* as *String*".
 
 === Export the OpenAPI Spec as JSON/YAML
 
-. Click *Save* in the top right corner of the page to save your work.
-. Click the down arrow beside *Save As...* in the top right.
-. Choose *Save as YAML*.
+. On the top right of the screen, click the *angle down icon* next to the *Save As...*  button.
+. Select *Save as YAML*.
+. On the top right of the screen, click the *Close* button.
+. You will see a modal asking you to "Save changes before closing?", so click *Save*.
 
 +
 NOTE: Keep this file safe. It will be used to create the API implementation in Fuse Online shortly.
@@ -195,11 +196,13 @@ low-code-workspace
 low-code-demo
 ----
 . Click *Skip for now* when prompted to add team members.
-. Answer the follow-up questions related to your workspace and choose the *Free* plan.
-. Click *Launch My Workspace* when prompted.
+. On Slack's *Let’s set up your team* page, skip to the last item and click *Finish setup*.
+. When prompted, fill out the form to enter your name and password and click *Next*.
+. Click *Next* for Step 2 and then click *Finish*.
+. On the confirmation screen, select *Explore Slack*.
 
 [type=verification]
-Can you access your workspace, and navigate to the *low-code-demo* channel listed on the left of the workspace?
+Look at the *Channels* list on the left side of your screen. Can you see and select the *# low-code-demo* channel?
 
 [type=verificationFail]
 Verify that you followed each step in the procedure above.  If you are still having issues, check your email, there may be information sent to you about accessing your workspace.
@@ -208,14 +211,11 @@ Verify that you followed each step in the procedure above.  If you are still hav
 === Creating the Slack Connection in Fuse Online
 
 . Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{context}-3"] console.
-+
-NOTE: This is your personal Fuse Online instance and not the shared instance available from the link:/[Solution Explorer home page, id="{context}-4"].
 
-. Choose *Connections* from the left navigation menu.
-
+. Select *Connections* from the vertical navigation menu on the left.
 . Click the *Create Connection* button in the top right corner.
 
-. Choose *Slack* from the list of displayed *Connectors*.
+. Select *Slack* from the list of displayed *Connectors*.
 You are prompted for configuration details.
 
 . Obtain a URL for the *Slack Webhook URL* field:
@@ -228,9 +228,9 @@ Fuse Online Demo
 ----
 .. Choose *low-code-workspace* from the *Development Slack Workspace* dropdown.
 .. Click *Create App*.
-.. On the following screen under the *Add features and functionality* click *Incoming Webhooks*.
+.. On the following screen under the *Features* section, select *Incoming Webhooks*.
 .. Change the *Activate Incoming Webhooks* switch to the *On* position.
-.. Scroll down and click *Add New Webhook to Workspace*.
+.. Scroll down and click the *Add New Webhook to Workspace* button.
 .. Select *low-code-demo* in the *Where should Fuse Online Demo post?* field and click *Allow*.
 +
 You are redirected back to the *Incoming Webhooks* page.
@@ -273,9 +273,9 @@ Is a *Greeting Slack Target* entry listed in the Fuse Online *Connections* scree
 Follow these steps to create the an *Integration* in Fuse Online using the Slack *Connection* and OpenAPI Spec. A Fuse Online *Integration* uses *Connection* items and *Data Mapping* to consume/produce data and create integrations between systems.
 
 . Go to link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{context}-1"].
-. Select *Integrations* from the left navigation menu.
+. Select *Integrations* from the vertical navigation menu on the left.
 . Click the *Create Integration* button to start the *New Integration* wizard.
-. Choose the *API Provider* option when prompted with *Choose a connection* screen.
+. On the *Choose a connection* screen, select *API Provider*.
 . Drag and drop the previously downloaded OpenAPI Spec YAML file into the *Upload an OpenAPI file*. Click the *Next* button to get to the *Review Actions* screen.
 . Click *Next* on the *Review Actions* screen to proceed to the *Operations* screen.
 
@@ -331,7 +331,7 @@ Greeting Integration {user-username}
 . Wait until Fuse Online reports your build and deployment was successful.
 
 [type=verification]
-Does the Fuse Online *Home* screen list your *Post Slack Greeting API* with a blue box that contains the text *Running*?
+Once the building and deploying stages complete, go to the Fuse Online *Home* screen. Do you see the *Greeting Integration* with a blue box that contains the text *Running*?
 
 [type=verificationFail]
 Verify that you followed each step in the procedure above. If you are still having issues, contact your administrator.
