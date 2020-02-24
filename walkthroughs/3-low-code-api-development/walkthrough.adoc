@@ -347,19 +347,17 @@ By default, Fuse Online does not expose an *Integration* to the public internet 
 === Find the Greeting Service Internal Hostname
 
 . Login to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
-. Select the project named with the following format: `fuse-<UNIQUE_ID>`.
-. Choose *Applications > Services* from the left menu.
-. Select *i-greeting-integration-{user-username}* from the *Services* list.
-. Note the *Hostname* listed on the *Service Details* screen. It will have a format similar to `i-greeting-integration-{user-username}.fuse-<UNIQUE_ID>.svc.cluster.local`
+. Select the project named with the following format: `redhat-rhmi-fuse`.
+. Choose *Network > Services* from the left menu.
+. Make sure there is a *i-greeting-integration-{user-username}* item in the *Services* list.
+. Take a note of the hostname: `i-greeting-integration-{user-username}.redhat-rhmi-fuse.svc.cluster.local`.
 
 === Creating a cURL Deployment
 
-. Login to OpenShift by using the following command, and entering your password when prompted:
-+
-[subs="attributes+"]
-----
-oc login -u {user-username} {openshift-host}
-----
+. Login to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
+. In the top right dropdown, select *{user-username} > Copy Login Command*.
+. Login with your credentials if requested and click on *Display Token*.
+. Copy the command under *Log in with this token* and run it in a terminal.
 
 . Switch context to the project for this Solution Pattern.
 
@@ -370,15 +368,14 @@ oc project {walkthrough-namespace}
 ----
 
 . Deploy a cURL container that invokes the *POST /greeting* endpoint using the following command.
-Make sure you replace the `INTEGRATION_HOSTNAME` with the one you found previously.
-
 +
+[subs="attributes+"]
 ----
 oc run curl --image=curlimages/curl --restart=Never \
 --command -- curl -X POST \
 --data '{"name":"OpenShift"}' \
 -H 'content-type: application/json' \
-http://INTEGRATION_HOSTNAME:8080/greeting -vvv
+http://i-greeting-integration-{user-username}.redhat-rhmi-fuse.svc.cluster.local:8080/greeting -vvv
 ----
 
 . Verify the cURL container ran successfully by checking the logs for a *200 OK* response with this command:
