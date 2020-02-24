@@ -61,6 +61,7 @@ image::images/arch.png[architecture, role="integr8ly-img-responsive"]
 . Click the *From Catalog* button.
 . Search the developer catalog for 'Data Sync Showcase'.
 . Click on the 'Data Sync Showcase' entry to add it to your project.
+. Select "Instantiate Template"
 . Accept all the defaults of the provisioning wizard and click *Create*.
 . Check the *Topology* screen of your project and wait until three pods are running:
 +
