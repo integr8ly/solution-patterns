@@ -2,7 +2,7 @@
 :sso-version: 7.3
 
 // URLs
-:openshift-console-url: {openshift-host}
+:openshift-console-url: {openshift-host}/dashboards
 :sso-adapter-docs-url: https://access.redhat.com/documentation/en-us/red_hat_single_sign-on/{sso-version}/html/securing_applications_and_services_guide/index
 :sso-realm-url: {user-sso-url}/auth/admin/solution-patterns/console/index.html
 
@@ -22,7 +22,7 @@
 :standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.
 
 //id syntax is used here for the custom IDs because that is how the Solution Explorer sorts these within groups
-[id='2-protecting-apps-sso']
+[id='2-protecting-apps-sso',subs=attributes+]
 = {title}
 
 // word count that fits best is 15-22, with 20 really being the sweet spot. Character count for that space would be 100-125
@@ -48,8 +48,8 @@ image::images/arch.png[integration, role="integr8ly-img-responsive"]
 * link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
 
-[type=walkthroughResource,serviceName=sso]
-.{customer-sso-name}
+[type=walkthroughResource,serviceName=sso,subs=attributes+]
+.Customer Application SSO
 ****
 * link:{sso-realm-url}[Console, window="_blank"]
 * link:https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign-On Overview, window="_blank"]

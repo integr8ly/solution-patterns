@@ -122,22 +122,22 @@
                       "env": [
                         {
                           "name": "MESSAGING_SERVICE_HOST",
-                          "value": "${MESSAGING_SERVICE_HOST}"
+                          "value": "{{ enmasse-broker-url }}"
                         },
                         {
                           "name": "MESSAGING_SERVICE_USER",
-                          "value": "${MESSAGING_SERVICE_USER}"
+                          "value": "{{ enmasse-credentials-username }}"
                         },
                         {
                           "name": "MESSAGING_SERVICE_PASSWORD",
-                          "value": "${MESSAGING_SERVICE_PASSWORD}"
+                          "value": "{{ enmasse-credentials-password }}"
                         },
                         {
                           "name": "MESSAGING_SERVICE_PORT",
-                          "value": "${MESSAGING_SERVICE_PORT}"
+                          "value": "5672"
                         }
                       ],
-                      "image": "quay.io/evanshortiss/rhmi-lab-nodejs-order-frontend",
+                      "image": "quay.io/integreatly/rhmi-lab-nodejs-order-frontend:v5.0.0",
                       "imagePullPolicy": "Always",
                       "name": "rhmi-lab-nodejs-order-frontend",
                       "ports": [
@@ -294,22 +294,22 @@
                       "env": [
                         {
                           "name": "PG_HOSTNAME",
-                          "value": "${PG_HOSTNAME}"
+                          "value": "rhmi-lab-orders-db.{{ walkthrough-namespace }}.svc"
                         },
                         {
                           "name": "PG_DATABASE",
-                          "value": "${PG_DATABASE}"
+                          "value": "orders"
                         },
                         {
                           "name": "PG_USERNAME",
-                          "value": "${PG_USERNAME}"
+                          "value": "{{ user-username }}"
                         },
                         {
                           "name": "PG_PASSWORD",
-                          "value": "${PG_PASSWORD}"
+                          "value": "password"
                         }
                       ],
-                      "image": "quay.io/evanshortiss/rhmi-lab-internal-fuse-api",
+                      "image": "quay.io/integreatly/rhmi-lab-internal-fuse-api:v1.0.0",
                       "imagePullPolicy": "Always",
                       "name": "rhmi-lab-internal-fuse-api",
                       "ports": [
@@ -467,10 +467,10 @@
                       "env": [
                         {
                           "name": "ORDERS_API_BASE_URL",
-                          "value": "${ORDERS_API_BASE_URL}"
+                          "value": "http://rhmi-lab-internal-fuse-api.{{ walkthrough-namespace }}.svc:8080"
                         }
                       ],
-                      "image": "quay.io/evanshortiss/rhmi-lab-order-management-ui",
+                      "image": "quay.io/integreatly/rhmi-lab-order-management-ui:v1.0.0",
                       "imagePullPolicy": "Always",
                       "name": "rhmi-lab-order-management-ui",
                       "ports": [
@@ -554,6 +554,170 @@
             "name": "ORDERS_API_BASE_URL"
           }
         ]
+      },
+      {
+        "apiVersion": "template.openshift.io/v1",
+        "kind": "Template",
+        "metadata": {
+          "name": "postgresql-persistent",
+          "displayName": "postgresql-persistent",
+          "annotations": {
+            "openshift.io/display-name": "RHMI Lab Order Management DB",
+            "description": "The database for the order API"
+          }
+        },
+        "objects": [
+          {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "spec": {
+              "ports": [
+                {
+                  "port": 5432,
+                  "targetPort": 5432
+                }
+              ],
+              "selector": {
+                "deploymentConfig": "rhmi-lab-orders-db"
+              }
+            },
+            "metadata": {
+              "name": "rhmi-lab-orders-db",
+              "labels": {
+                "app": "rhmi-lab-orders-db"
+              },
+              "annotations": {
+                "description": "The database server's port."
+              }
+            }
+          },
+          {
+            "kind": "DeploymentConfig",
+            "apiVersion": "apps.openshift.io/v1",
+            "metadata": {
+              "name": "rhmi-lab-orders-db",
+              "labels": {
+                "app": "rhmi-lab-orders-db"
+              }
+            },
+            "spec": {
+              "strategy": {
+                "type": "Recreate"
+              },
+              "triggers": [
+                {
+                  "type": "ImageChange",
+                  "imageChangeParams": {
+                    "automatic": true,
+                    "containerNames": [
+                      "rhmi-lab-orders-db"
+                    ],
+                    "from": {
+                      "kind": "ImageStreamTag",
+                      "namespace": "openshift",
+                      "name": "postgresql:9.6"
+                    }
+                  }
+                },
+                {
+                  "type": "ConfigChange"
+                }
+              ],
+              "replicas": 1,
+              "selector": {
+                "deploymentConfig": "rhmi-lab-orders-db"
+              },
+              "template": {
+                "metadata": {
+                  "name": "rhmi-lab-orders-db",
+                  "labels": {
+                    "deploymentConfig": "rhmi-lab-orders-db",
+                    "app": "rhmi-lab-orders-db"
+                  }
+                },
+                "spec": {
+                  "terminationGracePeriodSeconds": 60,
+                  "containers": [
+                    {
+                      "name": "rhmi-lab-orders-db",
+                      "image": "postgresql",
+                      "imagePullPolicy": "Always",
+                      "ports": [
+                        {
+                          "containerPort": 5432,
+                          "protocol": "TCP"
+                        }
+                      ],
+                      "readinessProbe": {
+                        "timeoutSeconds": 1,
+                        "initialDelaySeconds": 5,
+                        "exec": {
+                          "command": [ "/bin/sh", "-i", "-c", "psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d $POSTGRESQL_DATABASE -c 'SELECT 1'"]
+                        }
+                      },
+                      "livenessProbe": {
+                        "timeoutSeconds": 1,
+                        "initialDelaySeconds": 30,
+                        "tcpSocket": {
+                          "port": 5432
+                        }
+                      },
+                      "volumeMounts": [
+                        {
+                          "mountPath": "/var/lib/pgsql/data",
+                          "name": "rhmi-lab-orders-db"
+                        }
+                      ],
+                      "env": [
+                        {
+                          "name": "POSTGRESQL_USER",
+                          "value": "{{ user-username }}"
+                        },
+                        {
+                          "name": "POSTGRESQL_PASSWORD",
+                          "value": "password"
+                        },
+                        {
+                          "name": "POSTGRESQL_DATABASE",
+                          "value": "orders"
+                        }
+                      ]
+                    }
+                  ],
+                  "volumes": [
+                    {
+                      "name": "rhmi-lab-orders-db",
+                      "persistentVolumeClaim": {
+                        "claimName": "rhmi-lab-orders-db"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+              "name": "rhmi-lab-orders-db",
+              "labels": {
+                "app": "rhmi-lab-orders-db"
+              }
+            },
+            "spec": {
+              "accessModes": [
+                "ReadWriteOnce"
+              ],
+              "resources": {
+                "requests": {
+                  "storage": "1Gi"
+                }
+              }
+            }
+          }
+        ],
+        "parameters": []
       }
     ]
   }
