@@ -156,8 +156,7 @@ NOTE: The drop-down may look inactive. Just click it and you should have the opt
 ----
 Greeting response
 ----
-.. For the *Response Type*, click *Choose Type* and then select *String*.
-.. You will then see an additional drop-down displayed, with the *Type* now showing "*String* as *String*".
+.. For the *Response Type*, click *Choose Type* and then select *String*. You will then see an additional drop-down displayed, with the *Type* now showing "*String* as *String*".
 
 === Export the OpenAPI Spec as JSON/YAML
 
