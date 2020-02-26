@@ -3,7 +3,7 @@
 :3scale-version: 2.7
 
 // URLs
-:openshift-console-url: {openshift-host}/console
+:openshift-console-url: {openshift-host}/dashboards
 :route: https://wt4-{user-username}-3scale.{openshift-app-host}
 
 //attributes
