@@ -58,21 +58,21 @@ image::images/arch.png[architecture, role="integr8ly-img-responsive"]
 //Home > Search > Select Templates from the drop down > Search for datasync and they should show up. Just make sure you're on the openshift namespace
 
 . Go to the link:{openshift-host}/topology/ns/{walkthrough-namespace}[project console, window="_blank"] in OpenShift.
-. Click the *From Catalog* button.
-. Search the developer catalog for 'Data Sync Showcase'.
-. Click on the 'Data Sync Showcase' entry to add it to your project.
-. Select "Instantiate Template"
-. Accept all the defaults of the provisioning form and click *Create*.
-. Go to link:{openshift-host}/k8s/ns/{walkthrough-namespace}/pods screen of your project and wait until three pods are running:
+. Select the *From Catalog* option.
+. Use the *Filter by keyword...* field to search the catalog for `Data Sync Showcase`.
+. Select the *Data Sync Showcase* option to add it to your project.
+. Click the *Instantiate Template* button.
+. Accept all the default values on the provisioning form, scroll down to the bottom of the screen, and click *Create*.
+. Go to link:{openshift-host}/k8s/ns/{walkthrough-namespace}/pods[Workloads > Pods, window="_blank"] page for your project. You should see the following three pods:
 +
-* `ionic-showcase-server` - a Node.js server and client application
-* `mosquitto-mqtt-broker` - a message broker
-* `postgresql` - a database
+* *ionic-showcase-server* - a Node.js server and client application
+* *mosquitto-mqtt-broker* - a message broker
+* *postgresql* - a database
 +
-Once the pods are running, you can use the GraphQL playground to interact with the server API as described in the next step.
+Wait until you see that all three pods have the *Running* status. Once the pods are running, you can use the GraphQL playground to interact with the server API as described in the next step.
 
-. Go to the link:{route-ionic-showcase-server-host}/graphql[GraphQL playground, window="_blank"] and replace the text in the left pane of the screen with the following query and mutation:
-
+. Go to the link:{route-ionic-showcase-server-host}/graphql[GraphQL playground, window="_blank"].
+. Replace the text in the left pane of the screen with the following query and mutation:
 ----
 query listTasks {
   allTasks {
@@ -91,15 +91,14 @@ mutation createTask {
   }
 }
 ----
+. Click the execute query/play button in the middle of the playground screen and then select *createTask* from the menu. The system should create a task.
+. Click the execute query/play button again and then then select *listTasks* from the menu.
 
 [type=verification]
 ****
-. Click the Run icon in the middle of the playground screen.
-. Choose createTask from the menu.
-The system should create a task.
-. Choose listTasks from the Run menu.
-. Check that the following is displayed in the right hand panel:
-+
+
+Look at the right side of your playground screen. Do you see the following code displayed?
+
 ----
 {
     "data": {
@@ -117,7 +116,7 @@ The system should create a task.
 
 [type=verificationFail]
 ****
-Check the logs of the `ionic-showcase-server` pod.
+Check the logs of the *ionic-showcase-server* pod.
 
 It should include the string `+connected to messaging service+`.
 Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
