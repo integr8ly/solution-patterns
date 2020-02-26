@@ -67,6 +67,9 @@ Can you see the {3scale-name} Dashboard that shows the Audience and APIs panels?
 Follow these steps to import the API to 3scale. Since Fuse Online automatically added 3scale discovery annotations to the Greeting API it can be imported using the link:https://access.redhat.com/documentation/en-us/red_hat_3scale_api_management/2.7/html/admin_portal_guide/service-discovery[Service Discovery, window="_blank"] features of 3scale.
 
 . From the *APIs* section of the *Dashboard*, select the *New Product* item.
++
+NOTE: Ask an administrator to grant you the necessary 3scale permission if *New Product* is not displayed.
+
 . Select the *Import from OpenShift* option. If this option is not enabled, click the *Authenticate to enable this option* link and choose *Allow selected permissions*.
 . If you used the *Authenticate to enable this option* link, verify that you have reselected *Import from OpenShift* after being redirected.
 . In the SERVICE section:
