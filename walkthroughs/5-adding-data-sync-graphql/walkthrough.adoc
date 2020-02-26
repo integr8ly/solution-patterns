@@ -2,7 +2,7 @@
 :rhmi-version: 1
 
 // URLs
-:openshift-console-url: {openshift-host}/console
+:openshift-console-url: {openshift-host}/dashboards
 :sso-realm-url: {user-sso-url}/auth/admin/solution-patterns/console/index.html
 :data-sync-documentation-url: https://access.redhat.com/documentation/en-us/red_hat_managed_integration/{rhmi-version}/html-single/developing_a_data_sync_app/index
 
