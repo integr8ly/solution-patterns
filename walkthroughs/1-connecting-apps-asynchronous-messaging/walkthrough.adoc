@@ -73,7 +73,6 @@ Follow these steps to create an address.
 . Go to link:{enmasse-url}[Red Hat AMQ, window="_blank", id="{task-context}-1"].
 +
 NOTE: If this is your first time opening the AMQ console, you will need to authenticate.
-. Select the Name/Namespace that corresponds to your username.
 . You will then see your AMQ Online console.
 . Select *Addresses* from the vertical navigation menu on the left.
 . Click the *+Create* button.
@@ -199,12 +198,12 @@ This OpenAPI (swagger) file defines the API for querying and creating orders in 
 +
 [subs="attributes+"]
 ----
-Order System REST API Connector
+Order System REST API Connector {user-username}
 ----
 .. Click *Save*.
 
 [type=verification]
-Is the new connector *Order System REST API Connector* displayed on the *Customizations > API Client Connectors* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-2"] console?
+Is the new connector *Order System REST API Connector {user-username}* displayed on the *Customizations > API Client Connectors* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-2"] console?
 
 [type=verificationFail]
 {standard-fail-text}
@@ -225,7 +224,7 @@ Follow these steps to create a connection to the CRUD App.
 . Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-3"] console.
 . Select *Connections* from the left hand menu.
 . Select the *Create Connection* button to start the *Create Connection* wizard.
-. When prompted with *Select connector*, select *Order System REST API Connector*.
+. When prompted with *Select connector*, select *Order System REST API Connector {user-username}*.
 . When prompted with *Configure connection*:
 .. Enter the following in the *Host* field:
 +
@@ -239,8 +238,9 @@ This is the location of the *rhmi-lab-internal-fuse-api* application that was cr
 . When prompted with *Name connection*:
 .. Enter the following in the *Name* field:
 +
+[subs="attributes+"]
 ----
-Order System REST API Connection
+Order System REST API Connection {user-username}
 ----
 .. Click *Save*.
 
@@ -295,7 +295,7 @@ amqp://{enmasse-broker-url}:5672?amqp.saslMechanisms=PLAIN
 +
 [subs="attributes+"]
 ----
-Incoming Order Queue Connection
+Incoming Order Queue Connection {user-username}
 ----
 . Click *Save*.
 
@@ -332,7 +332,7 @@ Follow these steps to create an integration.
 . Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="wt1a_2_3_1_fuse-url"] console.
 . Select *Integrations* from the left hand menu.
 . Select the *Create Integration* button to start the *Create Integration* wizard.
-. Choose *Incoming Order Queue Connection* as the *Start Connection*.
+. Choose *Incoming Order Queue Connection {user-username}* as the *Start Connection*.
 . When prompted to *Choose an action*, select *Subscribe for messages* and click the *Select* button.
 . When prompted for a *Destination name*, enter:
 +
@@ -367,7 +367,7 @@ work-queue-requests
 }
 ----
 .. Click *Next*.
-. Choose *Order System REST API Connection* as the *Finish Connection*.
+. Choose *Order System REST API Connection {user-username}* as the *Finish Connection*.
 . When prompted to *Choose an action*, select *Create an order* and click the *Select* button.
 . When prompted with *Configure the action* click *Next*.
 . When prompted to *Add to Integration*, click on the blue *+* icon between the *Subscribe for messages* and *Create an order* elements.
@@ -380,7 +380,7 @@ work-queue-requests
 +
 [subs="attributes+"]
 ----
-Integration Solution 1
+Integration Solution 1 {user-username}
 ----
 . Click *Save and publish*.
 
