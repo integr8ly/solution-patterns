@@ -10,7 +10,7 @@
 :title: 5 - Adding Data Sync to your application with GraphQL
 :integreatly-name: Managed Integration
 :data-sync-name: Data Sync
-:data-sync-showcase-app: Data Sync showcase application
+:data-sync-showcase-app: AeroGear Showcase application
 :customer-sso-name: Customer Application SSO
 :realm-name: solution-patterns
 :realm-display-name: Solution Patterns
@@ -58,21 +58,21 @@ image::images/arch.png[architecture, role="integr8ly-img-responsive"]
 //Home > Search > Select Templates from the drop down > Search for datasync and they should show up. Just make sure you're on the openshift namespace
 
 . Go to the link:{openshift-host}/topology/ns/{walkthrough-namespace}[project console, window="_blank"] in OpenShift.
-. Click the *From Catalog* button.
-. Search the developer catalog for 'Data Sync Showcase'.
-. Click on the 'Data Sync Showcase' entry to add it to your project.
-. Select "Instantiate Template"
-. Accept all the defaults of the provisioning form and click *Create*.
-. Go to link:{openshift-host}/k8s/ns/{walkthrough-namespace}/pods screen of your project and wait until three pods are running:
+. Select the *From Catalog* option.
+. Use the *Filter by keyword...* field to search the catalog for `Data Sync Showcase`.
+. Select the *Data Sync Showcase* option to add it to your project.
+. Click the *Instantiate Template* button.
+. Accept all the default values on the provisioning form, scroll down to the bottom of the screen, and click *Create*.
+. Go to link:{openshift-host}/k8s/ns/{walkthrough-namespace}/pods[Workloads > Pods, window="_blank"] page for your project. You should see the following three pods:
 +
-* `ionic-showcase-server` - a Node.js server and client application
-* `mosquitto-mqtt-broker` - a message broker
-* `postgresql` - a database
+* *ionic-showcase-server* - a Node.js server and client application
+* *mosquitto-mqtt-broker* - a message broker
+* *postgresql* - a database
 +
-Once the pods are running, you can use the GraphQL playground to interact with the server API as described in the next step.
+Wait until you see that all three pods have the *Running* status. Once the pods are running, you can use the GraphQL playground to interact with the server API as described in the next step.
 
-. Go to the link:{route-ionic-showcase-server-host}/graphql[GraphQL playground, window="_blank"] and replace the text in the left pane of the screen with the following query and mutation:
-
+. Go to the link:{route-ionic-showcase-server-host}/graphql[GraphQL playground, window="_blank"].
+. Replace the text in the left pane of the screen with the following query and mutation:
 ----
 query listTasks {
   allTasks {
@@ -91,15 +91,14 @@ mutation createTask {
   }
 }
 ----
+. Click the execute query/play button in the middle of the playground screen and then select *createTask* from the menu. The system should create a task.
+. Click the execute query/play button again and then then select *listTasks* from the menu.
 
 [type=verification]
 ****
-. Click the Run icon in the middle of the playground screen.
-. Choose createTask from the menu.
-The system should create a task.
-. Choose listTasks from the Run menu.
-. Check that the following is displayed in the right hand panel:
-+
+
+Look at the right side of your playground screen. Do you see the following code displayed?
+
 ----
 {
     "data": {
@@ -117,7 +116,7 @@ The system should create a task.
 
 [type=verificationFail]
 ****
-Check the logs of the `ionic-showcase-server` pod.
+Check the logs of the *ionic-showcase-server* pod.
 
 It should include the string `+connected to messaging service+`.
 Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
@@ -129,11 +128,11 @@ Verify that you followed each step in the procedure above.  If you are still hav
 The {data-sync-showcase-app} demonstrates the key capabilities provided by the {data-sync-name} framework.
 It can be run either as a hybrid mobile application, or a Progressive Web App (PWA).
 
-. Go to link:{route-ionic-showcase-server-host}[Data Sync, window="_blank"]
+. Go to the link:{route-ionic-showcase-server-host}[AeroGear Showcase, window="_blank"] application.
 . Select *Manage Tasks* from the left hand menu.
 . Create a task by clicking on the plus icon in the top right-hand side of the screen.
 . Add a title and description, of your choosing, to the task and click *Create*.
-. Copy the current url without the '/tasks' endpoint and paste in a different tab, browser or mobile browser.
+. Copy the current url without the '/tasks' endpoint and paste in a different desktop or mobile browser window.
 . Change the status of the task by clicking/unclicking the text box beside the task.
 
 
@@ -148,17 +147,30 @@ Verify that you followed each step in the procedure above.  If you are still hav
 ****
 
 [time=15]
-== Protecting the Data Sync showcase application using Red Hat SSO
+== Protecting the Data Sync showcase application using Customer Application SSO
+Now that your tasks are created in the {data-sync-showcase-app}, you will need to secure both the *front-end* and the *back-end* of the {data-sync-showcase-app} with single sign-on.
+To do this, you must first create a _client_ in a _realm_.
 
-In this task, we will protect both the frontend and the backend of the {data-sync-showcase-app} with the {customer-sso-name}.
+Client - The client represents the application being secured. Often, clients are web services that want to use Red Hat Single Sign-On (RHSSO) to secure themselves and provide a single sign-on solution.
 
-=== Configuring and protecting the Front-end App
+Realm - A realm is used to manage a set of users, credentials, roles, and groups. A user belongs to and logs into a realm.
+Realms are isolated from one another and can only manage and authenticate the users that they control.
 
-Follow these steps to create a client.
+****
+*What is Customer Application SSO?*
+
+Customer Application SSO, included with Red Hat Managed Integration, enables you to define the identities of your end users.
+Red Hat manages this instance, however there are some additional users with admin level privileges who can configure this instance.
+****
+
+IMPORTANT: The realm used in this Solution Pattern is shared with *all* users on the cluster. *Do not use this realm for production applications*.
+
+=== Configuring and protecting the front-end app
+
+Follow these steps to create a client for the front-end app.
 
 . Go to the link:{sso-realm-url}[{realm-display-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, enter the username `{shared-realm-username}` and password `{realm-password}`.
-. You will see the *{realm-name}* realm if the login is successful.
+.. If prompted, enter the username `{shared-realm-username}` and password `{realm-password}`. You will see the *{realm-name}* realm if the login is successful.
 . Select *Clients* from the vertical navigation menu on the left side of the screen.
 . Click the *Create* button on the top right of the Clients screen.
 . On the *Add Client* screen:
@@ -169,12 +181,16 @@ Follow these steps to create a client.
 {user-username}-frontend
 ----
 .. Verify the *Client Protocol* is set to *openid-connect*.
-.. Click *Save*.
-. You will see the *Settings* screen for the *{client-name}* client if the save is successful.
-. on the *Settings* page:
-.. Change `Valid Redirect URIs` to `{route-ionic-showcase-server-host}*`
-.. Change `Web Origins` to `*`
-.. Click on the *Save* button
+.. Click *Save*. You will see the *Settings* screen for the *{client-name}* client if the save is successful.
+. On the *Settings* screen:
+.. Change *Valid Redirect URIs* to:
++
+[subs="attributes+"]
+----
+{route-ionic-showcase-server-host}*
+----
+.. Change *Web Origins* to `*`.
+.. Click the *Save* button.
 .. Click on the *Installation* tab, and select `Keycloak OIDC JSON` format. Copy the content displayed or use the `Download` button to save the configuration file.
 
 . Update the configuration of the frontend app to secure it:
