@@ -74,12 +74,12 @@ Customer Application SSO, included with Red Hat Managed Integration, enables you
 Red Hat manages this instance, however there are some additional users with admin level privileges who can configure this instance.
 ****
 
-IMPORTANT: The realm used in this Solution Pattern is shared with *all* users on the cluster. *Do not use this realm for production applications*.
-
 Follow these steps to create a client.
 
-. Go to the link:{sso-realm-url}[{realm-display-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, enter the username `{shared-realm-username}` and password `{realm-password}`. You will see the *{realm-name}* realm if the login is successful.
+. Go to the link:{sso-realm-url}[Master, window="_blank"] realm, which is running on your {customer-sso-name} service.
+.. If prompted, login with your credentials. You will see the *Master* realm if the login is successful.
+.. Hover the *Master* realm dropdown and click on *Add Realm*.
+.. Enter Realm-*{user-username}* as the name and click *Create*. You will be redirected to your new realm.
 . Select *Clients* from the vertical navigation menu on the left side of the screen.
 . Click the *Create* button on the top right of the Clients screen.
 . On the *Add Client* screen:
