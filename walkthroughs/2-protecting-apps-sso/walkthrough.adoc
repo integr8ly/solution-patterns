@@ -185,22 +185,19 @@ NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.or
 === Applying the SSO Config Map
 
 . Log in to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
-. Navigate to the *integration-solution-1-integrate-event-and-api-driven-apps* project.
-. Select *Applications > Deployments*.
-. Select the *rhmi-lab-nodejs-order-frontend* item from the *Deployments* list.
+. Select the project that contains the pods from *{sp1-title}*.
+. Select *Workloads > Deployment Configs*.
+. Select the *rhmi-lab-nodejs-order-frontend* item from the *Deployment Configs* list.
 . Select the *Environment* tab.
-.. Click *Add Value from Config Map or Secret*
-.. Enter `KEYCLOAK_CONFIG` in the *Name* column.
-.. Choose `order-entry-keycloak-config` from the *Select a resource* dropdown.
-.. Choose *KEYCLOAK_CONFIG* from the *Select key* menu.
-. Scroll down and click *Save*.
-. Select *Overview* on the left and find the *rhmi-lab-nodejs-order-frontend* in the list.
-. If a deployment is still in progress, wait for it to finish.
-. Open the URL listed beside the *rhmi-lab-nodejs-order-frontend* in either a private browser session, or a different browser to view the *{create-messages-app}* UI.
+.. Under *All values from existing config maps or secrets (envFrom)* click on the *Config Map/Secret* dropdown.
+.. Select *order-entry-keycloak-config* from the list and click *Save*.
+. Select *Deployment Configs* on the left and wait for the *rhmi-lab-nodejs-order-frontend* deployment to finish.
+. Select *Network > Routes* on the left and find the *order-entry-ui* route.
+. Open the URL listed beside the *order-entry-ui* route in either a private browser session, or a different browser to view the *{create-messages-app}* UI.
 +
 NOTE: Use a private session or different browser to avoid conflict with your old sessions.
 
-. A login screen with the title *walkthroughs Realm* is displayed.
+. A login screen with the title *{realm-name}* is displayed.
 . Enter `customer` in the *Username or email*.
 . Enter `customer-password` in the *Password* field.
 . Click the *Log In* button.
