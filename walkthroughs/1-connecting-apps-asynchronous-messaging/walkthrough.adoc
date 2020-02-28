@@ -38,14 +38,14 @@ image::images/arch.png[integration, role="integr8ly-img-responsive"]
 * link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
 
-[type=walkthroughResource,serviceName=fuse]
+[type=walkthroughResource,serviceName=fuse-managed]
 .Red Hat Fuse Online
 ****
 * link:{fuse-url}[Console, window="_blank", id="resources-fuse-url"]
 * link:{fuse-documentation-url}[Fuse Documentation, window="_blank"]
 ****
 
-[type=walkthroughResource,serviceName=amq-online-standard]
+[type=walkthroughResource,serviceName=amqonline]
 .Red Hat AMQ
 ****
 * link:{enmasse-url}[Console, window="_blank", , id="resources-enmasse-url"]

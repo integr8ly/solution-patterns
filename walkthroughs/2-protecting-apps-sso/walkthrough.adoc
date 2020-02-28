@@ -137,7 +137,7 @@ Do you see the *customer* username listed in the table?
 {standard-fail-text}
 
 [time=15]
-== Enabling SSO in the {create-messages-app}
+== Enabling SSO in the Order Entry System
 
 === Obtaining the SSO configuration
 
