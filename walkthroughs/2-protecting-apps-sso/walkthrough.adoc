@@ -4,7 +4,7 @@
 // URLs
 :openshift-console-url: {openshift-host}/dashboards
 :sso-adapter-docs-url: https://access.redhat.com/documentation/en-us/red_hat_single_sign-on/{sso-version}/html/securing_applications_and_services_guide/index
-:sso-realm-url: {user-sso-url}/auth/admin/solution-patterns/console/index.html
+:sso-realm-url: {user-sso-url}
 
 //attributes
 :title: 2 - Protecting applications using single sign-on
