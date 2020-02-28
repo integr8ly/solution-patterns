@@ -46,14 +46,14 @@ It also allows you to identify important design decisions prior to coding and de
 * link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
 
-[type=walkthroughResource,serviceName=fuse]
+[type=walkthroughResource,serviceName=fuse-managed]
 .Red Hat Fuse Online
 ****
 * link:{fuse-url}[Console, window="_blank", id="resources-fuse-url"]
 * link:{fuse-documentation-url}[Fuse Documentation, window="_blank"]
 ****
 
-[type=walkthroughResource,serviceName=apicurio]
+[type=walkthroughResource,serviceName=apicurito]
 .Red Hat API Designer
 ****
 * link:{apicurio-url}[Console, window="_blank"]

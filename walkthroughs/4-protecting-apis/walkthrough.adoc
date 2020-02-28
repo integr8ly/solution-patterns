@@ -27,7 +27,7 @@ Learn how to import an API into Red Hat 3scale API Management Platform and secur
 * link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
 
-[type=walkthroughResource,serviceName=fuse]
+[type=walkthroughResource,serviceName=fuse-managed]
 .Red Hat Fuse Online
 ****
 * link:{fuse-url}[Console, window="_blank", id="resources-fuse-url"]
