@@ -48,7 +48,7 @@ image::images/arch.png[integration, role="integr8ly-img-responsive"]
 * link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
 
-[type=walkthroughResource,serviceName=sso,subs=attributes+]
+[type=walkthroughResource,serviceName=user-rhsso,subs=attributes+]
 .Customer Application SSO
 ****
 * link:{sso-realm-url}[Console, window="_blank"]
