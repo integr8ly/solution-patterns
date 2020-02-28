@@ -169,13 +169,18 @@ demonstrate how to include a configuration and enable the adapter.
 === Creating a SSO Config Map Entry
 
 . Login to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
-. Select the project that contains *integration-solution-1-integrate-event-and-api-driven-apps* in the name.
-. Select *Resources > Config Maps*.
+. Select the project that contains the pods from *{sp1-title}*.
+. Select *Workloads > Config Maps*.
 . Click the *Create Config Map*  button.
-.. Enter `order-entry-keycloak-config` in the *Name* field.
-.. Enter `KEYCLOAK_CONFIG` in the *Key* field.
-.. Click the *Browse* button and select the _keycloak.json_ file that was downloaded in the previous section.
-. Click the *Create* button.
+. You will see an editor with the yaml representation for your Config Map.
+.. Enter `order-entry-keycloak-config` in the *metadata.name* field.
+.. Remove all the lines below *data*.
+.. Add a line `KEYCLOAK_CONFIG: |` under *data*. Make sure it is indented with one tab.
++
+NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.org/spec/1.2/spec.html#id2795688[the yaml spec] for more details.
+
+.. Paste the contents of the _keycloak.json_ file in the next line. Make sure all lines are indented with two tabs.
+. Click the *Save* button.
 
 === Applying the SSO Config Map
 
