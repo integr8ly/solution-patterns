@@ -3,8 +3,10 @@
 
 // URLs
 :openshift-console-url: {openshift-host}/dashboards
-:sso-realm-url: {user-sso-url}/auth/admin/solution-patterns/console/index.html
+:sso-realm-url: {user-sso-url}/auth/admin/master/console
+:sso-user-realm-url: {user-sso-url}/auth/admin/master/console/#/realms/sync-realm-{user-username}
 :data-sync-documentation-url: https://access.redhat.com/documentation/en-us/red_hat_managed_integration/{rhmi-version}/html-single/developing_a_data_sync_app/index
+:openshift-config-maps-url: {openshift-host}/k8s/ns/{walkthrough-namespace}/configmaps
 
 //attributes
 :title: 5 - Adding Data Sync to your application with GraphQL
@@ -12,8 +14,8 @@
 :data-sync-name: Data Sync
 :data-sync-showcase-app: AeroGear Showcase application
 :customer-sso-name: Customer Application SSO
-:realm-name: solution-patterns
-:realm-display-name: Solution Patterns
+:realm-name: sync-realm-{user-username}
+:realm-display-name: sync-realm-{user-username}
 :shared-realm-username: developer
 :realm-password: password
 :standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.
@@ -169,8 +171,10 @@ IMPORTANT: The realm used in this Solution Pattern is shared with *all* users on
 
 Follow these steps to create a client for the front-end app.
 
-. Go to the link:{sso-realm-url}[{realm-display-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, enter the username `{shared-realm-username}` and password `{realm-password}`. You will see the *{realm-name}* realm if the login is successful.
+. Go to the link:{sso-realm-url}[Master, window="_blank"] realm, which is running on your {customer-sso-name} service.
+.. If prompted, log in with your username and password. You will see the *Master* realm if the login is successful.
+.. Hover the realm dropdown in the top right and click on *Add Realm*.
+.. Enter *{realm-name}* as the name and click *Create*. You will be redirected to your new realm.
 . Select *Clients* from the vertical navigation menu on the left side of the screen.
 . Click the *Create* button on the top right of the Clients screen.
 . On the *Add Client* screen:
@@ -181,7 +185,7 @@ Follow these steps to create a client for the front-end app.
 {user-username}-frontend
 ----
 .. Verify the *Client Protocol* is set to *openid-connect*.
-.. Click *Save*. You will see the *Settings* screen for the *{client-name}* client if the save is successful.
+.. Click *Save*. You will see the *Settings* screen for the *{user-username}-frontend* client if the save is successful.
 . On the *Settings* screen:
 .. Change *Valid Redirect URIs* to:
 +
@@ -194,8 +198,8 @@ Follow these steps to create a client for the front-end app.
 .. Click on the *Installation* tab, and select `Keycloak OIDC JSON` format. Copy the content displayed or use the `Download` button to save the configuration file.
 
 . Update the configuration of the frontend app to secure it:
-.. Go to the link:{openshift-host}/console/project/{walkthrough-namespace}/browse/config-maps[OpenShift Config Maps] page.
-.. Select the config map that is called `webapp-config`, and edit it by selecting `Edit` under the `Actions` button.
+.. Go to the link:{openshift-config-maps-url}[OpenShift Config Maps, window="_blank"] page.
+.. Select the config map that is called `webapp-config`, and edit it by selecting `Yaml` tab.
 .. Add a new `auth` section to the config map by pasting the content that was copied in the previous step.
 .. Rename the `auth-server-url` attribute to `url` and the `resource` attribute to `clientId`.
 .. Save it
@@ -211,9 +215,9 @@ Does the content of the config map look as follows:
        "wsServerUrl": ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.hostname + "/graphql"
      },
      "auth": {
-       "realm": "walkthroughs",
-    	 "url": " {user-sso-url}/auth",
-   	   "ssl-required": "none",
+       "realm": "{realm-name}",
+       "url": "{user-sso-url}/auth",
+   	   "ssl-required": "external",
    	   "clientId": "{user-username}-frontend",
    	   "public-client": true,
    	   "confidential-port": 0
@@ -232,8 +236,8 @@ Verify that you followed each step in the procedure above.  If you are still hav
 
 Follow these steps to create a client.
 
-. Go to the link:{sso-realm-url}[{realm-display-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, enter the username `{shared-realm-username}` and password `{realm-password}`.
+. Go to the link:{sso-user-realm-url}[{realm-display-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
+.. If prompted, log in with your username and password.
 . You will see the *{realm-name}* realm if the login is successful.
 . Select *Clients* from the vertical navigation menu on the left side of the screen.
 . Click the *Create* button on the top right of the Clients screen.
@@ -259,33 +263,36 @@ Follow these steps to create a client.
 .. Click *Reset Password*
 
 . Update the backend to use the downloaded configuration file:
-.. Go to the link:{openshift-host}/console/project/{walkthrough-namespace}/browse/config-maps[OpenShift Config Maps] page.
-.. Click *Create Config Map*.
-.. When prompted for *Name*, enter:
+.. Go to the link:{openshift-config-maps-url}[OpenShift Config Maps, window="_blank"] page.
+.. Click *Create Config Map*. You will see an editor with the yaml representation for your Config Map.
+.. Enter `showcase-server-idm-config` in the *metadata.name* field.
+.. Remove all the lines below *data*.
+.. Add a line `keycloak.json: |` under *data*. Make sure it is indented with one tab.
 +
-----
-showcase-server-idm-config
-----
-.. When prompted for *Key*, enter:
-+
-----
-keycloak.json
-----
-.. For *Value*, click *Browse* and load the json file that you downloaded previously.
+NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.org/spec/1.2/spec.html#id2795688[the yaml spec] for more details.
+
+.. Paste the contents of the _keycloak.json_ file in the next line. Make sure all lines are indented with two tabs.
 .. Click *Create*. The config map object is created.
-.. Choose *Deployments* from the *Applications* menu.
-.. Select the deployment config for `ionic-showcase-server`.
-.. Click on the *Configuration* tab, and scroll to the *Volumes* section.
-.. Click on the *Add Config Files* option at the bottom of the section.
-.. Choose the `showcase-server-idm-config` config map as the *Source*.
-.. Set the value for *Mount Path* to:
+.. Select *Deployment Configs* on the left click on *ionic-showcase-server*.
+.. Select the *Yaml* tab to edit the deployment config.
+.. Find the *volumes* section under `spec.template.spec`.
+.. Add the following entry to the *volumes* section:
 +
 ----
-/tmp/keycloak
+- name: backend-config
+  configMap:
+    name: showcase-server-idm-config
+    defaultMode: 420
 ----
 
-.. Click *Add* to trigger a new deployment.
-.. Click the *Environment* tab and click *Add Value*.
+.. Find the *volumeMounts* section under `spec.template.spec.containers`
+.. Add the following entry to the *volumeMounts* section:
++
+----
+- { name: backend-config, mountPath: /tmp/keycloak }
+----
+
+.. Click the *Environment* tab and click *Add Value* in the *Single values (env)* section.
 .. Set Name to:
 +
 ----
@@ -320,7 +327,7 @@ For example, use the browser on your mobile device as well as using the browser 
 
 To get the url of your app:
 
-. Go to link:{route-ionic-showcase-server-host}[Data Sync].
+. Go to link:{route-ionic-showcase-server-host}[Data Sync, window="_blank"].
 
 image::images/showcase.png[showcase, role="integr8ly-img-responsive"]
 
@@ -354,11 +361,11 @@ Verify that you followed each step in the procedure above.  If you are still hav
 
 . On your mobile device:
 .. Log into the {data-sync-showcase-app}.
+.. Click on the `Create Task` button.
+.. Enter a title and description but do not yet create the task.
 .. Activate airplane mode or disable network connectivity.
-.. Create a new task.
+.. Now click on the `Create` button.
 The task should be created and the *Offline Changes* button in the footer should contain one change.
-.. Make a few more changes by either editing existing tasks, or creating new ones.
-.. Review all the changes by clicking the *Offline Changes* button.
 
 . On your laptop:
 .. Log into the {data-sync-showcase-app}.
@@ -389,18 +396,18 @@ Verify that you followed each step in the procedure above.  If you are still hav
 . On your mobile device:
 .. Log into the {data-sync-showcase-app}.
 .. Create a task `todo A`.
-.. Activate airplane mode or disable network connectivity.
+.. Click on the `Edit` button next to the task, then activate airplane mode or disable network connectivity.
 .. Edit the task description to add the text `edited on mobile`.
 
 . On your laptop:
-.. Log into the {data-sync-showcase-app}.
+.. Log into the {data-sync-showcase-app} and click on the `Edit` button next to `todo A`.
 .. Simulate offline mode. For example, in Chrome, press F12 to open *Developer Tools* and select *offline* in  the *Network* tab.
 .. Edit the `todo A` task, change the text to `todo B`.
 
 . Bring both of your devices back online, the tasks should sync without a conflict.
 
 . On your mobile device:
-.. Activate airplane mode or disable network connectivity.
+.. Click the `Edit` button next to `todo B` and activate airplane mode or disable network connectivity.
 .. Edit task `todo B` change the description to:
 +
 ----
@@ -408,7 +415,7 @@ Conflicting description from mobile
 ----
 
 . On your laptop:
-.. Simulate offline mode. For example, in Chrome, press F12 to open *Developer Tools* and select *offline* in  the *Network* tab.
+.. Click on the `Edit` button next to `task B`, then simulate offline mode. For example, in Chrome, press F12 to open *Developer Tools* and select *offline* in  the *Network* tab.
 .. Edit task `todo B` change the description to:
 +
 ----

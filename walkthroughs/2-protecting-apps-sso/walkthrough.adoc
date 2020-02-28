@@ -77,8 +77,8 @@ Red Hat manages this instance, however there are some additional users with admi
 Follow these steps to create a client.
 
 . Go to the link:{sso-realm-url}[Master, window="_blank"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, login with your credentials. You will see the *Master* realm if the login is successful.
-.. Hover the *Master* realm dropdown and click on *Add Realm*.
+.. If prompted, log in with your username and password. You will see the *Master* realm if the login is successful.
+.. Hover the realms dropdown in the top left and click on *Add Realm*.
 .. Enter *realm-{user-username}* as the name and click *Create*. You will be redirected to your new realm.
 . Select *Clients* from the vertical navigation menu on the left side of the screen.
 . Click the *Create* button on the top right of the Clients screen.
@@ -109,7 +109,7 @@ To secure your application with single sign-on and allow additional users to log
 Follow these steps to create a new user and set that user's password.
 
 . Go to the link:{sso-user-realm-url}[{realm-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, login with your credentials.
+.. If prompted, log in with your username and password.
 . You will see the *{realm-name}* realm if the login is successful.
 . Select *Users* from the vertical navigation menu on the left side of the screen.
 . Click the *Add user* button on the top right of the Users screen.
@@ -159,7 +159,7 @@ demonstrate how to include a configuration and enable the adapter.
 
 
 . Go to link:{sso-user-realm-url}[SSO Realm, window="_blank"].
-. Login with your credentials if prompted.
+. If prompted, log in with your username and password.
 . Select *Clients* from the side menu.
 . Click the `{client-name}` client that was created earlier.
 . Choose the *Installation* tab.
