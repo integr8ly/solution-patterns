@@ -158,8 +158,8 @@ The *{create-messages-app}* is run from a Node.js server, so the Node.js
 demonstrate how to include a configuration and enable the adapter.
 
 
-. Go to link:{sso-realm-url}[SSO Realm, window="_blank"].
-. Enter the username `{shared-realm-username}` and password `{realm-password}` if prompted.
+. Go to link:{sso-user-realm-url}[SSO Realm, window="_blank"].
+. Login with your credentials if prompted.
 . Select *Clients* from the side menu.
 . Click the `{client-name}` client that was created earlier.
 . Choose the *Installation* tab.
