@@ -4,8 +4,8 @@
 // URLs
 :openshift-console-url: {openshift-host}/dashboards
 :sso-adapter-docs-url: https://access.redhat.com/documentation/en-us/red_hat_single_sign-on/{sso-version}/html/securing_applications_and_services_guide/index
-:sso-realm-url: {user-sso-url}/auth/admin/solution-patterns/console/index.html
-
+:sso-realm-url: {user-sso-url}/auth/admin/master/console
+:sso-user-realm-url: {user-sso-url}/auth/admin/master/console/#/realms/realm-{user-username}
 //attributes
 :title: 2 - Protecting applications using single sign-on
 :sp1-title: Connecting applications using asynchronous messaging
@@ -15,8 +15,8 @@
 :rhmi-sso-name: Managed Integration SSO instance
 :customer-sso-name: Customer Application SSO
 :client-name: {user-username}-order-entry-system
-:realm-name: solution-patterns
-:realm-display-name: Solution Patterns
+:realm-name: realm-{user-username}
+:realm-display-name: realm-{user-username}
 :shared-realm-username: developer
 :realm-password: password
 :standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.
@@ -48,7 +48,7 @@ image::images/arch.png[integration, role="integr8ly-img-responsive"]
 * link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
 
-[type=walkthroughResource,serviceName=sso,subs=attributes+]
+[type=walkthroughResource,serviceName=user-rhsso,subs=attributes+]
 .Customer Application SSO
 ****
 * link:{sso-realm-url}[Console, window="_blank"]
@@ -74,12 +74,12 @@ Customer Application SSO, included with Red Hat Managed Integration, enables you
 Red Hat manages this instance, however there are some additional users with admin level privileges who can configure this instance.
 ****
 
-IMPORTANT: The realm used in this Solution Pattern is shared with *all* users on the cluster. *Do not use this realm for production applications*.
-
 Follow these steps to create a client.
 
-. Go to the link:{sso-realm-url}[{realm-display-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, enter the username `{shared-realm-username}` and password `{realm-password}`. You will see the *{realm-name}* realm if the login is successful.
+. Go to the link:{sso-realm-url}[Master, window="_blank"] realm, which is running on your {customer-sso-name} service.
+.. If prompted, log in with your username and password. You will see the *Master* realm if the login is successful.
+.. Hover the realms dropdown in the top left and click on *Add Realm*.
+.. Enter *realm-{user-username}* as the name and click *Create*. You will be redirected to your new realm.
 . Select *Clients* from the vertical navigation menu on the left side of the screen.
 . Click the *Create* button on the top right of the Clients screen.
 . On the *Add Client* screen:
@@ -108,8 +108,8 @@ To secure your application with single sign-on and allow additional users to log
 
 Follow these steps to create a new user and set that user's password.
 
-. Go to the link:{sso-realm-url}[{realm-display-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, enter the username `{shared-realm-username}` and password `{realm-password}`.
+. Go to the link:{sso-user-realm-url}[{realm-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
+.. If prompted, log in with your username and password.
 . You will see the *{realm-name}* realm if the login is successful.
 . Select *Users* from the vertical navigation menu on the left side of the screen.
 . Click the *Add user* button on the top right of the Users screen.
@@ -137,7 +137,7 @@ Do you see the *customer* username listed in the table?
 {standard-fail-text}
 
 [time=15]
-== Enabling SSO in the {create-messages-app}
+== Enabling SSO in the Order Entry System
 
 === Obtaining the SSO configuration
 
@@ -158,8 +158,8 @@ The *{create-messages-app}* is run from a Node.js server, so the Node.js
 demonstrate how to include a configuration and enable the adapter.
 
 
-. Go to link:{sso-realm-url}[SSO Realm, window="_blank"].
-. Enter the username `{shared-realm-username}` and password `{realm-password}` if prompted.
+. Go to link:{sso-user-realm-url}[SSO Realm, window="_blank"].
+. If prompted, log in with your username and password.
 . Select *Clients* from the side menu.
 . Click the `{client-name}` client that was created earlier.
 . Choose the *Installation* tab.
@@ -169,33 +169,35 @@ demonstrate how to include a configuration and enable the adapter.
 === Creating a SSO Config Map Entry
 
 . Login to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
-. Select the project that contains *integration-solution-1-integrate-event-and-api-driven-apps* in the name.
-. Select *Resources > Config Maps*.
+. Select the project that contains the pods from *{sp1-title}*.
+. Select *Workloads > Config Maps*.
 . Click the *Create Config Map*  button.
-.. Enter `order-entry-keycloak-config` in the *Name* field.
-.. Enter `KEYCLOAK_CONFIG` in the *Key* field.
-.. Click the *Browse* button and select the _keycloak.json_ file that was downloaded in the previous section.
-. Click the *Create* button.
+. You will see an editor with the yaml representation for your Config Map.
+.. Enter `order-entry-keycloak-config` in the *metadata.name* field.
+.. Remove all the lines below *data*.
+.. Add a line `KEYCLOAK_CONFIG: |` under *data*. Make sure it is indented with one tab.
++
+NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.org/spec/1.2/spec.html#id2795688[the yaml spec] for more details.
+
+.. Paste the contents of the _keycloak.json_ file in the next line. Make sure all lines are indented with two tabs.
+. Click the *Save* button.
 
 === Applying the SSO Config Map
 
 . Log in to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
-. Navigate to the *integration-solution-1-integrate-event-and-api-driven-apps* project.
-. Select *Applications > Deployments*.
-. Select the *rhmi-lab-nodejs-order-frontend* item from the *Deployments* list.
+. Select the project that contains the pods from *{sp1-title}*.
+. Select *Workloads > Deployment Configs*.
+. Select the *rhmi-lab-nodejs-order-frontend* item from the *Deployment Configs* list.
 . Select the *Environment* tab.
-.. Click *Add Value from Config Map or Secret*
-.. Enter `KEYCLOAK_CONFIG` in the *Name* column.
-.. Choose `order-entry-keycloak-config` from the *Select a resource* dropdown.
-.. Choose *KEYCLOAK_CONFIG* from the *Select key* menu.
-. Scroll down and click *Save*.
-. Select *Overview* on the left and find the *rhmi-lab-nodejs-order-frontend* in the list.
-. If a deployment is still in progress, wait for it to finish.
-. Open the URL listed beside the *rhmi-lab-nodejs-order-frontend* in either a private browser session, or a different browser to view the *{create-messages-app}* UI.
+.. Under *All values from existing config maps or secrets (envFrom)* click on the *Config Map/Secret* dropdown.
+.. Select *order-entry-keycloak-config* from the list and click *Save*.
+. Select *Deployment Configs* on the left and wait for the *rhmi-lab-nodejs-order-frontend* deployment to finish.
+. Select *Network > Routes* on the left and find the *order-entry-ui* route.
+. Open the URL listed beside the *order-entry-ui* route in either a private browser session, or a different browser to view the *{create-messages-app}* UI.
 +
 NOTE: Use a private session or different browser to avoid conflict with your old sessions.
 
-. A login screen with the title *walkthroughs Realm* is displayed.
+. A login screen with the title *{realm-name}* is displayed.
 . Enter `customer` in the *Username or email*.
 . Enter `customer-password` in the *Password* field.
 . Click the *Log In* button.
