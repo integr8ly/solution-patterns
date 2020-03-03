@@ -26,7 +26,7 @@
 = {title}
 
 // word count that fits best is 15-22, with 20 really being the sweet spot. Character count for that space would be 100-125
-Learn how to set up {customer-sso-name} to protect end-user applications by using standards such as OpenID Connect, OAuth 2.0, and SAML 2.0.
+Learn how to set up Customer Application SSO to protect end-user applications by using standards such as OpenID Connect, OAuth 2.0, and SAML 2.0.
 
 IMPORTANT: You must complete the *{sp1-title}* Solution Pattern before starting this one.
 
@@ -198,7 +198,7 @@ NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.or
 NOTE: Use a private session or different browser to avoid conflict with your old sessions.
 
 . A login screen with the title *{realm-name}* is displayed.
-. Enter `customer` in the *Username or email*.
+. Enter `customer` in the *Username or email* field.
 . Enter `customer-password` in the *Password* field.
 . Click the *Log In* button.
 

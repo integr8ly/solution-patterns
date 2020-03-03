@@ -173,8 +173,9 @@ Follow these steps to create a client for the front-end app.
 
 . Go to the link:{sso-realm-url}[Master, window="_blank"] realm, which is running on your {customer-sso-name} service.
 .. If prompted, log in with your username and password. You will see the *Master* realm if the login is successful.
-.. Hover the realm dropdown in the top right and click on *Add Realm*.
-.. Enter *{realm-name}* as the name and click *Create*. You will be redirected to your new realm.
+. Hover the realm dropdown in the top right and click on *Add Realm*.
+. In the name field, enter *{realm-name}*.
+. Click *Create*. You will be redirected to your new realm.
 . Select *Clients* from the vertical navigation menu on the left side of the screen.
 . Click the *Create* button on the top right of the Clients screen.
 . On the *Add Client* screen:
@@ -193,16 +194,23 @@ Follow these steps to create a client for the front-end app.
 ----
 {route-ionic-showcase-server-host}*
 ----
-.. Change *Web Origins* to `*`.
+.. In the *Web Origins* field, enter `*`.
 .. Click the *Save* button.
-.. Click on the *Installation* tab, and select `Keycloak OIDC JSON` format. Copy the content displayed or use the `Download` button to save the configuration file.
+. Select the *Installation* tab.
+. On the *Installation* screen:
+.. For the *Format Option*, select *Keycloak OIDC JSON*. You will now see some additional code on the screen.
+.. Copy the content displayed or use the *Download* button to save the configuration file.
 
-. Update the configuration of the frontend app to secure it:
+. Update the configuration of the frontend app to secure it. To do this:
 .. Go to the link:{openshift-config-maps-url}[OpenShift Config Maps, window="_blank"] page.
-.. Select the config map that is called `webapp-config`, and edit it by selecting `Yaml` tab.
-.. Add a new `auth` section to the config map by pasting the content that was copied in the previous step.
+.. Select the item named *webapp-config*.
+.. Select the *YAML* tab.
+.. Add a new auth section to the showcaseConfig. You can do this by adding `"auth":` and then pasting the content that was copied in the previous step.
++
+NOTE: The auth section should be at the same level as the existing backend section and indented to match. You will also need to add a comma after the prior section's }, so it should look like `},`.
+
 .. Rename the `auth-server-url` attribute to `url` and the `resource` attribute to `clientId`.
-.. Save it
+.. Click *Save*.
 
 [type=verification]
 ****
@@ -237,8 +245,7 @@ Verify that you followed each step in the procedure above.  If you are still hav
 Follow these steps to create a client.
 
 . Go to the link:{sso-user-realm-url}[{realm-display-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, log in with your username and password.
-. You will see the *{realm-name}* realm if the login is successful.
+.. If prompted, log in with your username and password. You will see the *{realm-name}* realm if the login is successful.
 . Select *Clients* from the vertical navigation menu on the left side of the screen.
 . Click the *Create* button on the top right of the Clients screen.
 . On the *Add Client* screen:
@@ -249,23 +256,40 @@ Follow these steps to create a client.
 {user-username}-server
 ----
 .. Verify the *Client Protocol* is set to *openid-connect*.
+.. Click *Save*. You will see the *Settings* screen for the *{user-username}-server* client if the save is successful.
+. On the *Settings* screen:
+.. Change the *Access Type* to *bearer-only*.
 .. Click *Save*.
-. You will see the *Settings* screen for the *{user-username}-server* client if the save is successful.
-. Change the *Access Type* to *bearer-only*.
-.. Click *Save*.
-.. Click on the *Installation* tab, and select `Keycloak OIDC JSON` format. Use the `Download` button to save the `keycloak.json` configuration file.
 
-. Create users for testing:
+. Select the *Installation* tab.
+. On the *Installation* screen:
+.. For the *Format Option*, select *Keycloak OIDC JSON*. You will now see some additional code on the screen.
+.. Copy the content displayed or use the *Download* button to save the configuration file.
 
+. Create a user for testing. To do this:
 .. Select *Users* on the left menu, and click on *View all users*.
-.. Click on *Add user* to create a new user. Pick a username you like for the *Username* field and click *Save*.
-.. Select the *Credentials* tab and set a password for this user. Set *Temporary* option to *OFF*.
-.. Click *Reset Password*
+.. Click on *Add user* to create a new user.
+.. In the *Username* field, enter `customer`.
+.. Click *Save*. The *Details* tab should now be displayed with some additional tabs along the top of the screen.
+.. Select the *Credentials* tab.
+.. In the *New Password* field, enter the password `customer-password`.
+.. In the *Password Confirmation* field, enter the same password.
+.. Set the *Temporary* toggle to the *OFF* position.
++
+NOTE: If you leave the *Temporary* toggle in the *ON* position, the user will be forced to create a new password when they perform a login.
+.. Click *Reset Password*.
+. You will see a *Change password* confirmation modal.
+. Click the *Change password* button to confirm your changes.
 
-. Update the backend to use the downloaded configuration file:
+. Update the backend to use the downloaded configuration file. To do this:
 .. Go to the link:{openshift-config-maps-url}[OpenShift Config Maps, window="_blank"] page.
 .. Click *Create Config Map*. You will see an editor with the yaml representation for your Config Map.
-.. Enter `showcase-server-idm-config` in the *metadata.name* field.
+.. In the metadata section, change the *name* to
++
+[subs="attributes+"]
+----
+showcase-server-idm-config
+----
 .. Remove all the lines below *data*.
 .. Add a line `keycloak.json: |` under *data*. Make sure it is indented with one tab.
 +
@@ -273,7 +297,8 @@ NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.or
 
 .. Paste the contents of the _keycloak.json_ file in the next line. Make sure all lines are indented with two tabs.
 .. Click *Create*. The config map object is created.
-.. Select *Deployment Configs* on the left click on *ionic-showcase-server*.
+.. Select *Deployment Configs* from the vertical navigation menu on the left.
+.. Select *ionic-showcase-server*.
 .. Select the *Yaml* tab to edit the deployment config.
 .. Find the *volumes* section under `spec.template.spec`.
 .. Add the following entry to the *volumes* section:
@@ -289,17 +314,18 @@ NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.or
 .. Add the following entry to the *volumeMounts* section:
 +
 ----
-- { name: backend-config, mountPath: /tmp/keycloak }
+- name: backend-config, mountPath: /tmp/keycloak
 ----
-
-.. Click the *Environment* tab and click *Add Value* in the *Single values (env)* section.
-.. Set Name to:
+.. Click *Save*.
+.. Select the *Environment* tab.
+.. In the *Single values (env)* section, click *Add Value*.
+.. In the *NAME* field, enter:
 +
 ----
 KEYCLOAK_CONFIG
 ----
 
-.. Set Value to:
+.. In the *Value* field, enter:
 +
 ----
 /tmp/keycloak/keycloak.json
@@ -327,7 +353,10 @@ For example, use the browser on your mobile device as well as using the browser 
 
 To get the url of your app:
 
-. Go to link:{route-ionic-showcase-server-host}[Data Sync, window="_blank"].
+. Go to link:{route-ionic-showcase-server-host}[Data Sync, window="_blank"]. A login screen is displayed.
+. Enter `customer` in the *Username or email* field.
+. Enter `customer-password` in the *Password* field.
+. Click the *Log In* button. You will now see the {:data-sync-showcase-app:}.
 
 image::images/showcase.png[showcase, role="integr8ly-img-responsive"]
 
@@ -396,18 +425,18 @@ Verify that you followed each step in the procedure above.  If you are still hav
 . On your mobile device:
 .. Log into the {data-sync-showcase-app}.
 .. Create a task `todo A`.
-.. Click on the `Edit` button next to the task, then activate airplane mode or disable network connectivity.
+.. Click on the *Edit* button next to the task, then activate airplane mode or disable network connectivity.
 .. Edit the task description to add the text `edited on mobile`.
 
 . On your laptop:
-.. Log into the {data-sync-showcase-app} and click on the `Edit` button next to `todo A`.
+.. Log into the {data-sync-showcase-app} and click on the *Edit* button next to `todo A`.
 .. Simulate offline mode. For example, in Chrome, press F12 to open *Developer Tools* and select *offline* in  the *Network* tab.
 .. Edit the `todo A` task, change the text to `todo B`.
 
 . Bring both of your devices back online, the tasks should sync without a conflict.
 
 . On your mobile device:
-.. Click the `Edit` button next to `todo B` and activate airplane mode or disable network connectivity.
+.. Click the *Edit* button next to `todo B` and activate airplane mode or disable network connectivity.
 .. Edit task `todo B` change the description to:
 +
 ----
@@ -415,7 +444,7 @@ Conflicting description from mobile
 ----
 
 . On your laptop:
-.. Click on the `Edit` button next to `task B`, then simulate offline mode. For example, in Chrome, press F12 to open *Developer Tools* and select *offline* in  the *Network* tab.
+.. Click on the *Edit* button next to `task B`, then simulate offline mode. For example, in Chrome, press F12 to open *Developer Tools* and select *offline* in  the *Network* tab.
 .. Edit task `todo B` change the description to:
 +
 ----
