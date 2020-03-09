@@ -181,8 +181,7 @@ Starting this Solution Pattern provisioned an instance of Fuse Online which is n
 
 . Select *Customizations > API Client Connectors* from vertical navigation menu on the left.
 +
-NOTE: If using a cluster that has self signed certs you will not be able to use the URL option below. You will need to copy the contents
-below and create a .json file and use the *Upload OpenAPI Document* instead.
+NOTE: If using a cluster that has self signed certs you will not be able to use the URL option below. You will need to copy the url into a browsers and create a .json file with contets and use the *Upload OpenAPI Document* instead.
 
 . Select the *Create API Connector* button to start the *API Client Connector* wizard.
 . When prompted to *Upload OpenAPI Document*, select *Use a URL*:
