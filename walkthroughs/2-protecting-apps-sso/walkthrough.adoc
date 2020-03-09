@@ -180,7 +180,7 @@ demonstrate how to include a configuration and enable the adapter.
 NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.org/spec/1.2/spec.html#id2795688[the yaml spec] for more details.
 
 .. Paste the contents of the _keycloak.json_ file in the next line. Make sure all lines are indented with two tabs.
-. Click the *Save* button.
+. Click the *Create* button.
 
 === Applying the SSO Config Map
 
