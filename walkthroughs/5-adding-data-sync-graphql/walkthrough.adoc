@@ -121,7 +121,7 @@ Look at the right side of your playground screen. Do you see the following code 
 Check the logs of the *ionic-showcase-server* pod.
 
 It should include the string `+connected to messaging service+`.
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
 
 [time=5]
@@ -145,7 +145,7 @@ Verify that the status of the task is synced across all tabs in real-time.
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
 
 [time=15]
@@ -247,7 +247,7 @@ Does the content of the config map look as follows:
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+Make sure you added the comma in the correct location as explained above. {standard-fail-text}
 ****
 [time=10]
 
@@ -353,7 +353,7 @@ Do you see SSO login screen when you go to the link:{route-ionic-showcase-server
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
 
 [time=10]
@@ -393,7 +393,7 @@ Did the tasks appear as expected?
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
 
 
@@ -428,7 +428,7 @@ Did the tasks appear as expected?
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
 
 === Resolving conflicts
@@ -472,5 +472,5 @@ Did the tasks sync as expected?
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
