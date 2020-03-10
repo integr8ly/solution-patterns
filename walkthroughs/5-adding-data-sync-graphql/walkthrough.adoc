@@ -207,7 +207,18 @@ Follow these steps to create a client for the front-end app.
 .. Select the *YAML* tab.
 .. Add a new auth section to the showcaseConfig. You can do this by adding `"auth":` and then pasting the content that was copied in the previous step.
 +
-NOTE: The auth section should be at the same level as the existing backend section and indented to match. You will also need to add a comma after the prior section's }, so it should look like `},`.
+IMPORTANT: *On the line above where you add the new `"auth":` section, make sure you add a comma (`,`) after that section's closing `}`.*
++
+It should look like:
++
+[subs="attributes+"]
+----
+},
+"auth:" {
+----
+
++
+NOTE: The auth section should be at the same level as the existing backend section and indented to match.
 
 .. Rename the `auth-server-url` attribute to `url` and the `resource` attribute to `clientId`.
 .. Click *Save*.
