@@ -304,17 +304,14 @@ NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.or
 .. Add the following entry to the *volumes* section:
 +
 ----
-- name: backend-config
-  configMap:
-    name: showcase-server-idm-config
-    defaultMode: 420
+- {name: "backend-config", configMap: {name: "showcase-server-idm-config", defaultMode: 420} }
 ----
 
 .. Find the *volumeMounts* section under `spec.template.spec.containers`
 .. Add the following entry to the *volumeMounts* section:
 +
 ----
-- name: backend-config, mountPath: /tmp/keycloak
+- {name: "backend-config", mountPath: "/tmp/keycloak" }
 ----
 .. Click *Save*.
 .. Select the *Environment* tab.
