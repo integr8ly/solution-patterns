@@ -121,7 +121,7 @@ Look at the right side of your playground screen. Do you see the following code 
 Check the logs of the *ionic-showcase-server* pod.
 
 It should include the string `+connected to messaging service+`.
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
 
 [time=5]
@@ -145,7 +145,7 @@ Verify that the status of the task is synced across all tabs in real-time.
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
 
 [time=15]
@@ -207,7 +207,9 @@ Follow these steps to create a client for the front-end app.
 .. Select the *YAML* tab.
 .. Add a new auth section to the showcaseConfig. You can do this by adding `"auth":` and then pasting the content that was copied in the previous step.
 +
-NOTE: The auth section should be at the same level as the existing backend section and indented to match. You will also need to add a comma after the prior section's }, so it should look like `},`.
+IMPORTANT: *On the line above where you add the new `"auth":` section, make sure you add a comma (`,`) after that section's closing `}`.*
++
+NOTE: The auth section should be at the same level as the existing backend section and indented to match.
 
 .. Rename the `auth-server-url` attribute to `url` and the `resource` attribute to `clientId`.
 .. Click *Save*.
@@ -236,7 +238,7 @@ Does the content of the config map look as follows:
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+Make sure you added the comma in the correct location as explained above. {standard-fail-text}
 ****
 [time=10]
 
@@ -339,7 +341,7 @@ Do you see SSO login screen when you go to the link:{route-ionic-showcase-server
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
 
 [time=10]
@@ -379,7 +381,7 @@ Did the tasks appear as expected?
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
 
 
@@ -414,7 +416,7 @@ Did the tasks appear as expected?
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
 
 === Resolving conflicts
@@ -458,5 +460,5 @@ Did the tasks sync as expected?
 
 [type=verificationFail]
 ****
-Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
+{standard-fail-text}
 ****
