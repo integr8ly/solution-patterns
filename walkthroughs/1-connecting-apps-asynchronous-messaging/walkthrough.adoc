@@ -188,9 +188,11 @@ Starting this Solution Pattern provisioned an instance of Fuse Online which is n
 ----
 {route-orders-fuse-api-host}/openapi.json
 ----
-This OpenAPI (swagger) file defines the API for querying and creating orders in the underlying PostgreSQL database.
-
 .. Click *Next*.
+
+NOTE: If using a cluster that has self signed certs you will not be able to use the URL option described above. You will need to copy the url into a browser and copy the returned JSON into a .json file and use the *Upload OpenAPI Document* instead.
+
+This OpenAPI (swagger) file defines the API for querying and creating orders in the underlying PostgreSQL database.
 . When prompted with *Review Actions*, select *Next*.
 . When prompted with *Specify Security*, select *Next*.
 . When prompted with *Review/Edit Connector Details*:
