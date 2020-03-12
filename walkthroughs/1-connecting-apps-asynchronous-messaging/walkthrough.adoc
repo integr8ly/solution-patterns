@@ -79,7 +79,7 @@ NOTE: If this is your first time opening the AMQ console, you will need to authe
 . You will see the *Create new address* wizard.
 .. In the *Name* field, enter:
 +
-[subs="attributes+"]
+[subs="attributes+", id="creating-amq-address-name"]
 ----
 work-queue-requests
 ----
@@ -119,13 +119,13 @@ Follow these steps to create a table.
 . Select the *Terminal* tab on the Pod details screen.
 . Log in to the *orders* database using the command:
 +
-[subs="attributes+"]
+[subs="attributes+", id="psql-table-create-login"]
 ----
 psql -U {user-username} -W -d orders
 ----
 . Enter the following when prompted:
 +
-[subs="attributes+"]
+[subs="attributes+", id="psql-table-create-password"]
 ----
 password
 ----
@@ -135,7 +135,7 @@ Paste the password then press the *Enter* key.
 
 . Paste the following as SQL to create the `received_orders` table:
 +
-[subs="attributes+"]
+[subs="attributes+", id="psql-table-create-json"]
 ----
 CREATE TABLE received_orders (
   id serial PRIMARY KEY,
@@ -198,7 +198,7 @@ This OpenAPI (swagger) file defines the API for querying and creating orders in 
 . When prompted with *Review/Edit Connector Details*:
 .. Enter the following in the *Name* field:
 +
-[subs="attributes+"]
+[subs="attributes+", id="route-crud-host-url-connector-name"]
 ----
 Order System REST API Connector {user-username}
 ----
@@ -240,7 +240,7 @@ This is the location of the *rhmi-lab-internal-fuse-api* application that was cr
 . When prompted with *Name connection*:
 .. Enter the following in the *Name* field:
 +
-[subs="attributes+"]
+[subs="attributes+"id="route-crud-host-url-name"]
 ----
 Order System REST API Connection {user-username}
 ----
@@ -273,21 +273,21 @@ Follow these steps to create an AMQP connection.
 . Select *AMQP Message Broker* to configure an *AMQP* connection.
 . Enter the connection URI relating to {enmasse}:
 +
-[subs="attributes+"]
+[subs="attributes+", id="create-amq-connection-url"]
 ----
 amqp://{enmasse-broker-url}:5672?amqp.saslMechanisms=PLAIN
 ----
 
 . Enter the username for {enmasse}:
 +
-[subs="attributes+"]
+[subs="attributes+", id="create-amq-connection-username"]
 ----
 {enmasse-credentials-username}
 ----
 
 . Enter the password for {enmasse}:
 +
-[subs="attributes+"]
+[subs="attributes+", id="create-amq-connection-password"]
 ----
 {enmasse-credentials-password}
 ----
@@ -295,7 +295,7 @@ amqp://{enmasse-broker-url}:5672?amqp.saslMechanisms=PLAIN
 . Select the *Validate* button to check that the values are valid.
 . Click *Next* and enter a name for the connection, for example:
 +
-[subs="attributes+"]
+[subs="attributes+", id="create-amq-connection-name"]
 ----
 Incoming Order Queue Connection {user-username}
 ----
@@ -338,7 +338,7 @@ Follow these steps to create an integration.
 . When prompted to *Choose an action*, select *Subscribe for messages* and click the *Select* button.
 . When prompted for a *Destination name*, enter:
 +
-[subs="attributes+"]
+[subs="attributes+", id="create-integration-destintion-name"]
 ----
 work-queue-requests
 ----
@@ -347,7 +347,7 @@ work-queue-requests
 .. Select *JSON Schema* as the type.
 .. Enter the following in the *Definition* field:
 +
-[subs="attributes+"]
+[subs="attributes+", id="create-integration-json"]
 ----
 {
 	"$schema": "http://json-schema.org/draft-04/schema#",
@@ -380,7 +380,7 @@ work-queue-requests
 . Click *Publish*.
 . When prompted, enter a name, for example:
 +
-[subs="attributes+"]
+[subs="attributes+", id="create-integration-name"]
 ----
 Integration Solution 1 {user-username}
 ----
