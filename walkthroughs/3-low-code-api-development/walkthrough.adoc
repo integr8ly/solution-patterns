@@ -252,13 +252,14 @@ This validation sends a message to the *low-code-demo* channel.
 . Click *Next*.
 . Enter the following in the *Name* field on the *Name connection* screen:
 +
+[subs="attributes+"]
 ----
-Greeting Slack Target
+Greeting Slack Target {user-username}
 ----
 . Click *Save*.
 
 [type=verification]
-Is a *Greeting Slack Target* entry listed in the Fuse Online *Connections* screen?
+Is a *Greeting Slack Target {user-username}* entry listed in the Fuse Online *Connections* screen?
 
 [type=verificationFail]
 {standard-fail-text}
@@ -288,7 +289,7 @@ Verify that you created the POST operation correctly in the OpenAPI Spec using A
 
 . Click the *Create flow* button for the *POST /greeting* item. The *Add to Integration* page appears displaying the *Provided API* and the *Provided API Return Path*.
 . Click the blue plus icon in the center to add a step.
-. Select the *Greeting Slack Target* on the *Choose a connection* screen. This will add a step between the *Provided API* and the *Provided API Return Path*.
+. Select the *Greeting Slack Target {user-username}* on the *Choose a connection* screen. This will add a step between the *Provided API* and the *Provided API Return Path*.
 . When prompted to *Choose an action* select *Channel*. You can use this to send a message to a specific channel in your Slack workspace.
 . Use the *Channel* menu to select the *low-code-demo* channel and click *Next*.
 The *Add to Integration* screen should now display your Slack connection with a triangular *Data Type Mismatch* warning icon.
