@@ -8,7 +8,7 @@
 :amq-documentation-url: https://access.redhat.com/documentation/en-us/red_hat_amq/{amq-version}/
 
 //attributes
-:title: 1 - Connecting applications using asynchronous messaging
+:title: 1 - Connecting applications using asynchronous messaging - test
 :create-messages-app: Order Entry System
 :retrieve-messages-app: Order Management System
 :standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.
@@ -90,7 +90,7 @@ work-queue-requests
 . Monitor the AMQ Online console until a green check mark is displayed beside the new address.
 Creating an address may take some time.
 
-[type=verification]
+[type=verification, verbox="verbox1"]
 Look at the link:{enmasse-url}[AMQ Online, window="_blank", id="{task-context}-2"] console. Do you see your newly created address displayed on the *Addresses* screen?
 
 [type=verificationFail]
@@ -146,7 +146,7 @@ CREATE TABLE received_orders (
 );
 ----
 
-[type=verification]
+[type=verification, verbox="verbox2"]
 Is the `received_orders` table listed when you enter the `\d` command in the terminal for the PostgreSQL pod?
 
 [type=verificationFail]
@@ -204,7 +204,7 @@ Order System REST API Connector {user-username}
 ----
 .. Click *Save*.
 
-[type=verification]
+[type=verification, verbox="verbox3"]
 Is the new connector *Order System REST API Connector {user-username}* displayed on the *Customizations > API Client Connectors* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-2"] console?
 
 [type=verificationFail]
@@ -247,7 +247,7 @@ Order System REST API Connection {user-username}
 .. Click *Save*.
 
 
-[type=verification]
+[type=verification, verbox="verbox4"]
 Is the new connection displayed on the *Connections* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-4"] console?
 
 [type=verificationFail]
@@ -301,7 +301,7 @@ Incoming Order Queue Connection {user-username}
 ----
 . Click *Save*.
 
-[type=verification]
+[type=verification, verbox="verbox5"]
 Is the new connection displayed on the *Connections* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-6"] console?
 
 
@@ -389,7 +389,7 @@ Integration Solution 1 {user-username}
 . Monitor the *Integration Summary* dashboard until a green check mark is displayed beside the new integration.
 The integration may take some time to complete building.
 
-[type=verification]
+[type=verification, verbox="verbox6"]
 Is the integration displayed as *Running* on the *Integrations* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-1"] console?
 
 [type=verificationFail]
@@ -430,7 +430,7 @@ After setting up the integration between the {create-messages-app} and {retrieve
 . Check that the entry from the {create-messages-app} is listed in the {retrieve-messages-app}.
 
 
-[type=verification]
+[type=verification, verbox="verbox7"]
 ****
 View the activity log:
 
