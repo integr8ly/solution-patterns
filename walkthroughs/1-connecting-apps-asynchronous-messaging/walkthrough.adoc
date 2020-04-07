@@ -74,10 +74,10 @@ Follow these steps to create an address.
 +
 NOTE: If this is your first time opening the AMQ console, you will need to authenticate.
 . You will then see your AMQ Online console.
-. Select *Addresses* from the vertical navigation menu on the left.
-. Click the *+Create* button.
+. Make sure that the *Addresses* tab is selected.
+. Click the *Create Address* button.
 . You will see the *Create new address* wizard.
-.. In the *Name* field, enter:
+.. In the *Address* field, enter:
 +
 [subs="attributes+", id="creating-amq-address-name"]
 ----
@@ -85,7 +85,7 @@ work-queue-requests
 ----
 .. For the *Type*, select *queue* and then click *Next*.
 .. For the *Plan*, select *Small Queue* and then click *Next*.
-.. On the *Summary* page, select *Create* to complete the wizard.
+.. On the *Review* page, select *Finish* to complete the wizard.
 
 . Monitor the AMQ Online console until a green check mark is displayed beside the new address.
 Creating an address may take some time.
@@ -193,6 +193,7 @@ Starting this Solution Pattern provisioned an instance of Fuse Online which is n
 NOTE: If using a cluster that has self signed certs you will not be able to use the URL option described above. You will need to copy the url into a browser and copy the returned JSON into a .json file and use the *Upload OpenAPI Document* instead.
 
 This OpenAPI (swagger) file defines the API for querying and creating orders in the underlying PostgreSQL database.
+
 . When prompted with *Review Actions*, select *Next*.
 . When prompted with *Specify Security*, select *Next*.
 . When prompted with *Review/Edit Connector Details*:
@@ -200,12 +201,12 @@ This OpenAPI (swagger) file defines the API for querying and creating orders in 
 +
 [subs="attributes+", id="route-crud-host-url-connector-name"]
 ----
-Order System REST API Connector {user-username}
+Order System REST API Connector {user-sanitized-username}
 ----
 .. Click *Save*.
 
 [type=verification]
-Is the new connector *Order System REST API Connector {user-username}* displayed on the *Customizations > API Client Connectors* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-2"] console?
+Is the new connector *Order System REST API Connector {user-sanitized-username}* displayed on the *Customizations > API Client Connectors* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-2"] console?
 
 [type=verificationFail]
 {standard-fail-text}
@@ -226,7 +227,7 @@ Follow these steps to create a connection to the CRUD App.
 . Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-3"] console.
 . Select *Connections* from the left hand menu.
 . Select the *Create Connection* button to start the *Create Connection* wizard.
-. When prompted with *Select connector*, select *Order System REST API Connector {user-username}*.
+. When prompted with *Select connector*, select *Order System REST API Connector {user-sanitized-username}*.
 . When prompted with *Configure connection*:
 .. Enter the following in the *Host* field:
 +
@@ -242,7 +243,7 @@ This is the location of the *rhmi-lab-internal-fuse-api* application that was cr
 +
 [subs="attributes+"id="route-crud-host-url-name"]
 ----
-Order System REST API Connection {user-username}
+Order System REST API Connection {user-sanitized-username}
 ----
 .. Click *Save*.
 
@@ -297,7 +298,7 @@ amqp://{enmasse-broker-url}:5672?amqp.saslMechanisms=PLAIN
 +
 [subs="attributes+", id="create-amq-connection-name"]
 ----
-Incoming Order Queue Connection {user-username}
+Incoming Order Queue Connection {user-sanitized-username}
 ----
 . Click *Save*.
 
@@ -334,7 +335,7 @@ Follow these steps to create an integration.
 . Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="wt1a_2_3_1_fuse-url"] console.
 . Select *Integrations* from the left hand menu.
 . Select the *Create Integration* button to start the *Create Integration* wizard.
-. Choose *Incoming Order Queue Connection {user-username}* as the *Start Connection*.
+. Choose *Incoming Order Queue Connection {user-sanitized-username}* as the *Start Connection*.
 . When prompted to *Choose an action*, select *Subscribe for messages* and click the *Select* button.
 . When prompted for a *Destination name*, enter:
 +
@@ -369,7 +370,7 @@ work-queue-requests
 }
 ----
 .. Click *Next*.
-. Choose *Order System REST API Connection {user-username}* as the *Finish Connection*.
+. Choose *Order System REST API Connection {user-sanitized-username}* as the *Finish Connection*.
 . When prompted to *Choose an action*, select *Create an order* and click the *Select* button.
 . When prompted with *Configure the action* click *Next*.
 . When prompted to *Add to Integration*, click on the blue *+* icon between the *Subscribe for messages* and *Create an order* elements.
@@ -382,7 +383,7 @@ work-queue-requests
 +
 [subs="attributes+", id="create-integration-name"]
 ----
-Integration Solution 1 {user-username}
+Integration Solution 1 {user-sanitized-username}
 ----
 . Click *Save and publish*.
 
