@@ -69,6 +69,7 @@ Realms are isolated from one another and can only manage and authenticate the us
 
 ****
 *What is Customer Application SSO?*
+:task-context: creating-a-client
 
 Customer Application SSO, included with Red Hat Managed Integration, enables you to define the identities of your end users.
 Red Hat manages this instance, however there are some additional users with admin level privileges who can configure this instance.
@@ -76,7 +77,7 @@ Red Hat manages this instance, however there are some additional users with admi
 
 Follow these steps to create a client.
 
-. Go to the link:{sso-realm-url}[Master, window="_blank"] realm, which is running on your {customer-sso-name} service.
+. Go to the link:{sso-realm-url}[Master, window="_blank", id="{task-context}-1"] realm, which is running on your {customer-sso-name} service.
 .. If prompted, log in with your username and password. You will see the *Master* realm if the login is successful.
 .. Hover the realms dropdown in the top left and click on *Add Realm*.
 .. Enter *realm-{user-username}* as the name and click *Create*. You will be redirected to your new realm.
@@ -85,7 +86,7 @@ Follow these steps to create a client.
 . On the *Add Client* screen:
 .. In the *Client ID* field, enter
 +
-[subs="attributes+"]
+[subs="attributes+", id="creating_a_client"]
 ----
 {client-name}
 ----
@@ -103,12 +104,13 @@ In the *Settings* tab on the *Client* page, make sure the *Enabled* toggle is se
 
 [time=7]
 == Creating a user
+:task-context: creating-a-user
 
 To secure your application with single sign-on and allow additional users to log in to your instance, you need to create users in a realm.
 
 Follow these steps to create a new user and set that user's password.
 
-. Go to the link:{sso-user-realm-url}[{realm-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
+. Go to the link:{sso-user-realm-url}[{realm-name}, window="_blank", id="{task-context}-1"] realm, which is running on your {customer-sso-name} service.
 .. If prompted, log in with your username and password.
 . You will see the *{realm-name}* realm if the login is successful.
 . Select *Users* from the vertical navigation menu on the left side of the screen.
@@ -138,6 +140,7 @@ Do you see the *customer* username listed in the table?
 
 [time=15]
 == Enabling SSO in the Order Entry System
+:task-context: enabling-sso
 
 === Obtaining the SSO configuration
 
@@ -158,7 +161,7 @@ The *{create-messages-app}* is run from a Node.js server, so the Node.js
 demonstrate how to include a configuration and enable the adapter.
 
 
-. Go to link:{sso-user-realm-url}[SSO Realm, window="_blank"].
+. Go to link:{sso-user-realm-url}[SSO Realm, window="_blank", id="{task-context}-1"].
 . If prompted, log in with your username and password.
 . Select *Clients* from the side menu.
 . Click the `{client-name}` client that was created earlier.
@@ -168,7 +171,7 @@ demonstrate how to include a configuration and enable the adapter.
 
 === Creating a SSO Config Map Entry
 
-. Login to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
+. Login to the link:{openshift-console-url}[OpenShift Console, window="_blank", id="{task-context}-2"].
 . Select the project that contains the pods from *{sp1-title}*.
 . Select *Workloads > Config Maps*.
 . Click the *Create Config Map*  button.
@@ -177,14 +180,14 @@ demonstrate how to include a configuration and enable the adapter.
 .. Remove all the lines below *data*.
 .. Add a line `KEYCLOAK_CONFIG: |` under *data*. Make sure it is indented with one tab.
 +
-NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.org/spec/1.2/spec.html#id2795688[the yaml spec] for more details.
+NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.org/spec/1.2/spec.html#id2795688[the yaml spec, id="{task-context}-3"] for more details.
 
 .. Paste the contents of the _keycloak.json_ file in the next line. Make sure all lines are indented with two tabs.
 . Click the *Create* button.
 
 === Applying the SSO Config Map
 
-. Log in to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
+. Log in to the link:{openshift-console-url}[OpenShift Console, window="_blank", id="{task-context}-4"].
 . Select the project that contains the pods from *{sp1-title}*.
 . Select *Workloads > Deployment Configs*.
 . Select the *rhmi-lab-nodejs-order-frontend* item from the *Deployment Configs* list.
