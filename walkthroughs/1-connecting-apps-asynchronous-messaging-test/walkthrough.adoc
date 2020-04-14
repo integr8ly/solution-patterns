@@ -174,7 +174,7 @@ To create a connector for the Fuse RESTful API, register the OpenAPI definition 
 
 Follow these steps to create an API Connector.
 
-. Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-1"] console.
+. Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="creating-connections-1"] console.
 +
 NOTE: You are not logging into the shared Fuse Online instance, available from the link:/[All services tab].
 Starting this Solution Pattern provisioned an instance of Fuse Online which is not shared with other cluster users.
@@ -206,7 +206,7 @@ Order System REST API Connector {user-sanitized-username}
 .. Click *Save*.
 
 [type=verification]
-Is the new connector *Order System REST API Connector {user-sanitized-username}* displayed on the *Customizations > API Client Connectors* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-2"] console?
+Is the new connector *Order System REST API Connector {user-sanitized-username}* displayed on the *Customizations > API Client Connectors* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="creating-connections-2"] console?
 
 [type=verificationFail]
 {standard-fail-text}
@@ -224,7 +224,7 @@ To enable Fuse Online to send messages from the queue to the {retrieve-messages-
 
 Follow these steps to create a connection to the CRUD App.
 
-. Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-3"] console.
+. Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="creating-connections-3"] console.
 . Select *Connections* from the left hand menu.
 . Select the *Create Connection* button to start the *Create Connection* wizard.
 . When prompted with *Select connector*, select *Order System REST API Connector {user-sanitized-username}*.
@@ -249,7 +249,7 @@ Order System REST API Connection {user-sanitized-username}
 
 
 [type=verification]
-Is the new connection displayed on the *Connections* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-4"] console?
+Is the new connection displayed on the *Connections* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="creating-connections-4"] console?
 
 [type=verificationFail]
 {standard-fail-text}
@@ -268,7 +268,7 @@ To allow Fuse Online to consume messages placed on the queue by the {create-mess
 
 Follow these steps to create an AMQP connection.
 
-. Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-5"] console.
+. Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="creating-connections-5"] console.
 . Select *Connections* from the left hand menu.
 . Select the *Create Connection* button to start the *Create Connection* wizard.
 . Select *AMQP Message Broker* to configure an *AMQP* connection.
@@ -303,7 +303,7 @@ Incoming Order Queue Connection {user-sanitized-username}
 . Click *Save*.
 
 [type=verification]
-Is the new connection displayed on the *Connections* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-6"] console?
+Is the new connection displayed on the *Connections* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="creating-connections-6"] console?
 
 
 [type=verificationFail]
@@ -332,7 +332,7 @@ Is the new connection displayed on the *Connections* screen of the link:{fuse-ur
 
 Follow these steps to create an integration.
 
-. Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="wt1a_2_3_1_fuse-url"] console.
+. Log in to the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-1"] console.
 . Select *Integrations* from the left hand menu.
 . Select the *Create Integration* button to start the *Create Integration* wizard.
 . Choose *Incoming Order Queue Connection {user-sanitized-username}* as the *Start Connection*.
@@ -391,7 +391,7 @@ Integration Solution 1 {user-sanitized-username}
 The integration may take some time to complete building.
 
 [type=verification]
-Is the integration displayed as *Running* on the *Integrations* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-1"] console?
+Is the integration displayed as *Running* on the *Integrations* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-2"] console?
 
 [type=verificationFail]
 
