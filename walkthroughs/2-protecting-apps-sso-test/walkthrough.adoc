@@ -161,7 +161,7 @@ The *{create-messages-app}* is run from a Node.js server, so the Node.js
 demonstrate how to include a configuration and enable the adapter.
 
 
-. Go to link:{sso-user-realm-url}[SSO Realm, window="_blank", id="{task-context}-1"].
+. Go to link:{sso-user-realm-url}[SSO Realm, window="_blank", id="enabling-sso-1"].
 . If prompted, log in with your username and password.
 . Select *Clients* from the side menu.
 . Click the `{client-name}` client that was created earlier.
@@ -171,7 +171,7 @@ demonstrate how to include a configuration and enable the adapter.
 
 === Creating a SSO Config Map Entry
 
-. Login to the link:{openshift-console-url}[OpenShift Console, window="_blank", id="{task-context}-2"].
+. Login to the link:{openshift-console-url}[OpenShift Console, window="_blank", id="enabling-sso-2"].
 . Select the project that contains the pods from *{sp1-title}*.
 . Select *Workloads > Config Maps*.
 . Click the *Create Config Map*  button.
@@ -187,7 +187,7 @@ NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.or
 
 === Applying the SSO Config Map
 
-. Log in to the link:{openshift-console-url}[OpenShift Console, window="_blank", id="{task-context}-4"].
+. Log in to the link:{openshift-console-url}[OpenShift Console, window="_blank", id="enabling-sso-3"].
 . Select the project that contains the pods from *{sp1-title}*.
 . Select *Workloads > Deployment Configs*.
 . Select the *rhmi-lab-nodejs-order-frontend* item from the *Deployment Configs* list.
