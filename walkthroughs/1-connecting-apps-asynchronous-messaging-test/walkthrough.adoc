@@ -390,8 +390,7 @@ Integration Solution 1 {user-sanitized-username}
 . Monitor the *Integration Summary* dashboard until a green check mark is displayed beside the new integration.
 The integration may take some time to complete building.
 
-[type=verification, id="verification1"]
-[subs="attributes+", id="verification1"]
+[type=verification]
 Is the integration displayed as *Running* on the *Integrations* screen of the link:{fuse-url}[Red Hat Fuse Online, window="_blank", id="{task-context}-2"] console?
 
 [type=verificationFail]
