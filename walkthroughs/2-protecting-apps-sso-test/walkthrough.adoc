@@ -77,7 +77,7 @@ Red Hat manages this instance, however there are some additional users with admi
 
 Follow these steps to create a client.
 
-. Go to the link:{sso-realm-url}[Master, window="_blank", id="{task-context}-1"] realm, which is running on your {customer-sso-name} service.
+. Go to the link:{sso-realm-url}[Master, window="_blank", id="creating-a-client-1"] realm, which is running on your {customer-sso-name} service.
 .. If prompted, log in with your username and password. You will see the *Master* realm if the login is successful.
 .. Hover the realms dropdown in the top left and click on *Add Realm*.
 .. Enter *realm-{user-username}* as the name and click *Create*. You will be redirected to your new realm.
