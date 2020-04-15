@@ -180,14 +180,14 @@ demonstrate how to include a configuration and enable the adapter.
 .. Remove all the lines below *data*.
 .. Add a line `KEYCLOAK_CONFIG: |` under *data*. Make sure it is indented with one tab.
 +
-NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.org/spec/1.2/spec.html#id2795688[the yaml spec, id="{task-context}-3"] for more details.
+NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.org/spec/1.2/spec.html#id2795688[the yaml spec, id="enabling-sso-3"] for more details.
 
 .. Paste the contents of the _keycloak.json_ file in the next line. Make sure all lines are indented with two tabs.
 . Click the *Create* button.
 
 === Applying the SSO Config Map
 
-. Log in to the link:{openshift-console-url}[OpenShift Console, window="_blank", id="enabling-sso-3"].
+. Log in to the link:{openshift-console-url}[OpenShift Console, window="_blank", id="enabling-sso-4"].
 . Select the project that contains the pods from *{sp1-title}*.
 . Select *Workloads > Deployment Configs*.
 . Select the *rhmi-lab-nodejs-order-frontend* item from the *Deployment Configs* list.
