@@ -355,7 +355,7 @@ To get the url of your app:
 . Go to link:{route-ionic-showcase-server-host}[Data Sync, window="_blank"]. A login screen is displayed.
 . Enter `customer` in the *Username or email* field.
 . Enter `customer-password` in the *Password* field.
-. Click the *Log In* button. You will now see the {:data-sync-showcase-app:}.
+. Click the *Log In* button. You will now see the {data-sync-showcase-app}.
 
 image::images/showcase.png[showcase, role="integr8ly-img-responsive"]
 
