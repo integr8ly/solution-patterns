@@ -9,7 +9,7 @@
 :openshift-config-maps-url: {openshift-host}/k8s/ns/{walkthrough-namespace}/configmaps
 
 //attributes
-:title: 5 - Adding Data Sync to your application with GraphQL - testing
+:title: 5 - Adding Data Sync to your application with GraphQL
 :integreatly-name: Managed Integration
 :data-sync-name: Data Sync
 :data-sync-showcase-app: AeroGear Showcase application

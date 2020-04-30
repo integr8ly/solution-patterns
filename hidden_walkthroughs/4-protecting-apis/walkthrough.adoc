@@ -7,7 +7,7 @@
 :route: https://wt4-{user-username}-3scale.{openshift-app-host}
 
 //attributes
-:title: 4 - Protecting APIs using 3scale API Management Platform - testing
+:title: 4 - Protecting APIs using 3scale API Management Platform
 :3scale-name: Red Hat 3scale API Management Platform
 :sample-api-key: testkey
 :standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.

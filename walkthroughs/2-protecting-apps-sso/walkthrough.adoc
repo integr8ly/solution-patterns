@@ -7,7 +7,7 @@
 :sso-realm-url: {user-sso-url}/auth/admin/master/console
 :sso-user-realm-url: {user-sso-url}/auth/admin/master/console/#/realms/realm-{user-username}
 //attributes
-:title: 2 - Protecting applications using single sign-on - testing
+:title: 2 - Protecting applications using single sign-on
 :sp1-title: Connecting applications using asynchronous messaging
 :namespace-name: sommevaluexxx
 :create-messages-app: Order Entry System

@@ -7,7 +7,7 @@
 :route: https://wt3-{user-username}-3scale.{openshift-app-host}
 
 //attributes
-:title: 3 - Low-code API development and SaaS integration - testing
+:title: 3 - Low-code API development and SaaS integration
 :standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.
 
 //id syntax is used here for the custom IDs because that is how the Solution Explorer sorts these within groups
