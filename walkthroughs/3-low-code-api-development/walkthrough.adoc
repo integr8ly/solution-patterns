@@ -172,9 +172,6 @@ Greeting response
 
 . On the top right of the screen, click the *angle down icon* next to the *Save As...*  button.
 . Select *Save as YAML*.
-. On the top right of the screen, click the *Close* button.
-. You will see a modal asking you to "Save changes before closing?", so click *Save*.
-
 +
 NOTE: Keep this file safe. It will be used to create the API implementation in Fuse Online shortly.
 
