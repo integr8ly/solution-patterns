@@ -243,10 +243,16 @@ You are redirected back to the *Incoming Webhooks* page.
 .. Copy the *Webhook URL* displayed at the bottom of the page using the *Copy* button.
 . Paste the copied *Webhook URL* value into the *Slack Webhook URL* field in Fuse Online.
 . Obtain a value for the *Token for Accessing Slack API* field:
-.. Go to the Slack API Token portal at link:https://api.slack.com/custom-integrations/legacy-tokens[api.slack.com/custom-integrations/legacy-tokens, window="_blank", id="{context}-6"].
-.. Scroll down to the *Legacy token generator* section.
-.. Click *Create token* button next to *low-code-workspace*.
-.. Copy the generated token.
+.. Go to *OAuth & Permissions* in the Slack API portal.
+.. Scroll down to the *Scopes* section.
+.. Under *Bot Token Scopes* click on the *Add an OAuth Scope* button, or if visible, inside the *Add permission by Scope or API method...* field.
+.. Add the *channels:read* permission.
+.. Click on the *Add an OAuth Scope* button again to add the *chat:write* permission.
++
+NOTE: a notification should appear instructing you to reinstall the app.
+.. Scroll up and click on the *Reinstall App* button.
+.. Next you need to confirm the new permissions. Select *low-code-workspace* from the dropdown and click on *Allow*.
+.. Now you can copy the generated token under *Bot User OAuth Access Token*.
 . Paste the generated token into the *Token for Accessing Slack API* field in Fuse Online.
 . Enter the following in the *Sending User Name for Messages* field:
 +
@@ -355,8 +361,8 @@ By default, Fuse Online does not expose an *Integration* to the public internet 
 === Find the Greeting Service Internal Hostname
 
 . Login to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
-. Select the project named with the following format: `redhat-rhmi-fuse`.
-. Choose *Network > Services* from the left menu.
+. Go to *Home > Projects* and select the project named with the following format: `redhat-rhmi-fuse`.
+. Choose *Networking > Services* from the left menu.
 . Make sure there is a *i-greeting-integration-{user-username}* item in the *Services* list.
 . Take a note of the hostname: `i-greeting-integration-{user-username}.redhat-rhmi-fuse.svc.cluster.local`.
 
