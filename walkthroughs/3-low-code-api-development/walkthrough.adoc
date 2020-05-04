@@ -249,8 +249,17 @@ You are redirected back to the *Incoming Webhooks* page.
 .. Add the *channels:read* permission.
 .. Click on the *Add an OAuth Scope* button again to add the *chat:write* permission.
 +
-NOTE: a notification should appear instructing you to reinstall the app.
-.. Scroll up and click on the *Reinstall App* button.
+NOTE: A notification should appear instructing you to reinstall the app.
+
+[type=verification]
+Look at the Bot Token Scopes. Do you see OAuth Scopes listed for *channels:read*, *chat:write* and *incoming-webhook*?
+
+[type=verificationFail]
+Go back to section *7* and add the missing scopes.
+
+=== Obtaining the OAuth access token for Slack
+
+. Scroll up and click on the *Reinstall App* button.
 .. Next you need to confirm the new permissions. Select *low-code-workspace* from the dropdown and click on *Allow*.
 .. Now you can copy the generated token under *Bot User OAuth Access Token*.
 . Paste the generated token into the *Token for Accessing Slack API* field in Fuse Online.
