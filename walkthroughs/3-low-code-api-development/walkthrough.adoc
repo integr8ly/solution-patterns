@@ -145,7 +145,15 @@ greetname
 
 . In the *REQUEST BODY* section, select the *Add a request body* link.
 
-. For the *Request Body Type*, select *Name*. This is the type you created earlier.
+. In the dropdown select the *Required* option.
+
+. Select the *Add a media type* link.
+
+. Make sure *application/json* is selected and click *Add*.
+
+. Select a type for your request by clicking on the *> No Type* column under *Media Types*
+
+. Select *Name* from the dropdown.
 +
 NOTE: The drop-down may look inactive. Just click it and you should have the option to select "Name".
 
