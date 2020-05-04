@@ -145,7 +145,15 @@ greetname
 
 . In the *REQUEST BODY* section, select the *Add a request body* link.
 
-. For the *Request Body Type*, select *Name*. This is the type you created earlier.
+. In the dropdown, select the *Required* option.
+
+. Select the *Add a media type* link.
+
+. Make sure *application/json* is selected and click *Add*.
+
+. Select a type for your request by clicking on the *> No Type* column under *Media Types*
+
+. Select *Name* from the dropdown.
 +
 NOTE: The drop-down may look inactive. Just click it and you should have the option to select "Name".
 
@@ -156,15 +164,14 @@ NOTE: The drop-down may look inactive. Just click it and you should have the opt
 ----
 Greeting response
 ----
-.. For the *Response Type*, click *Choose Type* and then select *String*. You will then see an additional drop-down displayed, with the *Type* now showing "*String* as *String*".
+.. Select the *Add a media type* link.
+.. In the dropdown, select the *text/html* option and click on *Add*.
+.. Click on the *> No type* column and select *String* from the dropdown. You will then see an additional drop-down displayed, with the Type now showing "String as String".
 
 === Export the OpenAPI Spec as JSON/YAML
 
 . On the top right of the screen, click the *angle down icon* next to the *Save As...*  button.
 . Select *Save as YAML*.
-. On the top right of the screen, click the *Close* button.
-. You will see a modal asking you to "Save changes before closing?", so click *Save*.
-
 +
 NOTE: Keep this file safe. It will be used to create the API implementation in Fuse Online shortly.
 
@@ -236,10 +243,25 @@ You are redirected back to the *Incoming Webhooks* page.
 .. Copy the *Webhook URL* displayed at the bottom of the page using the *Copy* button.
 . Paste the copied *Webhook URL* value into the *Slack Webhook URL* field in Fuse Online.
 . Obtain a value for the *Token for Accessing Slack API* field:
-.. Go to the Slack API Token portal at link:https://api.slack.com/custom-integrations/legacy-tokens[api.slack.com/custom-integrations/legacy-tokens, window="_blank", id="{context}-6"].
-.. Scroll down to the *Legacy token generator* section.
-.. Click *Create token* button next to *low-code-workspace*.
-.. Copy the generated token.
+.. Go to *OAuth & Permissions* in the Slack API portal.
+.. Scroll down to the *Scopes* section.
+.. Under *Bot Token Scopes* click on the *Add an OAuth Scope* button, or if visible, inside the *Add permission by Scope or API method...* field.
+.. Add the *channels:read* permission.
+.. Click on the *Add an OAuth Scope* button again to add the *chat:write* permission.
++
+NOTE: A notification should appear instructing you to reinstall the app.
+
+[type=verification]
+Look at the Bot Token Scopes. Do you see OAuth Scopes listed for *channels:read*, *chat:write* and *incoming-webhook*?
+
+[type=verificationFail]
+Go back to section *7* and add the missing scopes.
+
+=== Obtaining the OAuth access token for Slack
+
+. Scroll up and click on the *Reinstall App* button.
+.. Next you need to confirm the new permissions. Select *low-code-workspace* from the dropdown and click on *Allow*.
+.. Now you can copy the generated token under *Bot User OAuth Access Token*.
 . Paste the generated token into the *Token for Accessing Slack API* field in Fuse Online.
 . Enter the following in the *Sending User Name for Messages* field:
 +
@@ -348,8 +370,8 @@ By default, Fuse Online does not expose an *Integration* to the public internet 
 === Find the Greeting Service Internal Hostname
 
 . Login to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
-. Select the project named with the following format: `redhat-rhmi-fuse`.
-. Choose *Network > Services* from the left menu.
+. Go to *Home > Projects* and select the project named with the following format: `redhat-rhmi-fuse`.
+. Choose *Networking > Services* from the left menu.
 . Make sure there is a *i-greeting-integration-{user-username}* item in the *Services* list.
 . Take a note of the hostname: `i-greeting-integration-{user-username}.redhat-rhmi-fuse.svc.cluster.local`.
 
