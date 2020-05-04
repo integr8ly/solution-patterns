@@ -145,7 +145,7 @@ greetname
 
 . In the *REQUEST BODY* section, select the *Add a request body* link.
 
-. In the dropdown select the *Required* option.
+. In the dropdown, select the *Required* option.
 
 . Select the *Add a media type* link.
 
@@ -164,7 +164,9 @@ NOTE: The drop-down may look inactive. Just click it and you should have the opt
 ----
 Greeting response
 ----
-.. For the *Response Type*, click *Choose Type* and then select *String*. You will then see an additional drop-down displayed, with the *Type* now showing "*String* as *String*".
+.. Select the *Add a media type* link.
+.. In the dropdown, select the *text/html* option and click on *Add*.
+.. Click on the *> No type* column and select *String* from the dropdown. You will then see an additional drop-down displayed, with the Type now showing "String as String".
 
 === Export the OpenAPI Spec as JSON/YAML
 
