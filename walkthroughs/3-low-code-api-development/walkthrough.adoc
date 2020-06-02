@@ -165,7 +165,7 @@ NOTE: The drop-down may look inactive. Just click it and you should have the opt
 Greeting response
 ----
 .. Select the *Add a media type* link.
-.. In the dropdown, select the *text/html* option and click on *Add*.
+.. In the dropdown, select the *text/xml* option and click on *Add*.
 .. Click on the *> No type* column and select *String* from the dropdown. You will then see an additional drop-down displayed, with the Type now showing "String as String".
 
 === Export the OpenAPI Spec as JSON/YAML
