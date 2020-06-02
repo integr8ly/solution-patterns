@@ -59,6 +59,7 @@ image::images/arch.png[integration, role="integr8ly-img-responsive"]
 
 [time=7]
 == Creating a client
+:task-context: creating-a-client
 
 To secure your application with single sign-on, you must create a _client_ in a _realm_.
 
@@ -69,7 +70,6 @@ Realms are isolated from one another and can only manage and authenticate the us
 
 ****
 *What is Customer Application SSO?*
-:task-context: creating-a-client
 
 Customer Application SSO, included with Red Hat Managed Integration, enables you to define the identities of your end users.
 Red Hat manages this instance, however there are some additional users with admin level privileges who can configure this instance.
