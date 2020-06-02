@@ -73,7 +73,7 @@ NOTE: Ask an administrator to grant you the necessary 3scale permission if *New 
 . Select the *Import from OpenShift* option. If this option is not enabled, click the *Authenticate to enable this option* link and choose *Allow selected permissions*.
 . If you used the *Authenticate to enable this option* link, verify that you have reselected *Import from OpenShift* after being redirected.
 . In the SERVICE section:
-.. Verify the *Namespace* field has *redhat-rhmi-fuse* selected.
+.. Verify the *Namespace* field has *{fuse-namespace}* selected.
 .. Verify the *Name* field has *i-greeting-integration-{user-username}* selected.
 . Click *Create Product*.
 +

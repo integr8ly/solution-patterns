@@ -370,10 +370,10 @@ By default, Fuse Online does not expose an *Integration* to the public internet 
 === Find the Greeting Service Internal Hostname
 
 . Login to the link:{openshift-console-url}[OpenShift Console, window="_blank"].
-. Go to *Home > Projects* and select the project named with the following format: `redhat-rhmi-fuse`.
+. Go to *Home > Projects* and select the project named with the following format: `{fuse-namespace}`.
 . Choose *Networking > Services* from the left menu.
 . Make sure there is a *i-greeting-integration-{user-username}* item in the *Services* list.
-. Take a note of the hostname: `i-greeting-integration-{user-username}.redhat-rhmi-fuse.svc.cluster.local`.
+. Take a note of the hostname: `i-greeting-integration-{user-username}.{fuse-namespace}.svc.cluster.local`.
 
 === Creating a cURL Deployment
 
@@ -398,7 +398,7 @@ oc run curl --image=curlimages/curl --restart=Never \
 --command -- curl -X POST \
 --data '{"name":"OpenShift"}' \
 -H 'content-type: application/json' \
-http://i-greeting-integration-{user-username}.redhat-rhmi-fuse.svc.cluster.local:8080/greeting -vvv
+http://i-greeting-integration-{user-username}.{fuse-namespace}.svc.cluster.local:8080/greeting -vvv
 ----
 
 . Verify the cURL container ran successfully by checking the logs for a *200 OK* response with this command:
