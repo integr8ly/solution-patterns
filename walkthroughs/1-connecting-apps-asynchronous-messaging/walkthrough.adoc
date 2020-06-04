@@ -83,7 +83,7 @@ NOTE: If this is your first time opening the AMQ console, you will need to authe
 ----
 work-queue-requests
 ----
-.. For the *Type*, select *queue* and then click *Next*.
+.. For the *Type*, select *queue*.
 .. For the *Plan*, select *Small Queue* and then click *Next*.
 .. On the *Review* page, select *Finish* to complete the wizard.
 
