@@ -10,7 +10,6 @@
 :integreatly-name: Managed Integration
 :data-sync-name: Data Sync
 :data-sync-starter: Data Sync Starter
-:customer-sso-name: SSO
 :standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.
 
 //id syntax is used here for the custom IDs because that is how the Solution Explorer sorts these within groups
@@ -23,7 +22,7 @@ Learn how to build applications that can perform realtime data synchronization w
 This solution pattern will show you how to:
 
 * Build a DataSync server based on your business model
-* Protect the application's frontend and backend using {customer-sso-name}.
+* Protect the application's frontend and backend using Red Hat SSO.
 * Explore all the capabilities provided by {data-sync-name}.
 
 The following diagram shows the architecture of the {data-sync-starter}:
@@ -373,7 +372,7 @@ Verify that you followed each step in the procedure above.  If you are still hav
 == Add authentication and authorization to the Data Sync application using Red Hat SSO
 
 In this section, we will configure both the frontend and the backend of the 
-{data-sync-starter} with the {customer-sso-name}.
+{data-sync-starter} with the Red Hat SSO.
 
 DataSync starter has authentication and autorization enabled out of the box.
 Developers need to configure server and client application to use their keycloak instance
