@@ -67,7 +67,7 @@ DataSync Framework consist of the two major components:
 Can be added to any web or mobile application
 to provide Data synchronization capabilities
 
-* Node.js Server with code generation capabilties (upstream https://graphback.dev) 
+* Node.js Server with out of the box GraphQL API that is backed by MongoDB (upstream https://graphback.dev) 
 +
 Server is providing ability to dynamically generate Node.js GraphQL server with DataSynchronization and Conflict resolution capabilties 
 
