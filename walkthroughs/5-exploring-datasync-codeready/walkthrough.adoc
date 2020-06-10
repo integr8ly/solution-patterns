@@ -57,7 +57,7 @@ and generate the underlying backend that works out of the box with the RHMI serv
 
 Using GraphQL subscriptions, your application can receive live updates thanks to GraphQL and the DataSync client allows your application to operate independently of the network connection. 
 
-DataSync-Starter is an application template that gives developers 
+DataSync-Starter is an application template that gives developers an
 opiniated implementation for React Ionic PWA and Mobile application backend by Node.js Server.
 
 DataSync as framework consist of the two major components:
