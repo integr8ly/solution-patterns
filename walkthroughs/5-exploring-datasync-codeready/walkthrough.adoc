@@ -69,7 +69,7 @@ to provide Data synchronization capabilities
 
 * Node.js Server with out of the box GraphQL API that is backed by MongoDB (upstream https://graphback.dev) 
 +
-Server is providing ability to dynamically generate Node.js GraphQL server with DataSynchronization and Conflict resolution capabilties 
+Server is providing ability to dynamically generate Node.js GraphQL server with Data synchronization and Conflict resolution capabilities 
 
 [time=30]
 === Setting your DataSync project using in CodeReady
