@@ -53,7 +53,7 @@ image::images/arch.png[architecture, role="integr8ly-img-responsive"]
 to generate a fully functional GraphQL based API and Node.js Server and Client Side components.
 
 Developers can use GraphQL types to define the models their application deals with
-and generate the underlying backend that works out of the box with the RHMI services like SSO or AMQ Online.
+and generate the underlying backend that works out of the box with the RHMI services like Red Hat-SSO or AMQ Online.
 
 Using GraphQL subscriptions, your application can receive live updates thanks to GraphQL and the DataSync client allows your application to operate independently of the network connection. 
 
