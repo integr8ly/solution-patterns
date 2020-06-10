@@ -65,7 +65,7 @@ DataSync Framework consist of the two major components:
 * DataSync client (upstream https://offix.dev) 
 +
 Can be added to any web or mobile application
-to provide DataSynchronization capabilities
+to provide Data synchronization capabilities
 
 * Node.js Server with code generation capabilties (upstream https://graphback.dev) 
 +
