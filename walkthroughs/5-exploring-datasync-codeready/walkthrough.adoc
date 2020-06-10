@@ -137,7 +137,7 @@ The datasync-starter template contains the following folders:
 This file has the original model and it also contains generated Queries and Mutations. The types of queries and mutations included are based on the `crud` fields in `.graphqlrc.yml`.
 . Review the generated resolver files in `./server/src/resolvers/resolvers.ts`
 This file contains methods used to fetch and modify data. Each individual method uses a 
-preconfigured `MongoDataProvider` which is an abstraction over a MongoDB client. Developers can point resolvers to any datasource.
+preconfigured `MongoDBDataProvider` which is an abstraction over a MongoDB client. Developers can point resolvers to any datasource.
 Currently Postgres and MongoDB are supported.
 . Review your `./client/src/graphql/` folder containing client side queries for your data. These queries are automatically generated based on the server schema, and are used within the client application. Generating the client side queries helps developers get their client apps up and running quicker and helps them stay up to date as the server schema evolves.
 
