@@ -153,7 +153,6 @@ Currently Postgres and MongoDB are supported.
 . Select the + icon to create a new item
 . On the new screen enter a `name` and `description` and create the task.
 . New task should appear in the task list.
-----
 ****
 
 [type=verificationFail]
