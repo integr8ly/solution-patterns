@@ -381,7 +381,7 @@ and add required authorization rules to their model.
 
 . Go to your GraphQL Schema `./server/src/config/auth.ts`. 
 This file contains auth rules for all the operations we support.
-. Change role from `delete: { roles: ['admin'] }` to delete: { roles: ['test'] },
+. Change role from `delete: { roles: ['admin'] }` to delete: `{ roles: ['test'] }`,
 This will only allow deletion for test role that we haven't created.
 This operation will prevent us from deleting items from the list.
 
