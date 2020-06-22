@@ -373,7 +373,6 @@ By default, Fuse Online does not expose an *Integration* to the public internet 
 . Go to *Home > Projects* and select the project named with the following format: `{fuse-namespace}`.
 . Choose *Networking > Services* from the left menu.
 . Make sure there is a *i-greeting-integration-{user-username}* item in the *Services* list.
-. Take a note of the hostname: `i-greeting-integration-{user-username}.{fuse-namespace}.svc.cluster.local`.
 
 === Creating a cURL Deployment
 
@@ -409,4 +408,9 @@ oc logs curl
 {blank}
 +
 NOTE: To rerun the cURL command you first need to delete Pod from previous runs This can be achieved by running the `oc delete pod curl` command.
-. Verify that the message `Hello from, OpenShift` appeared in your `low-code-demo` Slack channel.
+
+[type=verification]
+Can you see the message `Hello from, OpenShift` in your `low-code-demo` Slack channel?
+
+[type=verificationFail]
+Verify that your Fuse Online integration successfully processed the message and check the settings in the Slack Apps portal at link:https://api.slack.com/apps[api.slack.com/apps, window="_blank", id="{context}-5"]. If you are still having issues, contact your administrator.

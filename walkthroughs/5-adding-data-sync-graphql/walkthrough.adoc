@@ -173,7 +173,7 @@ Follow these steps to create a client for the front-end app.
 
 . Go to the link:{sso-realm-url}[Master, window="_blank"] realm, which is running on your {customer-sso-name} service.
 .. If prompted, log in with your username and password. You will see the *Master* realm if the login is successful.
-. Hover the realm dropdown in the top right and click on *Add Realm*.
+. Hover the realm dropdown in the top left and click on *Add Realm*.
 . In the name field, enter *{realm-name}*.
 . Click *Create*. You will be redirected to your new realm.
 . Select *Clients* from the vertical navigation menu on the left side of the screen.
@@ -221,16 +221,16 @@ Does the content of the config map look as follows:
 ----
    window.showcaseConfig = {
      "backend": {
-       "serverUrl": "/graphql",
-       "wsServerUrl": ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.hostname + "/graphql"
+        "serverUrl": "/graphql",
+        "wsServerUrl": ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.hostname + "/graphql"
      },
-     "auth": {
-       "realm": "{realm-name}",
-       "url": "{user-sso-url}/auth",
-   	   "ssl-required": "external",
-   	   "clientId": "{user-username}-frontend",
-   	   "public-client": true,
-   	   "confidential-port": 0
+        "auth": {
+        "realm": "{realm-name}",
+        "url": "{user-sso-url}/auth",
+        "ssl-required": "external",
+        "clientId": "{user-username}-frontend",
+        "public-client": true,
+        "confidential-port": 0
      }
    };
 ----
