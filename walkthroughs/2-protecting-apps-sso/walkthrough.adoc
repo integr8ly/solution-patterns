@@ -77,9 +77,11 @@ Red Hat manages this instance, however there are some additional users with admi
 
 Follow these steps to create a client.
 
-. Go to the link:{sso-realm-url}[Master, window="_blank", id="creating-a-client-1"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, log in with your username and password. You will see the *Master* realm if the login is successful.
-.. Hover the realms dropdown in the top left and click on *Add Realm*.
+. Open the link:{sso-realm-url}[{customer-sso-name}, window="_blank", id="creating-a-client-1"] and select the *Master* realm.
+.. If prompted, log in with your username and password and select the *Master* realm if the login is successful.
++
+NOTE: Make sure to select the correct login IDP that contains your RHMI developer user.
+.. Hover over the realms dropdown in the top left and click on *Add Realm*.
 .. Enter *realm-{user-username}* as the name and click *Create*. You will be redirected to your new realm.
 . Select *Clients* from the vertical navigation menu on the left side of the screen.
 . Click the *Create* button on the top right of the Clients screen.
@@ -91,7 +93,9 @@ Follow these steps to create a client.
 {client-name}
 ----
 .. Verify the *Client Protocol* is set to *openid-connect*.
-.. In the *Root URL* field, paste the URL of the *{create-messages-app} UI* from the *{sp1-title}* Solution Pattern. This should look similar to `https://order-entry-ui-{user-username}-<NAMESPACE>.{openshift-app-host}`
+.. In the *Root URL* field, paste the URL of the *{create-messages-app} UI* from the *{sp1-title}* Solution Pattern.
++
+NOTE: You can get the URL from the *{create-messages-app} UI* route inside the *{sp1-title}* Solution Pattern namespace.
 .. Click *Save*. You will see the *Settings* screen for the *{client-name}* client if the save is successful.
 . Verify that the *Access Type* field is set to *public*. This means the client is a front-end application that needs to log in using a web browser.
 
