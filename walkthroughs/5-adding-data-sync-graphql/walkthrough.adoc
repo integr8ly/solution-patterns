@@ -1,23 +1,21 @@
 // update the component versions for each release
-:rhmi-version: 1
+:rhmi-version: 2
 
 // URLs
 :openshift-console-url: {openshift-host}/dashboards
-:sso-realm-url: {user-sso-url}/auth/admin/master/console
-:sso-user-realm-url: {user-sso-url}/auth/admin/master/console/#/realms/sync-realm-{user-username}
-:data-sync-documentation-url: https://access.redhat.com/documentation/en-us/red_hat_managed_integration/{rhmi-version}/html-single/developing_a_data_sync_app/index
-:openshift-config-maps-url: {openshift-host}/k8s/ns/{walkthrough-namespace}/configmaps
+:sso-realm-url: {user-sso-url}/auth/admin/solution-patterns/console/index.html
+:data-sync-documentation-url: https://access.redhat.com/documentation/en-us/red_hat_managed_integration/{rhmi-version}/html/developing_a_data_sync_application/index
 
 //attributes
-:title: 5 - Adding Data Sync to your application with GraphQL
+:title: Creating your Data Sync Application
 :integreatly-name: Managed Integration
 :data-sync-name: Data Sync
-:data-sync-showcase-app: AeroGear Showcase application
+:data-sync-starter: Data Sync Starter
 :customer-sso-name: Customer Application SSO
-:realm-name: sync-realm-{user-username}
-:realm-display-name: sync-realm-{user-username}
-:shared-realm-username: developer
-:realm-password: password
+:realm-name: solution-patterns
+:realm-display-name: Solution Patterns
+:shared-realm-username: admin
+:realm-password: admin
 :standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.
 
 //id syntax is used here for the custom IDs because that is how the Solution Explorer sorts these within groups
@@ -25,24 +23,23 @@
 = {title}
 
 // word count that fits best is 15-22, with 20 really being the sweet spot. Character count for that space would be 100-125
-Learn how to build applications that can perform realtime data synchronization with GraphQL.
+Learn how to build applications that can perform realtime data synchronization with DataSync and GraphQL.
 
 This solution pattern will show you how to:
 
-* Configure and run the {data-sync-showcase-app} on OpenShift.
+* Build DataSync server based on your business model
 * Protect the application's frontend and backend using {customer-sso-name}.
 * Explore all the capabilities provided by {data-sync-name}.
 
-The following diagram shows the architecture of the {data-sync-showcase-app}:
+The following diagram shows the architecture of the {data-sync-starter}:
 
 image::images/arch.png[architecture, role="integr8ly-img-responsive"]
-
 
 [type=walkthroughResource, serviceName=openshift]
 .Red Hat OpenShift
 ****
 * link:{openshift-console-url}[Console, window="_blank"]
-* link:https://docs.openshift.com/dedicated/4/welcome/index.html/[OpenShift Documentation, window="_blank"]
+* link:https://docs.openshift.com/dedicated/4/welcome/index.html[OpenShift Documentation, window="_blank"]
 * link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
 
@@ -54,53 +51,148 @@ image::images/arch.png[architecture, role="integr8ly-img-responsive"]
 
 :sectnums:
 
-[time=10]
-== Deploying the Data Sync showcase application
+[time=15]
+== Creating your DataSync project from DataSync Starter template
 
-//Home > Search > Select Templates from the drop down > Search for datasync and they should show up. Just make sure you're on the openshift namespace
+{data-sync-name} allows you to focus on your business model by giving you ability
+to generate fully functional GraphQL based API and Node.js Server and Client Side components.
 
-. Go to the link:{openshift-host}/topology/ns/{walkthrough-namespace}[project console, window="_blank"] in OpenShift.
-. Select the *From Catalog* option.
-. Use the *Filter by keyword...* field to search the catalog for `Data Sync Showcase`.
-. Select the *Data Sync Showcase* option to add it to your project.
-. Click the *Instantiate Template* button.
-. Accept all the default values on the provisioning form, scroll down to the bottom of the screen, and click *Create*.
-. Go to link:{openshift-host}/k8s/ns/{walkthrough-namespace}/pods[Workloads > Pods, window="_blank"] page for your project. You should see the following three pods:
-+
-* *ionic-showcase-server* - a Node.js server and client application
-* *mosquitto-mqtt-broker* - a message broker
-* *postgresql* - a database
-+
-Wait until you see that all three pods have the *Running* status. Once the pods are running, you can use the GraphQL playground to interact with the server API as described in the next step.
+DataSync will allow your application to recieve live updates thanks to GraphQL subscriptions and
+operate independently of network connection. Developers can create GrapQL types as model
+and generate underlying backend that will work out of the box with the RHMI services like SSO or AMQ Online
 
-. Go to the link:{route-ionic-showcase-server-host}/graphql[GraphQL playground, window="_blank"].
-. Replace the text in the left pane of the screen with the following query and mutation:
+[time=30]
+=== Setting your DataSync project using DataSync Starter
+
+. Install yarn `npm install -g yarn`
+. Clone git repository: `git clone https://github.com/aerogear/datasync-starter#walkthrough`
+. Go to cloned repository: `cd datasync-starter`
+. Install dependencies `yarn install`
+
+=== Creating your DataSync model
+
+DataSync model offers capability to generate underlying GraphQL API and database infrastructure.
+Starter template by default will use MongoDB database as datasource for storing all your data.
+
+. In your project go to `./model/task.graphql` file.
+This file contains GraphQL compatible schema
+. Please add `@datasync` annotation to the model right bellow `@model` annotation
+Those annotations can be used to control various behaviour of datasync.
+`@model` will create standard data access methods, while `@datasync` is going to provide data synchronization capabilities.
+. Models can be changed by adding new types or fields. Please add new field by creating new line inside `Task` type
+and `address: String`
+. Your task model should look as follows
+----
+"""
+@model
+@datasync
+"""
+type Task {
+  id: ID!
+  title: String!
+  description: String!
+  status: TaskStatus
+  address: String
+}
+----
+
+=== Generating your DataSync Node.JS server and React Client
+
+DataSync provides code generation capabilities that will transform your model to the fully
+functional client and server application.
+DataSync-starter template contains folowing folders:
+
+- `./server` folder that contains Node.js server implementation
+- `./client` folder that contains React based application
+- `.graphqlrc.yml`
+
+. Review `.graphqlrc.yml` file. This file contains configuration for your data access methods
+and available plugins that will be used for source code generation
+. Please make sure that all fields in `crud` section are enabled
+. Execute graphback cli command to generate source code:
+`yarn graphback generate`
+. Review `./server/src/schema/schema.qraphql`.
+This file contains your model along with access methods that were enabled in configuration.
+. Review generated resolver files in `./server/src/resolvers/resolvers.ts`
+This file contains methods used to fetch data. Each individual method will use
+preconfigured MongoDataProvider. Developers can point resolvers to any datasource.
+Currently Postres and MongoDB are supported.
+. Review your `./client/src/graphql/` folder containing client side queries for your data.
+
+=== Running DataSync client and server applications
+
+. Open new terminal window
+. Execute `docker-compose up -d` to start MongoDB container
+. Execute `yarn prepare:client` to build client side React application and include it in server runtime
+. Execute `yarn start:server`. Terminal should print similar output:
+
+----
+    ***********************************************************
+    🎮 Ionic PWA application available at http://localhost:4000/
+    🚀 GraphQL Playground is available at http://localhost:4000/graphql
+    ***********************************************************
+----
+
+. Open `PWA application URL` printed in terminal
+
+[type=verification]
+****
+. Check if website was loaded properly
+. Select + icon to create new item
+. On new screen put `name` and `description`
+The client should create a task and it should be
+. New task should appear on the list
+****
+
+[type=verificationFail]
+****
+Check the logs of the console
+Verify that you followed each step in the procedure above.
+If you are still having issues, contact your administrator.
+****
+
+=== Interacting with embeeded GraphQL Playground
+
+GraphQL Playground acts as GraphQL API client that allows
+you to interact with your types without implementing new views in your application.
+In this section we are going to focus on learning who to use playground.
+
+. Open new terminal window
+. Execute `yarn start:server`
+. Open GraphQL Playground URL printed in console.
+You can use the GraphQL playground to interact with the server API as described in the next step.
+. Go to the Playground interface and replace the text in the left pane of the screen with the following query and mutation:
+
 ----
 query listTasks {
   allTasks {
     title,
     description,
+    address,
     id
   }
 }
 
 mutation createTask {
-  createTask(title: "complete the walkthrough", description: "complete the GraphQL walkthrough") {
+  createTask(title: "complete the walkthrough", description: "complete the GraphQL walkthrough", address: "NA") {
     title,
     description,
     version,
+    address,
     id
   }
 }
 ----
-. Click the execute query/play button in the middle of the playground screen and then select *createTask* from the menu. The system should create a task.
-. Click the execute query/play button again and then then select *listTasks* from the menu.
 
 [type=verification]
 ****
-
-Look at the right side of your playground screen. Do you see the following code displayed?
-
+. Click the Run icon in the middle of the playground screen.
+. Choose createTask from the menu.
+The system should create a task.
+. Choose listTasks from the Run menu.
+. Check that the following is displayed in the right hand panel:
+. You should also see field that we have added in previous steps
++
 ----
 {
     "data": {
@@ -108,7 +200,8 @@ Look at the right side of your playground screen. Do you see the following code 
             {
                 "title": "complete the walkthrough",
                 "description": "complete the GraphQL walkthrough",
-                "id": "1"
+                "id": "1",
+                "address": "NA"
             }
         ]
     }
@@ -118,23 +211,30 @@ Look at the right side of your playground screen. Do you see the following code 
 
 [type=verificationFail]
 ****
-Check the logs of the *ionic-showcase-server* pod.
+Check the logs of the `ionic-showcase-server` pod.
 
 It should include the string `+connected to messaging service+`.
-{standard-fail-text}
+Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
 ****
 
 [time=5]
-== Accessing the client app in a browser
+== Running and verifying your DataSync server
 
-The {data-sync-showcase-app} demonstrates the key capabilities provided by the {data-sync-name} framework.
-It can be run either as a hybrid mobile application, or a Progressive Web App (PWA).
+The {data-sync-starter} provides:
 
-. Go to the link:{route-ionic-showcase-server-host}[AeroGear Showcase, window="_blank"] application.
-. Select *Manage Tasks* from the left hand menu.
-. Create a task by clicking on the plus icon in the top right-hand side of the screen.
+  - offline operation support
+  - out of the box live updates
+  - conflict resolution
+
+In this guide we are going to explore capabilities of the datasync by using
+sample application available as part of {data-sync-starter}.
+Application by default is designed to work with `Task` model but it can be extended
+to use very Type automatically exposed by underlying server GraphQL API.
+
+. Go back to application opened in previous step.
+. Create a task by clicking on the plus icon in the bottom right-hand side of the screen.
 . Add a title and description, of your choosing, to the task and click *Create*.
-. Copy the current url without the '/tasks' endpoint and paste in a different desktop or mobile browser window.
+. Copy the current url without the '/tasks' endpoint and paste in a different tab, browser or mobile browser.
 . Change the status of the task by clicking/unclicking the text box beside the task.
 
 
@@ -145,233 +245,29 @@ Verify that the status of the task is synced across all tabs in real-time.
 
 [type=verificationFail]
 ****
-{standard-fail-text}
-****
-
-[time=15]
-== Protecting the Data Sync showcase application using Customer Application SSO
-Now that your tasks are created in the {data-sync-showcase-app}, you will need to secure both the *front-end* and the *back-end* of the {data-sync-showcase-app} with single sign-on.
-To do this, you must first create a _client_ in a _realm_.
-
-Client - The client represents the application being secured. Often, clients are web services that want to use Red Hat Single Sign-On (RHSSO) to secure themselves and provide a single sign-on solution.
-
-Realm - A realm is used to manage a set of users, credentials, roles, and groups. A user belongs to and logs into a realm.
-Realms are isolated from one another and can only manage and authenticate the users that they control.
-
-****
-*What is Customer Application SSO?*
-
-Customer Application SSO, included with Red Hat Managed Integration, enables you to define the identities of your end users.
-Red Hat manages this instance, however there are some additional users with admin level privileges who can configure this instance.
-****
-
-IMPORTANT: The realm used in this Solution Pattern is shared with *all* users on the cluster. *Do not use this realm for production applications*.
-
-=== Configuring and protecting the front-end app
-
-Follow these steps to create a client for the front-end app.
-
-. Go to the link:{sso-realm-url}[Master, window="_blank"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, log in with your username and password. You will see the *Master* realm if the login is successful.
-. Hover the realm dropdown in the top left and click on *Add Realm*.
-. In the name field, enter *{realm-name}*.
-. Click *Create*. You will be redirected to your new realm.
-. Select *Clients* from the vertical navigation menu on the left side of the screen.
-. Click the *Create* button on the top right of the Clients screen.
-. On the *Add Client* screen:
-.. In the *Client ID* field, enter
-+
-[subs="attributes+"]
-----
-{user-username}-frontend
-----
-.. Verify the *Client Protocol* is set to *openid-connect*.
-.. Click *Save*. You will see the *Settings* screen for the *{user-username}-frontend* client if the save is successful.
-. On the *Settings* screen:
-.. Change *Valid Redirect URIs* to:
-+
-[subs="attributes+"]
-----
-{route-ionic-showcase-server-host}*
-----
-.. In the *Web Origins* field, enter `*`.
-.. Click the *Save* button.
-. Select the *Installation* tab.
-. On the *Installation* screen:
-.. For the *Format Option*, select *Keycloak OIDC JSON*. You will now see some additional code on the screen.
-.. Copy the content displayed or use the *Download* button to save the configuration file.
-
-. Update the configuration of the frontend app to secure it. To do this:
-.. Go to the link:{openshift-config-maps-url}[OpenShift Config Maps, window="_blank"] page.
-.. Select the item named *webapp-config*.
-.. Select the *YAML* tab.
-.. Add a new auth section to the showcaseConfig. You can do this by adding `"auth":` and then pasting the content that was copied in the previous step.
-+
-IMPORTANT: *On the line above where you add the new `"auth":` section, make sure you add a comma (`,`) after that section's closing `}`.*
-+
-NOTE: The auth section should be at the same level as the existing backend section and indented to match.
-
-.. Rename the `auth-server-url` attribute to `url` and the `resource` attribute to `clientId`.
-.. Click *Save*.
-
-[type=verification]
-****
-Does the content of the config map look as follows:
-[subs="attributes"]
-----
-   window.showcaseConfig = {
-     "backend": {
-        "serverUrl": "/graphql",
-        "wsServerUrl": ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.hostname + "/graphql"
-     },
-        "auth": {
-        "realm": "{realm-name}",
-        "url": "{user-sso-url}/auth",
-        "ssl-required": "external",
-        "clientId": "{user-username}-frontend",
-        "public-client": true,
-        "confidential-port": 0
-     }
-   };
-----
-****
-
-[type=verificationFail]
-****
-Make sure you added the comma in the correct location as explained above. {standard-fail-text}
-****
-[time=10]
-
-=== Configuring and protecting the Back-end App
-
-Follow these steps to create a client.
-
-. Go to the link:{sso-user-realm-url}[{realm-display-name}, window="_blank"] realm, which is running on your {customer-sso-name} service.
-.. If prompted, log in with your username and password. You will see the *{realm-name}* realm if the login is successful.
-. Select *Clients* from the vertical navigation menu on the left side of the screen.
-. Click the *Create* button on the top right of the Clients screen.
-. On the *Add Client* screen:
-.. In the *Client ID* field, enter
-+
-[subs="attributes+"]
-----
-{user-username}-server
-----
-.. Verify the *Client Protocol* is set to *openid-connect*.
-.. Click *Save*. You will see the *Settings* screen for the *{user-username}-server* client if the save is successful.
-. On the *Settings* screen:
-.. Change the *Access Type* to *bearer-only*.
-.. Click *Save*.
-
-. Select the *Installation* tab.
-. On the *Installation* screen:
-.. For the *Format Option*, select *Keycloak OIDC JSON*. You will now see some additional code on the screen.
-.. Copy the content displayed or use the *Download* button to save the configuration file.
-
-. Create a user for testing. To do this:
-.. Select *Users* on the left menu, and click on *View all users*.
-.. Click on *Add user* to create a new user.
-.. In the *Username* field, enter `customer`.
-.. Click *Save*. The *Details* tab should now be displayed with some additional tabs along the top of the screen.
-.. Select the *Credentials* tab.
-.. In the *New Password* field, enter the password `customer-password`.
-.. In the *Password Confirmation* field, enter the same password.
-.. Set the *Temporary* toggle to the *OFF* position.
-+
-NOTE: If you leave the *Temporary* toggle in the *ON* position, the user will be forced to create a new password when they perform a login.
-.. Click *Reset Password*.
-. You will see a *Change password* confirmation modal.
-. Click the *Change password* button to confirm your changes.
-
-. Update the backend to use the downloaded configuration file. To do this:
-.. Go to the link:{openshift-config-maps-url}[OpenShift Config Maps, window="_blank"] page.
-.. Click *Create Config Map*. You will see an editor with the yaml representation for your Config Map.
-.. In the metadata section, change the *name* to
-+
-[subs="attributes+"]
-----
-showcase-server-idm-config
-----
-.. Remove all the lines below *data*.
-.. Add a line `keycloak.json: |` under *data*. Make sure it is indented with one tab.
-+
-NOTE: the pipe symbol (`|`) allows for multiline input, see link:https://yaml.org/spec/1.2/spec.html#id2795688[the yaml spec] for more details.
-
-.. Paste the contents of the _keycloak.json_ file in the next line. Make sure all lines are indented with two tabs.
-.. Click *Create*. The config map object is created.
-.. Select *Deployment Configs* from the vertical navigation menu on the left.
-.. Select *ionic-showcase-server*.
-.. Select the *Yaml* tab to edit the deployment config.
-.. Find the *volumes* section under `spec.template.spec`.
-.. Add the following entry to the *volumes* section:
-+
-----
-- {name: "backend-config", configMap: {name: "showcase-server-idm-config", defaultMode: 420} }
-----
-
-.. Find the *volumeMounts* section under `spec.template.spec.containers`
-.. Add the following entry to the *volumeMounts* section:
-+
-----
-- {name: "backend-config", mountPath: "/tmp/keycloak" }
-----
-.. Click *Save*.
-.. Select the *Environment* tab.
-.. In the *Single values (env)* section, click *Add Value*.
-.. In the *NAME* field, enter:
-+
-----
-KEYCLOAK_CONFIG
-----
-
-.. In the *Value* field, enter:
-+
-----
-/tmp/keycloak/keycloak.json
-----
-
-.. Click *Save*
-
-
-[type=verification]
-****
-Has the deployment completed?
-Do you see SSO login screen when you go to the link:{route-ionic-showcase-server-host}[{data-sync-showcase-app}, window="_blank"]?
-****
-
-[type=verificationFail]
-****
-{standard-fail-text}
+Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
 ****
 
 [time=10]
 == Exploring data sync features using the Data Sync showcase application
 
-To explore data sync features, you should run multiple instances of the {data-sync-showcase-app} using different browsers.
+To explore data sync features, you should run multiple instances of the {data-sync-starter} using different browsers.
 For example, use the browser on your mobile device as well as using the browser on your laptop.
 
-To get the url of your app:
-
-. Go to link:{route-ionic-showcase-server-host}[Data Sync, window="_blank"]. A login screen is displayed.
-. Enter `customer` in the *Username or email* field.
-. Enter `customer-password` in the *Password* field.
-. Click the *Log In* button. You will now see the {data-sync-showcase-app}.
-
-image::images/showcase.png[showcase, role="integr8ly-img-responsive"]
+To get the url of your app
 
 === Exploring real-time sync
 
 . On your laptop:
-.. Select *Manage Tasks*.
 .. Create a new task using *+* icon.
 .. Enter some task text  and click *Create*.
 
 . On your mobile device:
-.. Check that the same task appears in the *Manage Tasks* page.
+.. Check that the same task appears in the tasks page
 .. Make some changes to the task.
 
 . On your laptop:
-.. Check that the task changes are appear.
+.. Check that the task changes are synchronized.
 
 
 [type=verification]
@@ -381,32 +277,27 @@ Did the tasks appear as expected?
 
 [type=verificationFail]
 ****
-{standard-fail-text}
+Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
 ****
-
 
 === Exploring offline support
 
 . On your mobile device:
-.. Log into the {data-sync-showcase-app}.
-.. Click on the `Create Task` button.
-.. Enter a title and description but do not yet create the task.
 .. Activate airplane mode or disable network connectivity.
-.. Now click on the `Create` button.
+.. Create a new task.
 The task should be created and the *Offline Changes* button in the footer should contain one change.
+.. Make a few more changes by either editing existing tasks, or creating new ones.
+.. Review all the changes by clicking the *Offline Changes* button.
 
 . On your laptop:
-.. Log into the {data-sync-showcase-app}.
-.. Check *Manage Tasks* content.
 You do not see any of the changes from the mobile device.
 
 . On your mobile device:
-.. Restore connectivity or deactivate airplane modes.
+.. Restore connectivity or deactivate airplane mode.
 .. Watch the status of the tasks change.
 
 . On your laptop:
-.. Check *Manage Tasks* content.
-.. Check that all the tasks are synced.
+.. Check that all the tasks are synchronized.
 
 
 [type=verification]
@@ -416,26 +307,26 @@ Did the tasks appear as expected?
 
 [type=verificationFail]
 ****
-{standard-fail-text}
+Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
 ****
 
 === Resolving conflicts
 
 . On your mobile device:
-.. Log into the {data-sync-showcase-app}.
+.. Log into the {data-sync-starter}.
 .. Create a task `todo A`.
-.. Click on the *Edit* button next to the task, then activate airplane mode or disable network connectivity.
+.. Activate airplane mode or disable network connectivity.
 .. Edit the task description to add the text `edited on mobile`.
 
 . On your laptop:
-.. Log into the {data-sync-showcase-app} and click on the *Edit* button next to `todo A`.
+.. Log into the {data-sync-starter}.
 .. Simulate offline mode. For example, in Chrome, press F12 to open *Developer Tools* and select *offline* in  the *Network* tab.
 .. Edit the `todo A` task, change the text to `todo B`.
 
 . Bring both of your devices back online, the tasks should sync without a conflict.
 
 . On your mobile device:
-.. Click the *Edit* button next to `todo B` and activate airplane mode or disable network connectivity.
+.. Activate airplane mode or disable network connectivity.
 .. Edit task `todo B` change the description to:
 +
 ----
@@ -443,7 +334,7 @@ Conflicting description from mobile
 ----
 
 . On your laptop:
-.. Click on the *Edit* button next to `task B`, then simulate offline mode. For example, in Chrome, press F12 to open *Developer Tools* and select *offline* in  the *Network* tab.
+.. Simulate offline mode. For example, in Chrome, press F12 to open *Developer Tools* and select *offline* in  the *Network* tab.
 .. Edit task `todo B` change the description to:
 +
 ----
@@ -452,7 +343,6 @@ Conflicting description from laptop
 
 . Bring both of your devices back online, a popup window should appear warning you about conflicts.
 
-
 [type=verification]
 ****
 Did the tasks sync as expected?
@@ -460,5 +350,57 @@ Did the tasks sync as expected?
 
 [type=verificationFail]
 ****
-{standard-fail-text}
+Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
 ****
+
+. Close terminal window running server application
+
+[time=15]
+== Add authentication and authorization to the Data Sync application using Red Hat SSO
+
+In this task, we will configure both the frontend and the backend of the
+{data-sync-starter} with the {customer-sso-name}.
+
+DataSync starter has authentication and autorization enabled out of the box.
+Developers need to configure server and client application to use their keycloak instance
+and add required authorization rules to their model.
+
+=== Add authorization rule for Task deletion
+
+. Go to your GraphQL Schema `./server/src/schema/schema.qraphql`.
+Schema contains mutations section that is responsible for data modifications
+. In mutation section find `deleteTask(input: TaskInput): Task!`
+. Add GraphQL Directive on top of it `@hasRole(role: "admin")`
+This will only allow deletion for admin users.
+Roles can be also applied in generation process by utilizing graphback plugin
+. This directive is already defined in {data-sync-starter} and can be also applied
+to any new mutation or query created by users.
+We going to verify this directive in next steps
+
+=== Configuring Authentication for Keycloak (SSO) (Local setup)
+
+DataSync starter provides out of the box support for keycloak
+when keycloak.json file is provided.
+Use this guide if you do not have kecloak instance running.
+
+Follow these steps to enable authentication
+
+. Open new terminal and change directory to server `cd server`
+. Run keycloak instance `yarn keycloak`
+. Wait for server to start
+. Open new terminal and change directory to server `cd server`
+. Execute `yarn keycloak:init`
+. This command will initialize keycloak with sample roles and users.
+. Copy keycloak configuration file that was printed in terminal
+
+=== Testing Keycloak Authentication and Authorization
+
+. Start server `yarn start:server`
+. Login window should appear.
+. Login using `admin` username and `admin` password
+. Press User icon in the top right corner.
+. You should see admin user profile with his roles
+. Go back to the task screen
+. Try to delete one of the created tasks
+. User will be permitted to delete task as it has admin role.
+
