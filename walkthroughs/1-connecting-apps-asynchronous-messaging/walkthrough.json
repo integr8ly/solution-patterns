@@ -137,7 +137,7 @@
                           "value": "5672"
                         }
                       ],
-                      "image": "quay.io/integreatly/rhmi-lab-nodejs-order-frontend:v5.0.0",
+                      "image": "quay.io/integreatly/rhmi-lab-nodejs-order-frontend:v6.0.0",
                       "imagePullPolicy": "Always",
                       "name": "rhmi-lab-nodejs-order-frontend",
                       "ports": [
