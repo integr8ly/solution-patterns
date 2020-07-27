@@ -125,15 +125,15 @@ Follow these steps to create a new user and set that user's password.
 .. Click *Save*.
 . The *Details* tab should now be displayed with some additional tabs along the top of the screen.
 . Select the *Credentials* tab.
-. Using the *Manage Password* form:
-.. In the *New Password* field, enter the password `customer-password`.
+. Using the *Manage Credentials* form:
+.. In the *Password* field, enter the password `customer-password`.
 .. In the *Password Confirmation* field, enter the same password.
 .. Set the *Temporary* toggle to the *OFF* position.
 +
 NOTE: If you leave the *Temporary* toggle in the *ON* position, the user will be forced to create a new password when they perform a login.
-.. Click *Reset Password*.
-. You will see a *Change password* confirmation modal.
-. Click the *Change password* button to confirm your changes.
+.. Click *Set Password*.
+. You will see a *Set password* confirmation modal.
+. Click the *Set password* button to confirm your changes.
 
 [type=verification]
 Select *Users* from the vertical navigation menu on the left side of the screen. Click the *View all users* button on the top left of the Users screen, next to the Search field.
