@@ -358,49 +358,64 @@ Verify that you followed each step in the procedure above.  If you are still hav
 [time=15]
 == Add authentication and authorization to the Data Sync application using Red Hat SSO
 
-In this task, we will configure both the frontend and the backend of the
-{data-sync-starter} with the {customer-sso-name}.
+In this section, we will configure both the frontend and the backend of the
+{data-sync-starter} with the Red Hat SSO.
 
 DataSync starter has authentication and autorization enabled out of the box.
 Developers need to configure server and client application to use their keycloak instance
 and add required authorization rules to their model.
 
-=== Add authorization rule for Task deletion
+== Add authorization rule for Task deletion
 
-. Go to your GraphQL Schema `./server/src/schema/schema.qraphql`.
-Schema contains mutations section that is responsible for data modifications
-. In mutation section find `deleteTask(input: TaskInput): Task!`
-. Add GraphQL Directive on top of it `@hasRole(role: "admin")`
-This will only allow deletion for admin users.
-Roles can be also applied in generation process by utilizing graphback plugin
-. This directive is already defined in {data-sync-starter} and can be also applied
-to any new mutation or query created by users.
-We going to verify this directive in next steps
+. Go to your GraphQL Schema `./server/src/config/auth.ts`.
+This file contains auth rules for all the operations we support.
+. Change role from `delete: { roles: ['admin'] }` to delete: `{ roles: ['test'] }`,
+This will only allow deletion for test role that we haven't created.
+This operation will prevent us from deleting items from the list.
 
-=== Configuring Authentication for Keycloak (SSO) (Local setup)
+=== Configuring Authentication for Keycloak (SSO)
 
-DataSync starter provides out of the box support for keycloak
-when keycloak.json file is provided.
-Use this guide if you do not have kecloak instance running.
-
-Follow these steps to enable authentication
-
-. Open new terminal and change directory to server `cd server`
-. Run keycloak instance `yarn keycloak`
-. Wait for server to start
-. Open new terminal and change directory to server `cd server`
-. Execute `yarn keycloak:init`
-. This command will initialize keycloak with sample roles and users.
-. Copy keycloak configuration file that was printed in terminal
+. In solution explorer open the User SSO service.
+. Login using your own credentials (You might need to open this tab in incognito mode).
+. In menu on the left hover over realm name.
+. Select `Add new realm`
+. Put `DataSync Example` as name and press `Create`
+. Select *Clients* from the vertical navigation menu on the left side of the screen.
+. Click the *Create* button on the top right of the Clients screen.
+. On the *Add Client* screen:
+.. In the *Client ID* field, enter
++
+[subs="attributes+"]
+----
+public-datasync
+----
+.. Verify the *Client Protocol* is set to *openid-connect*.
+.. Click *Save*.
+. You will see the *Settings* screen for the *{client-name}* client if the save is successful.
+. on the *Settings* page:
+.. Change `Valid Redirect URIs` to hostname used to run your server application with `\*` at the end.
+For example `https://routex9wvywuq-codeready-workspaces.apps.openshift.io*`
+.. Change `Web Origins` to `\*`
+.. Click on the *Save* button
+.. Click on the *Installation* tab, and select `Keycloak OIDC JSON` format. Copy the content displayed or use the `Download` button to save the configuration file.
+. Create new users for testing:
+.. Select *Users* on the left menu, and click on *View all users*.
+.. Click on *Add user* to create a new user. Pick a username you like for the *Username* field and click *Save*.
+.. Select the *Credentials* tab and set a password for this user. Set *Temporary* option to *OFF*.
+.. Click *Reset Password*
 
 === Testing Keycloak Authentication and Authorization
 
-. Start server `yarn start:server`
+. Close all opened terminals in Code Ready environment
+. Copy `Keycloak OIDC JSON` file into:
+.. `server/website/keycloak.json`
+.. `server/src/config/keycloak.json`
+. Execute `start server`. This command will start GraphQL server with embedded client.
+. Open Preview URL in the new window
 . Login window should appear.
-. Login using `admin` username and `admin` password
+. Login using credentials you have chosen in keycloak
 . Press User icon in the top right corner.
 . You should see admin user profile with his roles
 . Go back to the task screen
 . Try to delete one of the created tasks
-. User will be permitted to delete task as it has admin role.
-
+. User will not be permitted to delete task as it does not have test role.
