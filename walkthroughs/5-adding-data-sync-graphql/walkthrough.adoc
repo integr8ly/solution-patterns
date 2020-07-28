@@ -100,7 +100,7 @@ type Task {
 
 DataSync provides code generation capabilities that will transform your model to the fully
 functional client and server application.
-DataSync-starter template contains folowing folders:
+DataSync-starter template contains the following folders:
 
 - `./server` folder that contains Node.js server implementation
 - `./client` folder that contains React based application
@@ -116,7 +116,7 @@ This file contains your model along with access methods that were enabled in con
 . Review generated resolver files in `./server/src/resolvers/resolvers.ts`
 This file contains methods used to fetch data. Each individual method will use
 preconfigured MongoDataProvider. Developers can point resolvers to any datasource.
-Currently Postres and MongoDB are supported.
+Currently Postgres and MongoDB are supported.
 . Review your `./client/src/graphql/` folder containing client side queries for your data.
 
 === Running DataSync client and server applications
@@ -140,18 +140,18 @@ Currently Postres and MongoDB are supported.
 . Check if website was loaded properly
 . Select + icon to create new item
 . On new screen put `name` and `description`
-The client should create a task and it should be
+The client should create a task
 . New task should appear on the list
 ****
 
 [type=verificationFail]
 ****
-Check the logs of the console
+Check the logs of the Console.
 Verify that you followed each step in the procedure above.
 If you are still having issues, contact your administrator.
 ****
 
-=== Interacting with embeeded GraphQL Playground
+=== Interacting with embedded GraphQL Playground
 
 GraphQL Playground acts as GraphQL API client that allows
 you to interact with your types without implementing new views in your application.
@@ -159,7 +159,7 @@ In this section we are going to focus on learning who to use playground.
 
 . Open new terminal window
 . Execute `yarn start:server`
-. Open GraphQL Playground URL printed in console.
+. Open GraphQL Playground URL printed in the terminal.
 You can use the GraphQL playground to interact with the server API as described in the next step.
 . Go to the Playground interface and replace the text in the left pane of the screen with the following query and mutation:
 
@@ -190,8 +190,7 @@ mutation createTask {
 . Choose createTask from the menu.
 The system should create a task.
 . Choose listTasks from the Run menu.
-. Check that the following is displayed in the right hand panel:
-. You should also see field that we have added in previous steps
+. Check that the following is displayed in the right hand panel and that it includes the field we have added in the previous steps
 +
 ----
 {
@@ -226,8 +225,8 @@ The {data-sync-starter} provides:
   - out of the box live updates
   - conflict resolution
 
-In this guide we are going to explore capabilities of the datasync by using
-sample application available as part of {data-sync-starter}.
+In this guide we are going to explore the capabilities of datasync by using
+a sample application available as part of {data-sync-starter}.
 Application by default is designed to work with `Task` model but it can be extended
 to use very Type automatically exposed by underlying server GraphQL API.
 
