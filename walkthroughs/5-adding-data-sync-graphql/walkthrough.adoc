@@ -360,7 +360,7 @@ Verify that you followed each step in the procedure above.  If you are still hav
 In this section, we will configure both the frontend and the backend of the
 {data-sync-starter} with the Red Hat SSO.
 
-DataSync starter has authentication and autorization enabled out of the box.
+DataSync starter has authentication and authorization enabled out of the box.
 Developers need to configure server and client application to use their keycloak instance
 and add required authorization rules to their model.
 
