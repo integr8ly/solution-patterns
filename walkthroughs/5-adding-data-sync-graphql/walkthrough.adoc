@@ -76,7 +76,7 @@ Starter template by default will use MongoDB database as datasource for storing 
 
 . In your project go to `./model/task.graphql` file.
 This file contains GraphQL compatible schema
-. Please add `@datasync` annotation to the model right bellow `@model` annotation
+. Please add `@datasync` annotation to the model right below `@model` annotation
 Those annotations can be used to control various behaviour of datasync.
 `@model` will create standard data access methods, while `@datasync` is going to provide data synchronization capabilities.
 . Models can be changed by adding new types or fields. Please add new field by creating new line inside `Task` type
