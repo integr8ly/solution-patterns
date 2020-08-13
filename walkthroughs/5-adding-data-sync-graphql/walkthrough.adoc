@@ -119,7 +119,6 @@ and available plugins that will be used for source code generation
 `yarn graphback generate`
 . Review `./server/src/schema/schema.qraphql`.
 This file contains your model along with access methods that were enabled in configuration.
-This file contains methods used to fetch data. Each individual method will use
 preconfigured MongoDataProvider. Developers can point resolvers to any datasource.
 Currently Postgres and MongoDB are supported.
 . Review your `./client/src/graphql/` folder containing client side queries for your data.
