@@ -65,7 +65,7 @@ and generate underlying backend that will work out of the box with the RHMI serv
 === Setting your DataSync project using DataSync Starter
 
 . Install yarn `npm install -g yarn`
-. Clone git repository: `git clone https://github.com/aerogear/datasync-starter#walkthrough`
+. Clone git repository: `git clone https://github.com/aerogear/datasync-starter`
 . Go to cloned repository: `cd datasync-starter`
 . Install dependencies `yarn install`
 
@@ -74,25 +74,31 @@ and generate underlying backend that will work out of the box with the RHMI serv
 DataSync model offers capability to generate underlying GraphQL API and database infrastructure.
 Starter template by default will use MongoDB database as datasource for storing all your data.
 
-. In your project go to `./model/task.graphql` file.
+. In your project go to `./server/task.graphql` file.
 This file contains GraphQL compatible schema
-. Please add `@datasync` annotation to the model right below `@model` annotation
-Those annotations can be used to control various behaviour of datasync.
+. Please add `@datasync` annotation to the model right below `@model` annotation.
+This annotation will enable data synchronization for this particular object. You can read more about data synchronization here https://graphback.dev/docs/datasync/soft-delete
 `@model` will create standard data access methods, while `@datasync` is going to provide data synchronization capabilities.
 . Models can be changed by adding new types or fields. Please add new field by creating new line inside `Task` type
 and `address: String`
 . Your task model should look as follows
 ----
-"""
-@model
-@datasync
-"""
 type Task {
-  id: ID!
+  """@id"""
+  id: ObjectID!
   title: String!
   description: String!
   status: TaskStatus
-  address: String
+  type: String
+  priority: Int
+  public: Boolean
+  startDate: DateTime
+  payload: JSON
+
+  """
+  @oneToMany(field: 'note')
+  """
+  comments: [Comment]!
 }
 ----
 
@@ -113,13 +119,11 @@ and available plugins that will be used for source code generation
 `yarn graphback generate`
 . Review `./server/src/schema/schema.qraphql`.
 This file contains your model along with access methods that were enabled in configuration.
-. Review generated resolver files in `./server/src/resolvers/resolvers.ts`
-This file contains methods used to fetch data. Each individual method will use
 preconfigured MongoDataProvider. Developers can point resolvers to any datasource.
 Currently Postgres and MongoDB are supported.
 . Review your `./client/src/graphql/` folder containing client side queries for your data.
 
-=== Running DataSync client and server applications
+=== Running DataSync Client and Server applications
 
 . Open new terminal window
 . Execute `docker-compose up -d` to start MongoDB container
@@ -139,14 +143,14 @@ Currently Postgres and MongoDB are supported.
 ****
 . Check if website was loaded properly
 . Select + icon to create new item
-. On new screen put `name` and `description`
+. On new screen put `title` and `description`
 The client should create a task
 . New task should appear on the list
 ****
 
 [type=verificationFail]
 ****
-Check the logs of the Console.
+Check the logs of the console.
 Verify that you followed each step in the procedure above.
 If you are still having issues, contact your administrator.
 ****
@@ -159,29 +163,62 @@ In this section we are going to focus on learning who to use playground.
 
 . Open new terminal window
 . Execute `yarn start:server`
-. Open GraphQL Playground URL printed in the terminal.
+. Open GraphQL Playground URL printed in terminal.
 You can use the GraphQL playground to interact with the server API as described in the next step.
 . Go to the Playground interface and replace the text in the left pane of the screen with the following query and mutation:
 
 ----
-query listTasks {
-  allTasks {
-    title,
-    description,
-    address,
+fragment TaskFields on Task {
+  id
+  title
+  description
+  status
+  type
+  priority
+  public
+  startDate
+  payload
+}
+
+fragment TaskExpandedFields on Task {
+  id
+  title
+  description
+  status
+  type
+  priority
+  public
+  startDate
+  payload
+  comments {
     id
+    message
+    author
   }
 }
 
 mutation createTask {
-  createTask(title: "complete the walkthrough", description: "complete the GraphQL walkthrough", address: "NA") {
-    title,
-    description,
-    version,
-    address,
-    id
+  createTask(
+    input: {
+      title: "complete the walkthrough"
+      description: "complete the GraphQL walkthrough"
+    }
+  ) {
+    ...TaskFields
   }
 }
+
+query findTasks {
+  findTasks {
+    items {
+      ...TaskExpandedFields
+    }
+    offset
+    limit
+    count
+  }
+}
+
 ----
 
 [type=verification]
@@ -189,30 +226,31 @@ mutation createTask {
 . Click the Run icon in the middle of the playground screen.
 . Choose createTask from the menu.
 The system should create a task.
-. Choose listTasks from the Run menu.
-. Check that the following is displayed in the right hand panel and that it includes the field we have added in the previous steps
+. Choose findTasks from the Run menu.
+. Check that the following is displayed in the right hand panel and that it includes the field we have added in the previous steps.
 +
 ----
 {
-    "data": {
-        "allTasks": [
-            {
-                "title": "complete the walkthrough",
-                "description": "complete the GraphQL walkthrough",
-                "id": "1",
-                "address": "NA"
-            }
-        ]
+  "data": {
+    "createTask": {
+      "id": <ID>,
+      "title": "complete the walkthrough",
+      "description": "complete the GraphQL walkthrough",
+      "status": null,
+      "type": null,
+      "priority": null,
+      "public": null,
+      "startDate": null,
+      "payload": null
     }
+  }
 }
+
 ----
 ****
 
 [type=verificationFail]
 ****
-Check the logs of the `ionic-showcase-server` pod.
-
-It should include the string `+connected to messaging service+`.
 Verify that you followed each step in the procedure above.  If you are still having issues, contact your administrator.
 ****
 
@@ -221,12 +259,12 @@ Verify that you followed each step in the procedure above.  If you are still hav
 
 The {data-sync-starter} provides:
 
-  - offline operation support
-  - out of the box live updates
-  - conflict resolution
+- offline operation support
+- out of the box live updates
+- conflict resolution
 
-In this guide we are going to explore the capabilities of datasync by using
-a sample application available as part of {data-sync-starter}.
+In this guide we are going to explore the capabilities of datasync by using a
+sample application available as part of {data-sync-starter}.
 Application by default is designed to work with `Task` model but it can be extended
 to use very Type automatically exposed by underlying server GraphQL API.
 
